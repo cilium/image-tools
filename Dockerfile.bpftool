@@ -1,6 +1,8 @@
 #
 # Cilium runtime base image: bpftool
+#
 # COPY output: /dep/bpftool
+# REPO url:    quay.io/cilium/cilium-bpftool:yyyy-mm-dd
 #
 FROM docker.io/library/ubuntu:20.04 as runtime-build
 LABEL maintainer="maintainer@cilium.io"

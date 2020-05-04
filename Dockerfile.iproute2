@@ -1,6 +1,8 @@
 #
 # Cilium runtime base image: iproute2
+#
 # COPY output: /dep/tc /dep/ip
+# REPO url:    quay.io/cilium/cilium-iproute2:yyyy-mm-dd
 #
 FROM docker.io/library/ubuntu:20.04 as runtime-build
 LABEL maintainer="maintainer@cilium.io"

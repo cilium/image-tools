@@ -1,6 +1,8 @@
 #
 # Cilium runtime base image: LLVM
+#
 # COPY output: /dep/clang /dep/llc
+# REPO url:    quay.io/cilium/cilium-llvm:yyyy-mm-dd
 #
 FROM docker.io/library/ubuntu:20.04 as runtime-build
 LABEL maintainer="maintainer@cilium.io"
