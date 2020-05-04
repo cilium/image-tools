@@ -1,0 +1,34 @@
+#
+# Cilium runtime base image: bpftool
+# COPY output: /dep/bpftool
+#
+FROM docker.io/library/ubuntu:20.04 as runtime-build
+LABEL maintainer="maintainer@cilium.io"
+WORKDIR /tmp
+RUN \
+#
+# Build dependencies
+#
+apt-get update && \
+apt-get install -y --no-install-recommends \
+  git ca-certificates binutils build-essential libelf-dev python3 && \
+#
+# bpftool
+#
+git clone --depth 1 -b master git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git linux && \
+cd linux/tools/bpf/bpftool/ && \
+git --no-pager remote -v && \
+git --no-pager log -1 && \
+make -j `getconf _NPROCESSORS_ONLN` && \
+strip bpftool && \
+cd ../../../../ && \
+mkdir /dep && \
+mv /tmp/linux/tools/bpf/bpftool/bpftool /dep/bpftool && \
+rm -rf /tmp/* && \
+#
+# Cleanup
+#
+apt-get purge --auto-remove -y \
+  git ca-certificates binutils build-essential libelf-dev python3 && \
+apt-get clean && \
+rm -rf /var/lib/apt/lists/*
