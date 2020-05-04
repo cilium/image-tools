@@ -10,6 +10,8 @@ RUN \
 # Build dependencies
 #
 apt-get update && \
+# (ninja-build pulls tzdata, preconfig some zone)
+ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
 apt-get install -y --no-install-recommends \
   git ca-certificates binutils build-essential cmake ninja-build && \
 #
