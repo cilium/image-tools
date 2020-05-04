@@ -13,7 +13,7 @@ apt-get update && \
 # (ninja-build pulls tzdata, preconfig some zone)
 ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
 apt-get install -y --no-install-recommends \
-  git ca-certificates binutils build-essential cmake ninja-build && \
+  git ca-certificates binutils build-essential cmake ninja-build python3 && \
 #
 # clang/llvm image with BPF-only backend
 #
@@ -37,6 +37,6 @@ rm -rf /tmp/* && \
 # Cleanup
 #
 apt-get purge --auto-remove -y \
-  git ca-certificates binutils build-essential cmake ninja-build && \
+  git ca-certificates binutils build-essential cmake ninja-build python3 && \
 apt-get clean && \
 rm -rf /var/lib/apt/lists/*
