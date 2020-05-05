@@ -1,39 +1,27 @@
 #
+# Copyright 2020 Authors of Cilium
+# SPDX-License-Identifier: Apache-2.0
+#
 # Cilium runtime base image: iproute2
 #
-# COPY output: /dep/tc /dep/ip
-# REPO url:    quay.io/cilium/cilium-iproute2:yyyy-mm-dd
+# Content:  /bin/tc /bin/ip
+# Repo:     quay.io/cilium/cilium-iproute2:yyyy-mm-dd
 #
-FROM docker.io/library/ubuntu:20.04 as runtime-build
-LABEL maintainer="maintainer@cilium.io"
+FROM docker.io/library/ubuntu:20.04 as builder
 WORKDIR /tmp
-RUN \
-#
-# Build dependencies
-#
-apt-get update && \
-apt-get install -y --no-install-recommends \
-  git ca-certificates binutils pkg-config bison flex build-essential libelf-dev libmnl-dev &&
-#
-# iproute2
-#
-git clone --depth 1 -b static-data https://github.com/cilium/iproute2.git iproute2 && \
-cd iproute2 && \
-git --no-pager remote -v && \
-git --no-pager log -1 && \
-./configure && \
-make -j `getconf _NPROCESSORS_ONLN` && \
-strip tc/tc && \
-strip ip/ip && \
-cd .. && \
-mkdir /dep && \
-mv /tmp/iproute2/tc/tc /dep/tc && \
-mv /tmp/iproute2/ip/ip /dep/ip && \
-rm -rf /tmp/* && \
-#
-# Cleanup
-#
-apt-get purge --auto-remove -y \
-  git ca-certificates binutils pkg-config bison flex build-essential libelf-dev libmnl-dev && \
-apt-get clean && \
-rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      git ca-certificates binutils pkg-config bison flex build-essential libelf-dev libmnl-dev && \
+    git clone --depth 1 -b static-data https://github.com/cilium/iproute2.git iproute2 && \
+    cd iproute2 && \
+    git --no-pager remote -v && \
+    git --no-pager log -1 && \
+    ./configure && \
+    make -j `getconf _NPROCESSORS_ONLN` && \
+    strip tc/tc && \
+    strip ip/ip
+
+FROM scratch
+LABEL maintainer="maintainer@cilium.io"
+WORKDIR /bin
+COPY --from=builder /tmp/iproute2/tc/tc /tmp/iproute2/ip/ip ./
