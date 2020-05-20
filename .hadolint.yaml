@@ -1,0 +1,8 @@
+ignored:
+# it cannot parse `FROM ${BASE_IMAGE}`
+- DL3006
+# alpine doesn't keep old versions around, so we cannot rely on package pinning
+- DL3018
+# this one just needs to be set, but since `FROM ${BASE_IMAGE}` cannot be parse,
+# there isn't a way to leverage this feature anyway
+allowedRegistries: []

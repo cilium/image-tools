@@ -1,0 +1,14 @@
+name: PR Check
+on: [pull_request,push]
+
+jobs:
+  lint:
+    name: Run static checks
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: docker://docker.io/cilium/image-maker:2831b3fa8bc8a1412ed8eb59b158a123fe0459ef
+        name: Run make lint
+        with:
+          entrypoint: make
+          args: lint
