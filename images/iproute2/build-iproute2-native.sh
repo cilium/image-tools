@@ -16,6 +16,7 @@ make -j "$(getconf _NPROCESSORS_ONLN)"
 
 strip ip/ip
 strip tc/tc
+strip misc/ss
 
 mkdir -p /out/linux/amd64/bin
-cp ip/ip tc/tc /out/linux/amd64/bin
+cp ip/ip tc/tc misc/ss /out/linux/amd64/bin

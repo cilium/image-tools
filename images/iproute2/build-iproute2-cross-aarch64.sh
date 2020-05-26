@@ -20,6 +20,7 @@ make -j "$(getconf _NPROCESSORS_ONLN)"
 
 ${triplet}-strip ip/ip
 ${triplet}-strip tc/tc
+${triplet}-strip misc/ss
 
 mkdir -p /out/linux/arm64/bin
-cp ip/ip tc/tc /out/linux/arm64/bin
+cp ip/ip tc/tc misc/ss /out/linux/arm64/bin
