@@ -31,10 +31,10 @@ update-compilers-image:
 	scripts/update-compilers-image.sh $(REGISTRY_PREFIX)
 
 bpftool-image: .buildx_builder
-	scripts/build-image.sh $(REGISTRY_PREFIX)/bpftool images/bpftool linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)"
+	scripts/build-image.sh $(REGISTRY_PREFIX)/cilium-bpftool images/bpftool linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)"
 
 iproute2-image: .buildx_builder
-	scripts/build-image.sh $(REGISTRY_PREFIX)/iproute2 images/iproute2 linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)"
+	scripts/build-image.sh $(REGISTRY_PREFIX)/cilium-iproute2 images/iproute2 linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)"
 
 llvm-image: .buildx_builder
-	scripts/build-image.sh $(REGISTRY_PREFIX)/llvm images/llvm linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)"
+	scripts/build-image.sh $(REGISTRY_PREFIX)/cilium-llvm images/llvm linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)"
