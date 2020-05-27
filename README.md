@@ -81,7 +81,7 @@ For details of how this works, see the following:
 
 One should be able to build images locally as long as they have Docker installed with [`buildx` plug-in](https://docs.docker.com/buildx/working-with-buildx/).
 
-#### `images/{maker,compilers}`
+### Updating `images/{maker,compilers}`
 
 When you have dependencies that need to be added to these image before using them in one of the other images, e.g. if you need to add a system
 library in `compilers` image that will be used for compiling something else, you should make a PR to update `compilers` first.
