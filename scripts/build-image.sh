@@ -29,10 +29,10 @@ image_tag="$("${root_dir}/scripts/make-image-tag.sh" "${image_dir}")"
 
 check_tag_exists() {
   if [ -n "${MAKER_CONTAINER+x}" ] ; then
-    crane ls "${image_name}" 2> /dev/null | grep -q "${image_tag}"
+    crane ls "${image_name}" --verbose | grep -q "${image_tag}"
   else
     # unlike with other utility scripts we don't want to selt-re-exec inside container, as native `docker buildx` is preferred
-    docker run --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" crane ls "${image_name}" 2> /dev/null | grep -q "${image_tag}"
+    docker run --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" crane ls --verbose "${image_name}" | grep -q "${image_tag}"
   fi
 }
 
