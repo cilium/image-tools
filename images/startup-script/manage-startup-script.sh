@@ -17,6 +17,44 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+# This image enables calling a simle scripts inlined in a pod spec as
+# an environment variable `STARTUP_SCRIPT`. It will normally only call
+# once. It can be use as a contaner, not an init container (although
+# that maybe change). If pod gets restarted with the new version of
+# `STARTUP_SCRIPT`, the scrips will re-run, otherwise it won't (see
+# `CHECKPOINT_PATH` below).
+#
+# Example usage:
+#
+#   kind: DaemonSet
+#   apiVersion: extensions/v1beta1
+#   metadata:
+#     name: startup-script
+#     labels:
+#       app: startup-script
+#   spec:
+#     template:
+#       metadata:
+#         labels:
+#           app: startup-script
+#       spec:
+#         hostPID: true
+#         containers:
+#           - name: startup-script
+#             image: docker.io/cilium/startup-script:<tag>
+#             imagePullPolicy: Always
+#             securityContext:
+#               privileged: true
+#             env:
+#             - name: STARTUP_SCRIPT
+#               value: |
+#                 #! /bin/bash
+#                 set -o errexit
+#                 set -o pipefail
+#                 set -o nounset
+#                 touch /tmp/foo
+#                 echo done
+
 CHECKPOINT_PATH="${CHECKPOINT_PATH:-/tmp/startup-script.kubernetes.io_$(md5sum <<<"${STARTUP_SCRIPT}" | cut -c-32)}"
 CHECK_INTERVAL_SECONDS="30"
 EXEC=(nsenter -t 1 -m -u -i -n -p --)
