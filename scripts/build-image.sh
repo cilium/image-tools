@@ -38,17 +38,18 @@ done
 
 check_image_tag() {
   if [ -n "${MAKER_CONTAINER+x}" ] ; then
-    crane ls "${1}" 2> /dev/null | grep -q "${2}"
+    crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   else
     # unlike with other utility scripts we don't want to self-re-exec inside the container, as native `docker buildx` is preferred
-    docker run --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" crane ls "${1}" 2> /dev/null | grep -q "${2}"
+    docker run --env DOCKER_HUB_PUBLIC_ACCESS_ONLY=true --env QUAY_PUBLIC_ACCESS_ONLY=true --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   fi
 }
 
 check_registries() {
   for registry in "${registries[@]}" ; do
-    if ! check_image_tag "${registry}/${image_name}" "${image_tag}" ; then
-      echo "${registry}/${image_name}:${image_tag} doesn't exist"
+    i="${registry}/${image_name}:${image_tag}"
+    if ! check_image_tag "${i}" ; then
+      echo "${i} doesn't exist"
       return 1
     fi
   done
