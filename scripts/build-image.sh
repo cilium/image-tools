@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/maker:21ef672a968d35ba113764705ddbfb32325afb05}"
+MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:2831b3fa8bc8a1412ed8eb59b158a123fe0459ef}"
 
 if [ "$#" -ne 5 ] ; then
   echo "$0 supports exactly 5 argument"
