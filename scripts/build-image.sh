@@ -9,8 +9,8 @@ set -o nounset
 
 MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:2831b3fa8bc8a1412ed8eb59b158a123fe0459ef}"
 
-if [ "$#" -ne 5 ] ; then
-  echo "$0 supports exactly 5 argument"
+if [ "$#" -lt 6 ] ; then
+  echo "$0 supports minimum 6 argument"
   exit 1
 fi
 
@@ -25,21 +25,40 @@ platform="${3}"
 output="${4}"
 builder="${5}"
 
+shift 5
+
+registries=("${@}")
+
 image_tag="$("${root_dir}/scripts/make-image-tag.sh" "${image_dir}")"
 
-check_tag_exists() {
+tag_args=()
+for registry in "${registries[@]}" ; do
+  tag_args+=(--tag "${registry}/${image_name}:${image_tag}")
+done
+
+check_image_tag() {
   if [ -n "${MAKER_CONTAINER+x}" ] ; then
-    crane ls "${image_name}" --verbose | grep -q "${image_tag}"
+    crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   else
-    # unlike with other utility scripts we don't want to selt-re-exec inside container, as native `docker buildx` is preferred
-    docker run --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" crane ls --verbose "${image_name}" | grep -q "${image_tag}"
+    # unlike with other utility scripts we don't want to self-re-exec inside the container, as native `docker buildx` is preferred
+    docker run --env DOCKER_HUB_PUBLIC_ACCESS_ONLY=true --env QUAY_PUBLIC_ACCESS_ONLY=true --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   fi
+}
+
+check_registries() {
+  for registry in "${registries[@]}" ; do
+    i="${registry}/${image_name}:${image_tag}"
+    if ! check_image_tag "${i}" ; then
+      echo "${i} doesn't exist"
+      return 1
+    fi
+  done
 }
 
 do_build="${FORCE:-false}"
 
 if [ "${do_build}" = "true" ] ; then
-  echo "will force-build ${image_name}:${image_tag} without checking the registry"
+  echo "will force-build ${image_name}:${image_tag} without checking the registries"
 fi
 
 if [ "${do_build}" = "false" ] ; then
@@ -53,24 +72,34 @@ if [ "${do_build}" = "false" ] ; then
       do_build="true"
       ;;
     *)
-      if check_tag_exists ; then
-        echo "image ${image_name}:${image_tag} is already present in the registry"
+      if check_registries ; then
+        echo "image ${image_name}:${image_tag} is already present in all of the registries"
         exit 0
       else
-        echo "will build ${image_name}:${image_tag} as it is a new version"
+        echo "will build ${image_name}:${image_tag} as it's either a new version or not present in all of the registries"
         do_build="true"
       fi
       ;;
   esac
 fi
 
-if [ "${do_build}" = "true" ] ; then
-  echo "building ${image_name}:${image_tag}"
-  set -o xtrace
+run_buildx() {
   docker buildx build \
-    --tag "${image_name}:${image_tag}" \
+    "${tag_args[@]}" \
     --platform "${platform}" \
     --output "${output}" \
     --builder "${builder}" \
       "${image_dir}"
+}
+
+if [ "${do_build}" = "true" ] ; then
+  echo "building ${image_name}:${image_tag}"
+  set -o xtrace
+  if ! run_buildx ; then
+    if [ -n "${DEBUG+x}" ] ; then
+      buildkitd_container="$(docker ps --filter "ancestor=moby/buildkit:buildx-stable-1" --filter "name=${builder}" --format "{{.ID}}")"
+      docker logs "${buildkitd_container}"
+      exit 1
+    fi
+  fi
 fi

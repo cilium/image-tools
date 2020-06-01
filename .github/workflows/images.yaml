@@ -24,6 +24,8 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
           args: maker-image PUSH=true
@@ -32,6 +34,8 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
           args: compilers-image PUSH=true
@@ -40,6 +44,8 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
           args: bpftool-image PUSH=true
@@ -48,6 +54,8 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
           args: iproute2-image PUSH=true
@@ -56,6 +64,8 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
           args: llvm-image PUSH=true

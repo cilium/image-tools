@@ -15,5 +15,5 @@ cd /src
 unset GOPATH
 
 go mod init github.com/cilium/packaging/images/maker
-go get github.com/errordeveloper/docker-credential-env@v0.1.1
+go get github.com/errordeveloper/docker-credential-env@v0.1.4
 go build github.com/errordeveloper/docker-credential-env
