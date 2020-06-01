@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:2831b3fa8bc8a1412ed8eb59b158a123fe0459ef}"
+MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:391ddcd9a463f4056546f298965722764aee5b43}"
 
 if [ "$#" -lt 6 ] ; then
   echo "$0 supports minimum 6 argument"
