@@ -99,7 +99,7 @@ if [ "${do_build}" = "true" ] ; then
     if [ -n "${DEBUG+x}" ] ; then
       buildkitd_container="$(docker ps --filter "ancestor=moby/buildkit:buildx-stable-1" --filter "name=${builder}" --format "{{.ID}}")"
       docker logs "${buildkitd_container}"
-      exit 1
     fi
+    exit 1
   fi
 fi
