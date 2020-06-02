@@ -69,3 +69,11 @@ jobs:
         with:
           entrypoint: make
           args: llvm-image PUSH=true
+      - uses: docker://docker.io/cilium/image-maker:2831b3fa8bc8a1412ed8eb59b158a123fe0459ef
+        name: Run make startup-script-image
+        env:
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+        with:
+          entrypoint: make
+          args: startup-script-image PUSH=true

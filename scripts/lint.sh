@@ -9,8 +9,10 @@ set -o nounset
 
 MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:391ddcd9a463f4056546f298965722764aee5b43}"
 
+root_dir="$(git rev-parse --show-toplevel)"
+
 if [ -z "${MAKER_CONTAINER+x}" ] ; then
-   exec docker run --rm --volume "$(pwd):/src" --workdir /src "${MAKER_IMAGE}" "/src/scripts/$(basename "${0}")"
+   exec docker run --rm --volume "${root_dir}:/src" --workdir /src "${MAKER_IMAGE}" "/src/scripts/$(basename "${0}")"
 fi
 
 find . -name '*.sh' -exec shellcheck {} +

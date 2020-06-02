@@ -21,6 +21,9 @@ lint:
 	mkdir -p .buildx
 	docker buildx create --platform linux/amd64,linux/arm64 --buildkitd-flags '--debug' > $@
 
+update-alpine-base-image:
+	scripts/update-alpine-base-image.sh
+
 maker-image: .buildx_builder
 	scripts/build-image.sh image-maker images/maker linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
@@ -41,3 +44,6 @@ iproute2-image: .buildx_builder
 
 llvm-image: .buildx_builder
 	scripts/build-image.sh cilium-llvm images/llvm linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+
+startup-script-image: .buildx_builder
+	scripts/build-image.sh startup-script images/startup-script linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
