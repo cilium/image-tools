@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:391ddcd9a463f4056546f298965722764aee5b43}"
+MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:bc81755ec8f6c5afcb10a416cef73f99a35fee2c}"
 
 if [ "$#" -ne 1 ] ; then
   echo "$0 supports exactly 1 argument"
