@@ -20,6 +20,8 @@ which prevents having to use `docker login` which stores a plain text token in `
 
 This image consists of compilers and libraries needed to build other images for `amd64` and `arm64`.
 
+It also includes multiple Bazel version to enable building different version of Istio and Envoy.
+
 ### [`images/bpftool`](images/bpftool/Dockerfile)
 
 This image builds `bpftool` binary for `amd64` and `arm64` using a cross-compiler. The resulting image has only one file -
