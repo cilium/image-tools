@@ -33,7 +33,6 @@ packages=(
   pkg-config
   pkg-config-aarch64-linux-gnu
   python2
-  python2-pip
   python3
   python3-pip
   unzip
