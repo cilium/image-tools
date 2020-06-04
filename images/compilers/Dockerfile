@@ -7,3 +7,6 @@ FROM ${UBUNTU_IMAGE} as builder
 
 COPY install-deps.sh /tmp/install-deps.sh
 RUN /tmp/install-deps.sh
+
+COPY install-bazel.sh /tmp/install-bazel.sh
+RUN /tmp/install-bazel.sh

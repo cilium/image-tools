@@ -9,22 +9,34 @@ set -o pipefail
 set -o nounset
 
 packages=(
+  automake
   binutils
+  binutils-aarch64-linux-gnu
   bison
   build-essential
   ca-certificates
   cmake
+  crossbuild-essential-arm64
   curl
   flex
+  g++
   g++-aarch64-linux-gnu
+  gcc
   gcc-aarch64-linux-gnu
   git
   libelf-dev
   libelf-dev:arm64
   libmnl-dev
+  libtool
+  make
   ninja-build
   pkg-config
+  pkg-config-aarch64-linux-gnu
+  python2
+  python2-pip
   python3
+  python3-pip
+  unzip
 )
 
 cat > /etc/apt/sources.list << EOF
@@ -43,3 +55,5 @@ apt-get update
 ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
 apt-get install -y --no-install-recommends "${packages[@]}"
+
+update-alternatives --install /usr/bin/python python /usr/bin/python2 1
