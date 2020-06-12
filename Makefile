@@ -45,5 +45,8 @@ iproute2-image: .buildx_builder
 llvm-image: .buildx_builder
 	scripts/build-image.sh cilium-llvm images/llvm linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
+ca-certificates-image: .buildx_builder
+	scripts/build-image.sh ca-certificates images/ca-certificates linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+
 startup-script-image: .buildx_builder
 	scripts/build-image.sh startup-script images/startup-script linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
