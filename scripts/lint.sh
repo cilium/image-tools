@@ -15,5 +15,6 @@ if [ -z "${MAKER_CONTAINER+x}" ] ; then
    exec docker run --rm --volume "${root_dir}:/src" --workdir /src "${MAKER_IMAGE}" "/src/scripts/$(basename "${0}")"
 fi
 
+cd "${root_dir}"
 find . -name '*.sh' -exec shellcheck {} +
 find . -name Dockerfile -exec hadolint {} +
