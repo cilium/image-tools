@@ -10,7 +10,8 @@ set -o nounset
 # This script provides two image tagging mechanisms.
 #
 # For general images that use most of the tree as input, it's most sensible to
-# use git commit hash as a tag.
+# use git commit hash as a tag, or git version tag. Any tags that do not match
+# a simple 2-dot version pattern are ignored, and commit hash is used.
 #
 # For images that use contents of a subdirectory as input, it's convenient to use
 # a git tree hash. Running `git show` with tree hash based tag will display the
@@ -20,12 +21,6 @@ set -o nounset
 # For both types of tags To differentiate any non-authoritative builds, i.e.
 # builds from development branches, `-dev` suffix is added. Any builds that may
 # include uncommitted changes will have `-wip` tag.
-
-# TODO: determine when the head is also a release tag; that it can be done with
-# `git name-rev --name-only --tags --no-undefined HEAD` however Cilium usually
-# gets two tags one with `v` prefix and one without, beacause of that the output
-# of `git name-rev` maybe one or the other; to implement that with certainty
-# release process/automation needs to be reviewed in detail
 
 if [ "$#" -gt 1 ] ; then
   echo "$0 supports exactly 1 or no arguments"
@@ -48,21 +43,29 @@ if [ "$#" -eq 1 ] ; then
     echo "${image_dir} exists, but it is not checked in git (path is relative to git root)"
     exit 1
   fi
-  tag="$(printf "%s" "${git_ls_tree}" | sed 's/^[0-7]\{6\} tree \([0-9a-f]\{40\}\).*/\1/')"
+  image_tag="$(printf "%s" "${git_ls_tree}" | sed 's/^[0-7]\{6\} tree \([0-9a-f]\{40\}\).*/\1/')"
 else
-  # if no arguments are given, use commit hash
+  # if no arguments are given, attempt detecting if version tag is present,
+  # otherwise use the a short commit hash
   image_dir="${root_dir}"
-  tag="$(git rev-parse --short HEAD)"
+  git_tag="$(git name-rev --name-only --tags HEAD)"
+  if printf "%s" "${git_tag}" | grep -q -E '^[v]?[0-9]+\.[0-9]+\.[0-9]+.*$' ; then
+    # ensure version tag always has the v prefix
+    image_tag="$(printf "%s" "${git_tag}" | sed 's/^[v]*/v/')"
+  else
+    # if no version tag is given, use commit hash
+    image_tag="$(git rev-parse --short HEAD)"
+  fi
 fi
 
 if [ -z "${WITHOUT_SUFFIX+x}" ] ; then
   if ! git merge-base --is-ancestor "$(git rev-parse HEAD)" origin/master ; then
-    tag="${tag}-dev"
+    image_tag="${image_tag}-dev"
   fi
 
   if [ "$(git status --porcelain "${image_dir}" | wc -l)" -gt 0 ] ; then
-    tag="${tag}-wip"
+    image_tag="${image_tag}-wip"
   fi
 fi
 
-printf "%s" "${tag}"
+printf "%s" "${image_tag}"
