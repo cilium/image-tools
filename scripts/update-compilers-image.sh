@@ -13,11 +13,11 @@ if [ "$#" -ne 1 ] ; then
   exit 1
 fi
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
-
-script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 image_name="${1}/image-compilers"
 
