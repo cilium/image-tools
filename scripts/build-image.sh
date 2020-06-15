@@ -9,6 +9,8 @@ set -o nounset
 
 MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:bc81755ec8f6c5afcb10a416cef73f99a35fee2c}"
 
+with_root_context="${ROOT_CONTEXT:-false}"
+
 if [ "$#" -lt 6 ] ; then
   echo "$0 supports minimum 6 argument"
   exit 1
@@ -29,7 +31,11 @@ shift 5
 
 registries=("${@}")
 
-image_tag="$("${root_dir}/scripts/make-image-tag.sh" "${image_dir}")"
+if [ "${with_root_context}" = "false" ] ; then
+  image_tag="$("${root_dir}/images/scripts/make-image-tag.sh" "${image_dir}")"
+else
+  image_tag="$("${root_dir}/images/scripts/make-image-tag.sh")"
+fi
 
 tag_args=()
 for registry in "${registries[@]}" ; do
@@ -84,12 +90,22 @@ if [ "${do_build}" = "false" ] ; then
 fi
 
 run_buildx() {
-  docker buildx build \
-    "${tag_args[@]}" \
-    --platform "${platform}" \
-    --output "${output}" \
-    --builder "${builder}" \
-      "${image_dir}"
+  if [ "${with_root_context}" = "false" ] ; then
+    docker buildx build \
+      "${tag_args[@]}" \
+      --platform "${platform}" \
+      --output "${output}" \
+      --builder "${builder}" \
+        "${image_dir}"
+  else
+    docker buildx build \
+      "${tag_args[@]}" \
+      --platform "${platform}" \
+      --output "${output}" \
+      --builder "${builder}" \
+      --file "${image_dir}/Dockerfile" \
+        "${root_dir}"
+  fi
 }
 
 if [ "${do_build}" = "true" ] ; then
