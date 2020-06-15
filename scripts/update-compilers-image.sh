@@ -17,11 +17,13 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 image_name="${1}/image-compilers"
 
-image_tag="$(WITHOUT_SUFFIX=1 "${root_dir}/scripts/make-image-tag.sh" images/compilers)"
+image_tag="$(WITHOUT_SUFFIX=1 "${script_dir}/make-image-tag.sh" images/compilers)"
 
-image_digest="$("${root_dir}/scripts/get-image-digest.sh" "${image_name}:${image_tag}")"
+image_digest="$("${script_dir}/get-image-digest.sh" "${image_name}:${image_tag}")"
 
 # shellcheck disable=SC2207
 used_by=($(git grep -l COMPILERS_IMAGE= images))

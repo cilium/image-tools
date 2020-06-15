@@ -20,6 +20,8 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 image_name="${1}"
 image_dir="${2}"
 
@@ -32,9 +34,9 @@ shift 5
 registries=("${@}")
 
 if [ "${with_root_context}" = "false" ] ; then
-  image_tag="$("${root_dir}/images/scripts/make-image-tag.sh" "${image_dir}")"
+  image_tag="$("${script_dir}/make-image-tag.sh" "${image_dir}")"
 else
-  image_tag="$("${root_dir}/images/scripts/make-image-tag.sh")"
+  image_tag="$("${script_dir}/make-image-tag.sh")"
 fi
 
 tag_args=()
