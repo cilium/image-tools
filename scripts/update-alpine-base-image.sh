@@ -17,9 +17,11 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 image="${1:-alpine:3.11}"
 
-image_digest="$("${root_dir}/scripts/get-image-digest.sh" "${image}")"
+image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 
 # shellcheck disable=SC2207
 used_by=($(git grep -l ALPINE_BASE_IMAGE= images))

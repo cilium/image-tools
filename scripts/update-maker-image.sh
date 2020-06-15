@@ -17,9 +17,11 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 image_name="${1}/image-maker"
 
-image_tag="$(WITHOUT_SUFFIX=1 "${root_dir}/scripts/make-image-tag.sh" images/maker)"
+image_tag="$(WITHOUT_SUFFIX=1 "${script_dir}/make-image-tag.sh" images/maker)"
 
 # shellcheck disable=SC2207
 used_by_workflows=($(git grep -l "docker://${image_name}:" .github/workflows))
@@ -29,7 +31,7 @@ for i in "${used_by_workflows[@]}" ; do
 done
 
 # shellcheck disable=SC2207
-used_by_scripts=($(git grep -l  "MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}:" scripts))
+used_by_scripts=($(git grep -l  "MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}:" "${script_dir}"))
 
 for i in "${used_by_scripts[@]}" ; do
   sed "s|\(MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}\):.*\(}\"\)\$|\1:${image_tag}\2|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}" && chmod +x "${i}"
