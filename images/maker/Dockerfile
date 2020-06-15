@@ -54,6 +54,15 @@ RUN mkdir -p /out/etc/docker/cli-plugins \
     && echo '{ "experimental": "enabled", "credsStore" : "env" }' > /out/etc/docker/config.json \
     && ln -fs /usr/local/bin/docker-buildx /out/etc/docker/cli-plugins
 
+# when `buldx create` is used, it stores names of builders in $DOCKER_CONFIG/buildx,
+# which works as long as home directory is persisted, across invocations, however
+# when invoked from inside a container the $DOCKER_CONFIG/buildx directory is not
+# persisten unless it's mounted from the host
+# normally, one could use `docker run -v "${buildx_dir}:/etc/docker/buildx" ...`,
+# however it's not currently possible to specifiy a volume in GitHub Actions config,
+# hence the workspace path is used
+# in turns, this means that there has to be `.buildx` at the top of the workspace
+# (see https://github.com/docker/buildx/issues/308)
 RUN ln -s -f /github/workspace/.buildx /out/etc/docker/buildx
 
 FROM scratch
