@@ -19,7 +19,7 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
-image="${1:-alpine:3.11}"
+image="${1:-docker.io/library/alpine:3.11}"
 
 image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 
@@ -27,5 +27,5 @@ image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 used_by=($(git grep -l ALPINE_BASE_IMAGE= images))
 
 for i in "${used_by[@]}" ; do
-  sed "s|\(ALPINE_BASE_IMAGE=\)alpine:.*\$|\1${image}@${image_digest}|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}"
+  sed "s|\(ALPINE_BASE_IMAGE=\)docker.io/library/alpine:.*\$|\1${image}@${image_digest}|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}"
 done
