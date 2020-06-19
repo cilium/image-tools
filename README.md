@@ -45,6 +45,11 @@ and other dependencies.
 
 This image is a custom BPF-only distribution of LLVM.
 
+### [`images/cst`](images/cst/Dockerfile)
+
+This image contains a [simple Go program](images/cst/main.go), which is a minimal version of [`container-structure-test`](https://github.com/GoogleContainerTools/container-structure-test).
+It's adapted to run inside a container build context more easily then the original `container-structure-tests`.
+
 ## Usage
 
 ### Making changes
