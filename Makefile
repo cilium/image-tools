@@ -31,6 +31,9 @@ maker-image: .buildx_builder
 update-maker-image:
 	scripts/update-maker-image.sh $(firstword $(REGISTRIES))
 
+tester-image: .buildx_builder
+	TEST=true scripts/build-image.sh image-tester images/tester linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+
 compilers-image: .buildx_builder
 	scripts/build-image.sh image-compilers images/compilers linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
@@ -51,6 +54,3 @@ ca-certificates-image: .buildx_builder
 
 startup-script-image: .buildx_builder
 	scripts/build-image.sh startup-script images/startup-script linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
-
-cst-image: .buildx_builder
-	TEST=true scripts/build-image.sh cst images/cst linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)

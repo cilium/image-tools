@@ -1,4 +1,4 @@
-module github.com/cilium/image-tools/images/cst
+module github.com/cilium/image-tools/images/tester/cst
 
 go 1.14
 
