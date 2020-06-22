@@ -1,0 +1,97 @@
+schemaVersion: "2.0.0"
+
+commandTests:
+- name: "gcc command is in path"
+  command: "which"
+  args: ["gcc"]
+  expectedOutput: ["/usr/bin/gcc"]
+- name: "gcc version"
+  command: "gcc"
+  args: ["-v"]
+  expectedError:
+  - 'Target:\ x86_64-linux-gnu'
+  - 'gcc\ version\ 9\.3\.0'
+- name: "aarch64-linux-gnu-gcc command is in path"
+  command: "which"
+  args: ["aarch64-linux-gnu-gcc"]
+  expectedOutput: ["/usr/bin/aarch64-linux-gnu-gcc"]
+- name: "aarch64-linux-gnu-gcc version"
+  command: "aarch64-linux-gnu-gcc"
+  args: ["-v"]
+  expectedError:
+  - 'Target:\ aarch64-linux-gnu'
+  - 'gcc\ version\ 9\.3\.0'
+
+- name: "which bazel-2.0.0-linux-x86_64"
+  command: "which"
+  args: ["bazel-2.0.0-linux-x86_64"]
+  expectedOutput: ["/usr/local/bin/bazel-2.0.0-linux-x86_64"]
+- name: "which bazel-2.0.0-linux-x86_64 version"
+  command: "bazel-2.0.0-linux-x86_64"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 2\.0\.0']
+- name: "bazel 2.0.0 version"
+  command: "bazel"
+  envVars: [{ key: "USE_BAZEL_VERSION", value: "2.0.0" }]
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 2\.0\.0']
+
+- name: "which bazel-2.2.0-linux-x86_64"
+  command: "which"
+  args: ["bazel-2.2.0-linux-x86_64"]
+  expectedOutput: ["/usr/local/bin/bazel-2.2.0-linux-x86_64"]
+- name: "bazel-2.2.0-linux-x86_64 version"
+  command: "bazel-2.2.0-linux-x86_64"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 2\.2\.0']
+- name: "bazel 2.2.0 version"
+  command: "bazel"
+  envVars: [{ key: "USE_BAZEL_VERSION", value: "2.2.0" }]
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 2\.2\.0']
+
+- name: "which bazel-3.1.0-linux-x86_64"
+  command: "which"
+  args: ["bazel-3.1.0-linux-x86_64"]
+  expectedOutput: ["/usr/local/bin/bazel-3.1.0-linux-x86_64"]
+- name: "bazel-3.1.0-linux-x86_64 version"
+  command: "bazel-3.1.0-linux-x86_64"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.1\.0']
+- name: "bazel 3.1.0 version"
+  command: "bazel"
+  envVars: [{ key: "USE_BAZEL_VERSION", value: "3.1.0" }]
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.1\.0']
+
+- name: "which bazel-3.2.0-linux-x86_64"
+  command: "which"
+  args: ["bazel-3.2.0-linux-x86_64"]
+  expectedOutput: ["/usr/local/bin/bazel-3.2.0-linux-x86_64"]
+- name: "bazel-3.2.0-linux-x86_64 version"
+  command: "bazel-3.2.0-linux-x86_64"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.2\.0']
+- name: "bazel 3.2.0 version"
+  command: "bazel"
+  envVars: [{ key: "USE_BAZEL_VERSION", value: "3.2.0" }]
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.2\.0']
+
+- name: "bazel version"
+  command: "bazel"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.2\.0']
+
+fileExistenceTests:
+- name: '/usr/local/bin/bazel'
+  path: '/usr/local/bin/bazel'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
+
+fileContentTests:
+- name: '/usr/local/bin/bazel'
+  path: '/usr/local/bin/bazel'
+  expectedContents:
+    - '#!/bin/bash'
+    - '# Copyright 2019 The Bazel Authors. All rights reserved.'

@@ -35,7 +35,7 @@ tester-image: .buildx_builder
 	TEST=true scripts/build-image.sh image-tester images/tester linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
 compilers-image: .buildx_builder
-	scripts/build-image.sh image-compilers images/compilers linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+	TEST=true scripts/build-image.sh image-compilers images/compilers linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
 update-compilers-image:
 	scripts/update-compilers-image.sh $(firstword $(REGISTRIES))
