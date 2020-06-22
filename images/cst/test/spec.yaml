@@ -1,0 +1,26 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+- name: 'root'
+  path: '/'
+  shouldExist: true
+  permissions: 'drwxr-xr-x'
+- name: 'test'
+  path: '/test'
+  shouldExist: true
+  permissions: 'drwxr-xr-x'
+- name: 'test bin'
+  path: '/test/bin'
+  shouldExist: true
+  permissions: 'drwxr-xr-x'
+- name: 'test bin cst'
+  path: '/test/bin/cst'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
+
+commandTests:
+- name: '/test/bin/cst -V'
+  command: '/test/bin/cst'
+  args: ['-V']
+  expectedOutput:
+  - 'go1\.14\.3\ linux/(amd64|arm64)'

@@ -91,23 +91,23 @@ if [ "${do_build}" = "false" ] ; then
   esac
 fi
 
+do_test="${TEST:-false}"
+
 run_buildx() {
+  build_args=(
+    "--platform=${platform}"
+    "--builder=${builder}"
+    "--file=${image_dir}/Dockerfile"
+  )
   if [ "${with_root_context}" = "false" ] ; then
-    docker buildx build \
-      "${tag_args[@]}" \
-      --platform "${platform}" \
-      --output "${output}" \
-      --builder "${builder}" \
-        "${image_dir}"
+    build_args+=("${image_dir}")
   else
-    docker buildx build \
-      "${tag_args[@]}" \
-      --platform "${platform}" \
-      --output "${output}" \
-      --builder "${builder}" \
-      --file "${image_dir}/Dockerfile" \
-        "${root_dir}"
+    build_args+=("${root_dir}")
   fi
+  if [ "${do_test}" = "true" ] ; then
+    docker buildx build --target=test "${build_args[@]}"
+  fi
+  docker buildx build --output="${output}" "${tag_args[@]}" "${build_args[@]}"
 }
 
 if [ "${do_build}" = "true" ] ; then

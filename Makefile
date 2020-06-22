@@ -7,7 +7,7 @@ REGISTRIES ?= docker.io/cilium
 
 PUSH ?= false
 
-OUTPUT := "type=docker"
+OUTPUT := "type=image"
 ifeq ($(PUSH),true)
 OUTPUT := "type=registry,push=true"
 endif
@@ -51,3 +51,6 @@ ca-certificates-image: .buildx_builder
 
 startup-script-image: .buildx_builder
 	scripts/build-image.sh startup-script images/startup-script linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+
+cst-image: .buildx_builder
+	TEST=true scripts/build-image.sh cst images/cst linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
