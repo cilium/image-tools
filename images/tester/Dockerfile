@@ -8,10 +8,10 @@ ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.11@sha256:9a839e63dad54c3a6d183
 
 FROM --platform=linux/amd64 ${GOLANG_IMAGE} as go-builder
 
-COPY . /go/src/github.com/cilium/image-tools/images/cst
+COPY . /go/src/github.com/cilium/image-tools/images/tester
 RUN mkdir -p /out/linux/amd64/bin /out/linux/arm64/bin
 
-WORKDIR /go/src/github.com/cilium/image-tools/images/cst 
+WORKDIR /go/src/github.com/cilium/image-tools/images/tester/cst
 
 # hadolint ignore=SC2215
 RUN --mount=target=/root/.cache,type=cache --mount=target=/go/pkg/mod,type=cache \
