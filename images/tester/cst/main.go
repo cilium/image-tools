@@ -47,6 +47,7 @@ func main() {
 
 	if err := os.Chdir(*testDir); err != nil {
 		fmt.Printf("unable to run tests: %s\n", err)
+		os.Exit(5)
 	}
 
 	fakeMetadataPath, err := fakeMetadata()
