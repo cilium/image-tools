@@ -23,4 +23,4 @@ commandTests:
   command: '/test/bin/cst'
   args: ['-V']
   expectedOutput:
-  - 'go1\.14\.3\ linux/(amd64|arm64)'
+  - 'go1\..*\ linux/(amd64|arm64)'

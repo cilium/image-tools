@@ -105,7 +105,9 @@ run_buildx() {
     build_args+=("${root_dir}")
   fi
   if [ "${do_test}" = "true" ] ; then
-    docker buildx build --target=test "${build_args[@]}"
+    if ! docker buildx build --target=test "${build_args[@]}" ; then
+      exit 1
+    fi
   fi
   docker buildx build --output="${output}" "${tag_args[@]}" "${build_args[@]}"
 }

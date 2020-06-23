@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	configFile = "/test/spec.yaml"
+	configFile = "spec.yaml"
 )
 
 /* container-structure-test can be used inside a contaner, however multiple flags have to be set and
@@ -34,6 +34,7 @@ const (
 
 func main() {
 	version := flag.Bool("V", false, "print version and exit")
+	testDir := flag.String("C", "/test", "directory to chdir, and read `spec.yaml`")
 
 	flag.Parse()
 
@@ -43,6 +44,10 @@ func main() {
 	}
 
 	color.NoColor = true
+
+	if err := os.Chdir(*testDir); err != nil {
+		fmt.Printf("unable to run tests: %s\n", err)
+	}
 
 	fakeMetadataPath, err := fakeMetadata()
 	if err != nil {

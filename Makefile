@@ -12,7 +12,7 @@ ifeq ($(PUSH),true)
 OUTPUT := "type=registry,push=true"
 endif
 
-all-images: lint maker-image update-maker-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image
+all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image
 
 lint:
 	scripts/lint.sh
@@ -25,6 +25,9 @@ lint:
 update-alpine-base-image:
 	scripts/update-alpine-base-image.sh
 
+update-golang-image:
+	scripts/update-golang-image.sh
+
 maker-image: .buildx_builder
 	scripts/build-image.sh image-maker images/maker linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
@@ -34,8 +37,11 @@ update-maker-image:
 tester-image: .buildx_builder
 	TEST=true scripts/build-image.sh image-tester images/tester linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
+update-tester-image:
+	scripts/update-tester-image.sh $(firstword $(REGISTRIES))
+
 compilers-image: .buildx_builder
-	scripts/build-image.sh image-compilers images/compilers linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+	TEST=true scripts/build-image.sh image-compilers images/compilers linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
 update-compilers-image:
 	scripts/update-compilers-image.sh $(firstword $(REGISTRIES))
