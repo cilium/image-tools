@@ -25,6 +25,9 @@ lint:
 update-alpine-base-image:
 	scripts/update-alpine-base-image.sh
 
+update-golang-image:
+	scripts/update-golang-image.sh
+
 maker-image: .buildx_builder
 	scripts/build-image.sh image-maker images/maker linux/amd64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
