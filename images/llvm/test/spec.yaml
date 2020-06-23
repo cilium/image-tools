@@ -1,0 +1,32 @@
+schemaVersion: "2.0.0"
+
+commandTests:
+- name: "llc command is in path"
+  command: "which"
+  args: ["llc"]
+  expectedOutput: ["/usr/local/bin/llc"]
+- name: "llc --version"
+  command: "llc"
+  args: ["--version"]
+  expectedOutput:
+  - 'LLVM\ \(http://llvm\.org/\):'
+  - 'LLVM\ version\ 10\.0\.0'
+  - 'Optimized\ build\.'
+  - 'Registered\ Targets:'
+  - '(bpf|bpfeb|bpfel)[\ ]+-\ BPF\ \((host|big|little)\ endian\)'
+  excludedOutput:
+  - '(aarch64|arm|misp|ppc|risc|sparc|thumb|wasm|x86).*\[\ ]+-\ .*'
+- name: "clang command is in path"
+  command: "which"
+  args: ["clang"]
+  expectedOutput: ["/usr/local/bin/clang"]
+- name: "clang --version"
+  command: "clang"
+  args: ["--version"]
+  expectedOutput:
+  - 'clang\ version\ 10\.0\.0\ \(https://github.com/llvm/llvm-project.git\ .*\)'
+  - 'InstalledDir:\ /usr/local/bin'
+
+- name: "clang can compile a simple BPF program"
+  command: "clang"
+  args: [ "-O2", "-target", "bpf", "-c", "test.c", "-o", "/tmp/test.o" ]

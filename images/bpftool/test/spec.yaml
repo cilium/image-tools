@@ -1,0 +1,18 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+- name: '/usr/local/bin/bpftool'
+  path: '/usr/local/bin/bpftool'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
+
+commandTests:
+- name: "bpftool command is in path"
+  command: "which"
+  args: ["bpftool"]
+  expectedOutput: ["/usr/local/bin/bpftool"]
+- name: "bpftool version"
+  command: "bpftool"
+  args: ["version"]
+  expectedOutput:
+  - 'bpftool\ v5\.8\.0-rc1'

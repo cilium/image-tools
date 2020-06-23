@@ -17,7 +17,8 @@ cmake .. -G "Ninja" \
   -DLLVM_ENABLE_PROJECTS="clang" \
   -DBUILD_SHARED_LIBS="OFF" \
   -DCMAKE_BUILD_TYPE="Release" \
-  -DLLVM_BUILD_RUNTIME="OFF"
+  -DLLVM_BUILD_RUNTIME="OFF" \
+  -DCMAKE_INSTALL_PREFIX="/usr/local"
 
 ninja clang llc
 

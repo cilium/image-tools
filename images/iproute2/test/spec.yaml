@@ -1,0 +1,45 @@
+schemaVersion: "2.0.0"
+
+fileExistenceTests:
+- name: '/usr/local/bin/ip'
+  path: '/usr/local/bin/ip'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
+- name: '/usr/local/bin/tc'
+  path: '/usr/local/bin/tc'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
+- name: '/usr/local/bin/ss'
+  path: '/usr/local/bin/ss'
+  shouldExist: true
+  permissions: '-rwxr-xr-x'
+
+commandTests:
+- name: "ip command is in path"
+  command: "which"
+  args: ["ip"]
+  expectedOutput: ["/usr/local/bin/ip"]
+- name: "tc command is in path"
+  command: "which"
+  args: ["tc"]
+  expectedOutput: ["/usr/local/bin/tc"]
+- name: "ss command is in path"
+  command: "which"
+  args: ["ss"]
+  expectedOutput: ["/usr/local/bin/ss"]
+
+- name: "ip -V"
+  command: "ip"
+  args: ["-V"]
+  expectedOutput:
+  - 'ip\ utility,\ iproute2-ss190107'
+- name: "tc -V"
+  command: "tc"
+  args: ["-V"]
+  expectedOutput:
+  - 'tc\ utility,\ iproute2-ss190107'
+- name: "ss -V"
+  command: "ss"
+  args: ["-V"]
+  expectedOutput:
+  - 'ss\ utility,\ iproute2-ss190107'
