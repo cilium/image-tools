@@ -12,7 +12,7 @@ RUN /tmp/install-deps.sh
 COPY install-bazel.sh /tmp/install-bazel.sh
 RUN /tmp/install-bazel.sh
 
-FROM ${CST_IMAGE} as test
+FROM ${TESTER_IMAGE} as test
 COPY --from=builder / /
 COPY test /test
 RUN /test/bin/cst
