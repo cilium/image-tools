@@ -23,7 +23,8 @@ CC="${triplet}-gcc" CXX="${triplet}-g++" \
     -DLLVM_BUILD_RUNTIME="OFF" \
     -DLLVM_TABLEGEN="/src/llvm/llvm/build-native/bin/llvm-tblgen" \
     -DCLANG_TABLEGEN="/src/llvm/llvm/build-native/bin/clang-tblgen" \
-    -DCMAKE_CROSSCOMPILING="True"
+    -DCMAKE_CROSSCOMPILING="True" \
+    -DCMAKE_INSTALL_PREFIX="/usr/local"
 
 ninja clang llc
 

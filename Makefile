@@ -47,13 +47,13 @@ update-compilers-image:
 	scripts/update-compilers-image.sh $(firstword $(REGISTRIES))
 
 bpftool-image: .buildx_builder
-	scripts/build-image.sh cilium-bpftool images/bpftool linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+	TEST=true scripts/build-image.sh cilium-bpftool images/bpftool linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
 iproute2-image: .buildx_builder
-	scripts/build-image.sh cilium-iproute2 images/iproute2 linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+	TEST=true scripts/build-image.sh cilium-iproute2 images/iproute2 linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
 llvm-image: .buildx_builder
-	scripts/build-image.sh cilium-llvm images/llvm linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
+	TEST=true scripts/build-image.sh cilium-llvm images/llvm linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
 
 ca-certificates-image: .buildx_builder
 	scripts/build-image.sh ca-certificates images/ca-certificates linux/amd64,linux/arm64 $(OUTPUT) "$$(cat .buildx_builder)" $(REGISTRIES)
