@@ -22,6 +22,12 @@ Since `buildx` runs a BuildKit daemon inside a container, it's largely independe
 This image also includes a secure credentials helper - [`docker-credential-env`](http://github.com/errordeveloper/docker-credential-env),
 which prevents having to use `docker login` which stores a plain text token in `${DOCKER_CONFIG}/config.json`.
 
+### [`images/kube-test`](images/kube-test/Dockerfile)
+
+This image primarily provides `kubectl`, `helm`, `docker` and `kind`. The image is structurally similar to `maker`, and it also
+include `docker`, however the purpose is different and it is important to keep the size of `maker` relatively small.
+Also, it's unlikely that `maker` image will be updated as often as the `kube-test`.
+
 ### [`images/compiler`](images/compilers/Dockerfile)
 
 This image consists of compilers and libraries needed to build other images for `amd64` and `arm64`.

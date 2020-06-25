@@ -11,8 +11,8 @@ MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:3e2ea4f151593908c362307
 
 with_root_context="${ROOT_CONTEXT:-false}"
 
-if [ "$#" -lt 6 ] ; then
-  echo "$0 supports minimum 6 argument"
+if [ "$#" -lt 5 ] ; then
+  echo "$0 supports minimum 5 argument"
   exit 1
 fi
 
@@ -26,12 +26,24 @@ image_name="${1}"
 image_dir="${2}"
 
 platform="${3}"
-output="${4}"
-builder="${5}"
+builder="${4}"
 
-shift 5
+shift 4
 
 registries=("${@}")
+
+do_push="${PUSH:-false}"
+output="type=image,push=${do_push}"
+
+do_export="${EXPORT:-false}"
+
+if [ "${registries[*]}" = "local" ] ; then
+  output="type=docker"
+fi
+
+if [ "${do_export}" = "true" ] ; then
+  output="type=docker,dest=${image_name}.oci"
+fi
 
 if [ "${with_root_context}" = "false" ] ; then
   image_tag="$("${script_dir}/make-image-tag.sh" "${image_dir}")"
@@ -55,6 +67,9 @@ check_image_tag() {
 
 check_registries() {
   for registry in "${registries[@]}" ; do
+    if [ "${registry}" = "local" ] ; then
+      continue
+    fi
     i="${registry}/${image_name}:${image_tag}"
     if ! check_image_tag "${i}" ; then
       echo "${i} doesn't exist"
