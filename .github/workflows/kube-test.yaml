@@ -1,0 +1,39 @@
+name: Validate kube-test image
+on: [pull_request,push]
+
+jobs:
+  build-kube-test-image:
+    name: Build new kube-test image
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+        name: Run make kube-test-image
+        env:
+          DOCKER_HUB_PUBLIC_ACCESS_ONLY: "true"
+          QUAY_PUBLIC_ACCESS_ONLY: "true"
+        with:
+          entrypoint: make
+          args: kube-test-image REGISTRIES=local EXPORT=true
+      - name: Store OCI image artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: kube-test.oci
+          path: kube-test.oci
+
+  kind:
+    needs: build-kube-test-image
+    strategy:
+      matrix:
+        kube_version: [1.16, 1.17, 1.18]
+    name: Test newly built kube-test image
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v1
+      - name: Restore OCI image artifact
+        uses: actions/download-artifact@v1
+        with:
+          name: kube-test.oci
+          path: artifacts
+      - name: Load the image and create kind cluster, check it works
+        run: .github/workflows/kube-test.validate-kind-cluster.sh "${{ matrix.kube_version }}"

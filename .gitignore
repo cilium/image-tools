@@ -1,2 +1,3 @@
 .buildx_builder
 .buildx
+*.oci
