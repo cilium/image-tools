@@ -32,23 +32,27 @@ shift 4
 
 registries=("${@}")
 
+do_build="${FORCE:-false}"
+
 do_push="${PUSH:-false}"
 output="type=image,push=${do_push}"
 
 do_export="${EXPORT:-false}"
 
-if [ "${registries[*]}" = "local" ] ; then
-  output="type=docker"
-fi
-
-if [ "${do_export}" = "true" ] ; then
-  output="type=docker,dest=${image_name}.oci"
-fi
-
 if [ "${with_root_context}" = "false" ] ; then
   image_tag="$("${script_dir}/make-image-tag.sh" "${image_dir}")"
 else
   image_tag="$("${script_dir}/make-image-tag.sh")"
+fi
+
+if [ "${registries[*]}" = "local" ] ; then
+  echo "will build ${image_name}:${image_tag} due to local mode"
+  output="type=docker"
+  do_build="true"
+fi
+
+if [ "${do_export}" = "true" ] ; then
+  output="type=docker,dest=${image_name}.oci"
 fi
 
 tag_args=()
@@ -78,7 +82,6 @@ check_registries() {
   done
 }
 
-do_build="${FORCE:-false}"
 
 if [ "${do_build}" = "true" ] ; then
   echo "will force-build ${image_name}:${image_tag} without checking the registries"
