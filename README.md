@@ -50,6 +50,10 @@ This image is a custom BPF-only distribution of LLVM.
 This image contains a [simple Go program](images/tester/cst/main.go), which is a minimal version of [`container-structure-test`](https://github.com/GoogleContainerTools/container-structure-test).
 It's adapted to run inside a container build context more easily then the original `container-structure-tests`.
 
+Here is how testing is accompilshed in the `llvm` image:
+- [`images/llvm/Dockerfile`](https://github.com/cilium/image-tools/blob/3686e2885e854242f8835d6edfc7413dd7c4c476/images/llvm/Dockerfile#L25-L27)
+- [`images/llvm/test/spec.yaml`](https://github.com/cilium/image-tools/blob/3686e2885e854242f8835d6edfc7413dd7c4c476/images/llvm/test/spec.yaml)
+
 ## Usage
 
 ### Making changes
