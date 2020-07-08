@@ -279,7 +279,12 @@ github.com/errordeveloper/imagine v0.0.0-20200811092946-97d806f9167f h1:f+2hyEJ9
 github.com/errordeveloper/imagine v0.0.0-20200811092946-97d806f9167f/go.mod h1:wyWWef016M4m5D7Es1MVwvFwqS6xc2E2g4mI669SsmI=
 github.com/errordeveloper/imagine v0.0.0-20200818094050-fb0ee6b2279b h1:kJkKT7fv5XTusvMq9BF+Shfg9qQq1Yyi82iykSwFBJE=
 github.com/errordeveloper/imagine v0.0.0-20200818094050-fb0ee6b2279b/go.mod h1:wyWWef016M4m5D7Es1MVwvFwqS6xc2E2g4mI669SsmI=
+github.com/errordeveloper/imagine v0.0.0-20200826113731-f423a73e7bc5 h1:7vLm8yC/NNOHlZhXsR1FmVgT7LtialWq9nVXXHhm+eU=
+github.com/errordeveloper/imagine v0.0.0-20200826113731-f423a73e7bc5/go.mod h1:WvLU5V18P3mwp4F9ER88e9O7GvWQorOuvsDn+M7xM9I=
+github.com/errordeveloper/imagine v0.0.0-20200907115516-916cbe243ac1 h1:IaMU/B450q9cxDxT++1IqBssZPXNeBabGzKekEwtfmo=
+github.com/errordeveloper/imagine v0.0.0-20200907115516-916cbe243ac1/go.mod h1:WvLU5V18P3mwp4F9ER88e9O7GvWQorOuvsDn+M7xM9I=
 github.com/errordeveloper/kue v0.2.4/go.mod h1:fq1IBSbKXyGxnamsVBDqoScY/zWtqHB7XC2QgI6eGQ8=
+github.com/errordeveloper/kue v0.3.0/go.mod h1:fq1IBSbKXyGxnamsVBDqoScY/zWtqHB7XC2QgI6eGQ8=
 github.com/evanphx/json-patch v4.2.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
 github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5KwzbycvMj4=
 github.com/fatih/color v1.9.0/go.mod h1:eQcE1qtQxscV5RaZvpXrrb8Drkc3/DdQ+uUYCNjL+zU=
