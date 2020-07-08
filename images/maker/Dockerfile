@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1.1-experimental
+
 # Copyright 2020 Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
@@ -11,8 +13,9 @@ FROM ${CRANE_IMAGE} as crane-dist
 
 FROM ${GOLANG_IMAGE} as go-builder
 
-COPY build-credentials-helper.sh /tmp/build-credentials-helper.sh
-RUN /tmp/build-credentials-helper.sh
+# hadolint ignore=SC2215
+RUN --mount=type=bind,readwrite,target=/src --mount=target=/root/.cache,type=cache --mount=target=/go/pkg/mod,type=cache \
+    /src/build-go-deps.sh
 
 FROM ${ALPINE_BASE_IMAGE} as builder
 
@@ -34,7 +37,7 @@ RUN apk add --initdb --no-cache --root /out \
 
 COPY --from=docker-dist /usr/local/bin /out/usr/local/bin
 COPY --from=crane-dist /ko-app/crane /out/usr/local/bin/crane
-COPY --from=go-builder /src/docker-credential-env /out/usr/local/bin/docker-credential-env
+COPY --from=go-builder /out /out
 
 ARG HADOLINT_VERSION=1.17.6
 
@@ -42,13 +45,6 @@ RUN curl --fail --show-error --silent --location \
       https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-x86_64 \
     --output /out/usr/local/bin/hadolint \
     && chmod +x /out/usr/local/bin/hadolint
-
-ARG BUILDX_VERSION=0.4.1
-
-RUN curl --fail --show-error --silent --location \
-      https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-amd64 \
-    --output /out/usr/local/bin/docker-buildx \
-    && chmod +x /out/usr/local/bin/docker-buildx
 
 RUN mkdir -p /out/etc/docker/cli-plugins \
     && echo '{ "experimental": "enabled", "credsStore" : "env" }' > /out/etc/docker/config.json \
