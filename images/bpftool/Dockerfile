@@ -21,6 +21,8 @@ RUN /tmp/build-bpftool-cross-aarch64.sh
 FROM ${UBUNTU_IMAGE} as rootfs
 ARG TARGETPLATFORM
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # hadolint ignore=SC2215
 RUN --mount=type=tmpfs,target=/var/cache/apt --mount=type=tmpfs,target=/var/lib/apt \
   apt-get update \
