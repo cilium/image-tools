@@ -27,12 +27,12 @@ image_tag="$(WITHOUT_SUFFIX=1 "${script_dir}/make-image-tag.sh" images/maker)"
 used_by_workflows=($(git grep -l "docker://${image_name}:" .github/workflows))
 
 for i in "${used_by_workflows[@]}" ; do
-  sed "s|\(docker://${image_name}\):.*\$|\1:${image_tag}|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}"
+  sed -i "s|\(docker://${image_name}\):.*\$|\1:${image_tag}|" "${i}"
 done
 
 # shellcheck disable=SC2207
-used_by_scripts=($(git grep -l  "MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}:" "${script_dir}"))
+used_by_scripts=($(git grep -l "MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}:" "${script_dir}"))
 
 for i in "${used_by_scripts[@]}" ; do
-  sed "s|\(MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}\):.*\(}\"\)\$|\1:${image_tag}\2|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}" && chmod +x "${i}"
+  sed -i "s|\(MAKER_IMAGE=\"\${MAKER_IMAGE:-${image_name}\):.*\(}\"\)\$|\1:${image_tag}\2|" "${i}" && chmod +x "${i}"
 done

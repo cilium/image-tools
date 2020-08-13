@@ -27,5 +27,5 @@ image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 used_by=($(git grep -l GOLANG_IMAGE= images))
 
 for i in "${used_by[@]}" ; do
-  sed "s|\(GOLANG_IMAGE=\)docker.io/library/golang:.*\$|\1${image}@${image_digest}|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}"
+  sed -i "s|\(GOLANG_IMAGE=\)docker.io/library/golang:.*\$|\1${image}@${image_digest}|" "${i}"
 done

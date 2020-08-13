@@ -27,5 +27,5 @@ image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 used_by=($(git grep -l ALPINE_BASE_IMAGE= images))
 
 for i in "${used_by[@]}" ; do
-  sed "s|\(ALPINE_BASE_IMAGE=\)docker.io/library/alpine:.*\$|\1${image}@${image_digest}|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}"
+  sed -i "s|\(ALPINE_BASE_IMAGE=\)docker.io/library/alpine:.*\$|\1${image}@${image_digest}|" "${i}"
 done

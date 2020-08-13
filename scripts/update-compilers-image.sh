@@ -29,5 +29,5 @@ image_digest="$("${script_dir}/get-image-digest.sh" "${image_name}:${image_tag}"
 used_by=($(git grep -l COMPILERS_IMAGE= images))
 
 for i in "${used_by[@]}" ; do
-  sed "s|\(COMPILERS_IMAGE=${image_name}\):.*\$|\1:${image_tag}@${image_digest}|" "${i}" > "${i}.sedtmp" && mv "${i}.sedtmp" "${i}"
+  sed -i "s|\(COMPILERS_IMAGE=${image_name}\):.*\$|\1:${image_tag}@${image_digest}|" "${i}"
 done
