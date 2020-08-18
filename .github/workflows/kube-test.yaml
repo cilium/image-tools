@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make kube-test-image
         env:
           DOCKER_HUB_PUBLIC_ACCESS_ONLY: "true"

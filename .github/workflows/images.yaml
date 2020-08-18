@@ -9,17 +9,17 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Register binfmt from multi-platform builds
         with:
           entrypoint: docker
           args: run --privileged linuxkit/binfmt:5d33e7346e79f9c13a73c6952669e47a53b063d4 
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make lint
         with:
           entrypoint: make
           args: lint
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make maker-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -29,7 +29,7 @@ jobs:
         with:
           entrypoint: make
           args: maker-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make tester-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -39,7 +39,7 @@ jobs:
         with:
           entrypoint: make
           args: tester-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make kube-test-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -49,7 +49,7 @@ jobs:
         with:
           entrypoint: make
           args: kube-test-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make compilers-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -59,7 +59,7 @@ jobs:
         with:
           entrypoint: make
           args: compilers-image PUSH=true REGISTRIES=docker.io/cilium
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make bpftool-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -69,7 +69,7 @@ jobs:
         with:
           entrypoint: make
           args: bpftool-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make iproute2-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -79,7 +79,7 @@ jobs:
         with:
           entrypoint: make
           args: iproute2-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make llvm-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -89,7 +89,7 @@ jobs:
         with:
           entrypoint: make
           args: llvm-image PUSH=true REGISTRIES=docker.io/cilium
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make startup-script-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
@@ -99,7 +99,7 @@ jobs:
         with:
           entrypoint: make
           args: startup-script-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make ca-certificates-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
