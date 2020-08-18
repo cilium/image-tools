@@ -38,4 +38,5 @@ RUN /test/bin/cst -C /test/iproute2
 
 FROM scratch
 LABEL maintainer="maintainer@cilium.io"
+COPY /empty /tmp/empty
 COPY --from=rootfs / /

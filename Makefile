@@ -1,9 +1,7 @@
 # Copyright 2020 Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
-REGISTRIES ?= docker.io/cilium
-# quay.io is not enabled, see https://github.com/cilium/image-tools/issues/11
-# REGISTRIES ?= docker.io/cilium quay.io/cilium
+REGISTRIES ?= docker.io/cilium quay.io/cilium
 
 PUSH ?= false
 EXPORT ?= false
