@@ -68,4 +68,5 @@ RUN ln -s -f /github/workspace/.buildx /out/etc/docker/buildx
 FROM scratch
 ENV DOCKER_CONFIG=/etc/docker
 ENV MAKER_CONTAINER=true
+COPY /empty /tmp/empty
 COPY --from=builder /out /

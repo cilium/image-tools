@@ -12,4 +12,5 @@ RUN apk add --initdb --no-cache --root /out \
     && true
 
 FROM scratch
+COPY /empty /tmp/empty
 COPY --from=builder /out/etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt

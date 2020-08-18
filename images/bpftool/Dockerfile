@@ -38,4 +38,5 @@ RUN /test/bin/cst -C /test/bpftool
 
 FROM scratch
 LABEL maintainer="maintainer@cilium.io"
+COPY /empty /tmp/empty
 COPY --from=rootfs / /

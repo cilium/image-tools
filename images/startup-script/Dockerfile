@@ -17,4 +17,5 @@ COPY manage-startup-script.sh /out/usr/bin/manage-startup-script.sh
 
 FROM scratch
 COPY --from=builder /out /
+COPY /empty /tmp/empty
 CMD [ "/usr/bin/manage-startup-script.sh" ]
