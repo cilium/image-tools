@@ -78,10 +78,38 @@ commandTests:
   args: ["version"]
   expectedOutput: ['Build\ label:\ 3\.2\.0']
 
+- name: "which bazel-3.3.1-linux-x86_64"
+  command: "which"
+  args: ["bazel-3.3.1-linux-x86_64"]
+  expectedOutput: ["/usr/local/bin/bazel-3.3.1-linux-x86_64"]
+- name: "bazel-3.3.1-linux-x86_64 version"
+  command: "bazel-3.3.1-linux-x86_64"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.3\.1']
+- name: "bazel 3.3.1 version"
+  command: "bazel"
+  envVars: [{ key: "USE_BAZEL_VERSION", value: "3.3.1" }]
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.3\.1']
+
+- name: "which bazel-3.4.1-linux-x86_64"
+  command: "which"
+  args: ["bazel-3.4.1-linux-x86_64"]
+  expectedOutput: ["/usr/local/bin/bazel-3.4.1-linux-x86_64"]
+- name: "bazel-3.4.1-linux-x86_64 version"
+  command: "bazel-3.4.1-linux-x86_64"
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.4\.1']
+- name: "bazel 3.4.1 version"
+  command: "bazel"
+  envVars: [{ key: "USE_BAZEL_VERSION", value: "3.4.1" }]
+  args: ["version"]
+  expectedOutput: ['Build\ label:\ 3\.4\.1']
+
 - name: "bazel version"
   command: "bazel"
   args: ["version"]
-  expectedOutput: ['Build\ label:\ 3\.2\.0']
+  expectedOutput: ['Build\ label:\ 3\.4\.1']
 
 fileExistenceTests:
 - name: '/usr/local/bin/bazel'
