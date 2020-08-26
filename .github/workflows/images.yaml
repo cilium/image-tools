@@ -54,11 +54,11 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
-          args: compilers-image PUSH=true REGISTRIES=docker.io/cilium
+          args: compilers-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make bpftool-image
         env:
@@ -84,11 +84,11 @@ jobs:
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
           DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
         with:
           entrypoint: make
-          args: llvm-image PUSH=true REGISTRIES=docker.io/cilium
+          args: llvm-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:f768d2eac89afafdbf1c0172d7c3d8a9d5c84e32
         name: Run make startup-script-image
         env:
