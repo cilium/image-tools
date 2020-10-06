@@ -20,3 +20,4 @@ RUN /test/bin/cst
 FROM scratch
 LABEL maintainer="maintainer@cilium.io"
 COPY --from=builder / /
+COPY /empty /tmp/empty

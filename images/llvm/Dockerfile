@@ -29,3 +29,4 @@ RUN /test/bin/cst -C /test/llvm
 FROM scratch
 LABEL maintainer="maintainer@cilium.io"
 COPY --from=rootfs / /
+COPY /empty /tmp/empty
