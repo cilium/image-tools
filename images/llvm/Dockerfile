@@ -1,9 +1,9 @@
 # Copyright 2020 Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
-ARG COMPILERS_IMAGE=docker.io/cilium/image-compilers:57f235db9a07e81c5b60c536498ecbf2501dd267@sha256:080245ac0d7d061e05613e6bf887dc3c8bb07392cd2ce265b8a4aaaad17f2125
+ARG COMPILERS_IMAGE=docker.io/cilium/image-compilers:797061dcd0b87a238a26f135ec7c425a7ef0dda6@sha256:54862b2d2fb286a61d29587e941c4723ac953a0a4843f096ea7a19fdf0b485f9
 ARG UBUNTU_IMAGE=docker.io/library/ubuntu:20.04@sha256:8bce67040cd0ae39e0beb55bcb976a824d9966d2ac8d2e4bf6119b45505cee64
-ARG TESTER_IMAGE=docker.io/cilium/image-tester:70724309b859786e0a347605e407c5261f316eb0@sha256:89cc1f577d995021387871d3dbeb771b75ab4d70073d9bcbc42e532792719781
+ARG TESTER_IMAGE=docker.io/cilium/image-tester:b6d78c58fa33f9c34bc85700e81af66ad78b3985@sha256:8dd8dcf7dc8dba0286b3fe61f6d817a8ef4ed518302ef9adaf610052bc67062e
 
 FROM --platform=linux/amd64 ${COMPILERS_IMAGE} as builder
 
