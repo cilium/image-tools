@@ -3,7 +3,13 @@
 # Copyright 2020 Authors of Cilium
 
 # Default options for checkpatch
-options="--no-tree --strict --no-summary --show-types --color=always"
+options=(
+    --no-tree
+    --strict
+    --no-summary
+    --show-types
+    "--color=always"
+)
 
 # Report types to ignore
 ignore_list=(
@@ -26,7 +32,7 @@ ignore_list=(
     # Ignore tolerance that comes by default
     C99_COMMENT_TOLERANCE
 )
-ignores="--ignore $(IFS=,; echo "${ignore_list[*]}")"
+ignores=$(IFS=,; echo "${ignore_list[*]}")
 
 # Report types that checkpatch downgrades from warning to checks for --file
 type_list=(
@@ -40,9 +46,9 @@ type_list=(
     SPDX_LICENSE_TAG
     TYPO_SPELLING
 )
-types="--types $(IFS=,; echo "${type_list[*]}")"
+types=$(IFS=,; echo "${type_list[*]}")
 
-script_dir="$(dirname $(realpath $0))"
+script_dir="$(dirname "$(realpath "$0")")"
 
 # Script checkpatch.pl comes from the Linux repository. It is available at:
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/checkpatch.pl
@@ -63,11 +69,12 @@ usage() {
     echo "	-i	(indulgent) Do not pass '--strict' to checkpatch"
     echo "	-q	(quiet) Pass '--quiet' to checkpatch"
     echo "	-h	Display this help"
+    exit "$1"
 }
 
 check_cmd() {
-    for cmd in $@; do
-        if !(command -v $cmd >/dev/null); then
+    for cmd in "$@"; do
+        if ! (command -v "$cmd" >/dev/null); then
             echo "Error: $cmd not found."
             exit 1
         fi
@@ -75,8 +82,8 @@ check_cmd() {
 }
 
 update_sources() {
-    sources=$(find bpf -name "*.[ch]" ! -path "bpf/include/elf/*" ! -path "bpf/include/linux/*")
-    if [ -z "$sources" ]; then
+    readarray -d '' sources < <(find bpf -name "*.[ch]" ! -path "bpf/include/elf/*" ! -path "bpf/include/linux/*" -print0)
+    if [ "${#sources[@]}" -eq 0 ]; then
         echo "Please run this script from the root of Cilium's repository."
         exit 1
     fi
@@ -89,7 +96,7 @@ check_commit() {
     echo "========================================================="
     # Recompute list of source files each time in case commit changes it
     update_sources
-    (git show --format=email $sha -- $sources | $checkpatch $options $ignores) || ret=1
+    (git show --format=email "$sha" -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores") || ret=1
 }
 
 all_code=0
@@ -105,10 +112,18 @@ while getopts "haiq" opt; do
         ;;
     i)
         indulgent=1
-        options="${options/--strict /}"
+        for i in "${!options[@]}"; do
+            if [[ "${options[i]}" = "--strict" ]]; then
+                unset 'options[i]'
+                break
+            fi
+        done
         ;;
     q)
-        options="$options --quiet"
+        options+=(--quiet)
+        ;;
+    *)
+        usage 1
         ;;
     esac
 done
@@ -118,14 +133,14 @@ shift $((OPTIND-1))
 # If -a option provided, simply run checkpatch on all *.c *.h code and exit
 if [ $all_code -eq 1 ]; then
     update_sources
-    echo -e "${HL_START}Checking files:$HL_END $(echo $sources | tr '\n' ' ')"
+    echo -e "${HL_START}Checking files:$HL_END $(echo "${sources[@]}" | tr '\n' ' ')"
     ret=0
-    $checkpatch $options $ignores -f $sources || ret=1
+    "$checkpatch" "${options[@]}" --ignore "$ignores" -f "${sources[@]}" || ret=1
     if [ $indulgent -eq 1 ]; then
         echo -e "${HL_START}Second run, to report 'checks' that should normally be 'warnings'...$HL_END"
         # Re-run to cover types downgraded to checks by checkpatch when running
         # on files, to be on par with what we do for commits.
-        $checkpatch $options --strict $types -f $sources || ret=1
+        "$checkpatch" "${options[@]}" --strict --types "$types" -f "${sources[@]}" || ret=1
     fi
     echo -e "${HL_START}All done$HL_END"
     exit $ret
@@ -140,13 +155,13 @@ if [ -n "$GITHUB_REF" ]; then
     pr=${GITHUB_REF#"refs/pull/"}
     prnum=${pr%"/merge"}
     url="https://api.github.com/repos/cilium/cilium/pulls/${prnum}/commits"
-    list_commits=$(curl -s $url | jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n.*"; ""; "m"))}]')
+    list_commits=$(curl -s "$url" | jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n.*"; ""; "m"))}]')
     pr_info="from PR #$prnum"
 else
     # Running locally
     # We'll run checkpatch on each commit since newest parent ref
     parent_ref=$(git log --simplify-by-decoration --pretty=format:'%D' -n 2 | sed -n '2{s/,.*//;s/^tag: //;p}')
-    list_commits=$(git log --pretty=format:"%H %s" $parent_ref.. | awk '
+    list_commits=$(git log --pretty=format:"%H %s" "$parent_ref".. | awk '
         BEGIN {print "["}
         {
             if (NR>1)
@@ -159,17 +174,17 @@ else
         END {print "]"}')
     pr_info="on top of ref $parent_ref"
 fi
-nb_commits=$(echo $list_commits | jq length)
+nb_commits=$(echo "$list_commits" | jq length)
 
 echo "Retrieved $nb_commits commits $pr_info"
 echo
 
 ret=0
 # Run checkpatch for BPF changes on all selected commits
-for ((i=0; i<$nb_commits; i++)); do
-    subject=$(echo $list_commits | jq -r ".[$i].subject")
-    sha=$(echo $list_commits | jq -r ".[$i].sha")
-    check_commit $i $nb_commits
+for ((i=0; i<nb_commits; i++)); do
+    subject=$(echo "$list_commits" | jq -r ".[$i].subject")
+    sha=$(echo "$list_commits" | jq -r ".[$i].sha")
+    check_commit "$i" "$nb_commits"
 done
 
 # If not a GitHub action and repo is dirty, run on diff from HEAD
@@ -178,7 +193,7 @@ if [ -z "$GITHUB_REF" ] && ! (git diff --exit-code && git diff --cached --exit-c
     echo -e "${HL_START}Running on changes from local HEAD$HL_END"
     echo "========================================================="
     update_sources
-    (git diff HEAD -- $sources | $checkpatch $options $ignores) || ret=1
+    (git diff HEAD -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores") || ret=1
 fi
 
 echo -e "${HL_START}All done$HL_END"
