@@ -1,0 +1,16 @@
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 3cacc122c528..67f350c580ea 100755
+--- a/checkpatch.pl
++++ b/checkpatch.pl
+@@ -3983,7 +3983,10 @@ sub process {
+ 		}
+ 
+ # no C99 // comments
+-		if ($line =~ m{//}) {
++		if ($line =~ m{//} &&
++		    !($rawline =~ m{// SPDX-License-Identifier:} &&
++		      $realfile =~ /\.c$/ &&
++		      $realline == $checklicenseline)) {
+ 			if (ERROR("C99_COMMENTS",
+ 				  "do not use C99 // comments\n" . $herecurr) &&
+ 			    $fix) {
