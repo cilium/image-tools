@@ -109,3 +109,13 @@ jobs:
         with:
           entrypoint: make
           args: ca-certificates-image PUSH=true
+      - uses: docker://docker.io/cilium/image-maker:3475ee935e094acc5999f23a14253c3055fdc32f
+        name: Run make checkpatch-image
+        env:
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+        with:
+          entrypoint: make
+          args: checkpatch-image PUSH=true

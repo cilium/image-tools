@@ -57,3 +57,6 @@ ca-certificates-image: .buildx_builder
 
 startup-script-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh startup-script images/startup-script linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
+
+checkpatch-image: .buildx_builder
+	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh cilium-checkpatch images/checkpatch linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)

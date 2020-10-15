@@ -57,6 +57,12 @@ and other dependencies.
 
 This image is a custom BPF-only distribution of LLVM.
 
+### [`images/checkpatch`](images/checkpatch/Dockerfile)
+
+This image packages the [checkpatch.pl](images/checkpatch/checkpatch.pl) script used to check format and consistency for the patches submitted for inclusion to the Linux kernel, along with related files and a wrapper script.
+
+While the script itself is directly copied from [the upstream version in the kernel repository](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/checkpatch.pl), a number of patches are applied before the script is run. These patch mostly address a number of false positives for Cilium's code base.
+
 ### [`images/tester`](images/tester/Dockerfile)
 
 This image contains a [simple Go program](images/tester/cst/main.go), which is a minimal version of [`container-structure-test`](https://github.com/GoogleContainerTools/container-structure-test).
