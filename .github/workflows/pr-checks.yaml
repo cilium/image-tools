@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://docker.io/cilium/image-maker:dfa9d802a6575eca2da064a4ccb6356079a81c91
+      - uses: docker://docker.io/cilium/image-maker:3475ee935e094acc5999f23a14253c3055fdc32f
         name: Run make lint
         with:
           entrypoint: make

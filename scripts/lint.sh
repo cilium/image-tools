@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:dfa9d802a6575eca2da064a4ccb6356079a81c91}"
+MAKER_IMAGE="${MAKER_IMAGE:-docker.io/cilium/image-maker:3475ee935e094acc5999f23a14253c3055fdc32f}"
 
 root_dir="$(git rev-parse --show-toplevel)"
 
