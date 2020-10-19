@@ -7,9 +7,12 @@ ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.11@sha256:9a839e63dad54c3a6d183
 FROM ${ALPINE_BASE_IMAGE} as builder
 LABEL maintainer="maintainer@cilium.io"
 
-COPY . /opt/checkpatch
+COPY . /checkpatch
 
-WORKDIR /opt/checkpatch
-RUN for i in fixes/*.diff; do patch -p1 < "$i"; done
+RUN for i in /checkpatch/fixes/*.diff; do \
+    patch -p1 /checkpatch/checkpatch.pl < "$i"; \
+    done
 
 RUN apk add --no-cache bash git jq perl
+
+ENTRYPOINT ["/checkpatch/checkpatch.sh"]
