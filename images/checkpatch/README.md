@@ -18,13 +18,13 @@ Public License (GPL) version 2 (see file [COPYING](COPYING)).
 ## Bash Script and Other Additions
 
 The bash wrapper is used to call the `checkpatch.pl` script with the relevant
-options and arguments for working on Cilium's code base. It passes makes sure
+options and arguments for working on Cilium's code base. It makes sure
 `checkpatch.pl` is run on the latest commits or, if the `-a` option is passed,
 on the source files under the `bpf/` directory. It should be executed from the
 root of Cilium's repository:
 
 ```
-docker run --rm --user 1000 -it --workdir /workspace -v $PWD:/workspace <container_id> /opt/checkpatch/checkpatch.sh
+docker run --rm --user $(id -u):$(id -g) -it --workdir /workspace -v $PWD:/workspace <container_id>
 ```
 
 The list of deprecated terms was specifically added for Cilium.
