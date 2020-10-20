@@ -13,6 +13,6 @@ RUN for i in /checkpatch/fixes/*.diff; do \
     patch -p1 /checkpatch/checkpatch.pl < "$i"; \
     done
 
-RUN apk add --no-cache bash git jq perl
+RUN apk add --no-cache bash curl git jq perl
 
 ENTRYPOINT ["/checkpatch/checkpatch.sh"]
