@@ -5,8 +5,8 @@ go 1.14
 require (
 	github.com/docker/buildx v0.4.2 // indirect
 	github.com/errordeveloper/docker-credential-env v0.1.4 // indirect
-	github.com/errordeveloper/imagine v0.0.0-20200907115516-916cbe243ac1
-	github.com/errordeveloper/kue v0.3.0
+	github.com/errordeveloper/imagine v0.0.0-20201029113538-97024922900e
+	github.com/errordeveloper/kue v0.3.1
 )
 
 // based on https://github.com/docker/buildx/blob/f3111bcbef8ce7e3933711358419fa18294b3daf/go.mod#L69-L73
