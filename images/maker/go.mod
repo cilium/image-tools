@@ -16,3 +16,5 @@ replace github.com/containerd/containerd => github.com/containerd/containerd v1.
 replace github.com/docker/docker => github.com/docker/docker v1.4.2-0.20200227233006-38f52c9fec82
 
 replace github.com/jaguilar/vt100 => github.com/tonistiigi/vt100 v0.0.0-20190402012908-ad4c4a574305
+
+replace k8s.io/apimachinery => k8s.io/apimachinery v0.17.4
