@@ -42,10 +42,10 @@ type_list=(
     DEPRECATED_TERM
     FSF_MAILING_ADDRESS
     LONG_LINE
-    LONG_LINE_COMMENT
-    #LONG_LINE_STRING   # Not desired
+    #LONG_LINE_COMMENT  # Not desired
+    LONG_LINE_STRING
     #PREFER_FALLTHROUGH # fallthrough; not implemented
-    SPDX_LICENSE_TAG
+    #SPDX_LICENSE_TAG   # Downgraded for a specific case, not relevant here
     TYPO_SPELLING
 )
 types=$(IFS=,; echo "${type_list[*]}")
