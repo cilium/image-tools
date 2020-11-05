@@ -60,7 +60,7 @@ HL_START="\e[1;34m"
 HL_END="\e[0m"
 
 usage() {
-    echo "Usage: $0 [option]"
+    echo "Usage: $0 [options] [-- checkpatch.pl options]"
     echo "	Run checkpatch on BPF code. By default, run checkpatch on:"
     echo "		- All commits from a PR, if run as a GitHub action"
     echo "		- All commits since parent ref, and diff from HEAD otherwise"
@@ -69,6 +69,8 @@ usage() {
     echo "	-i	(indulgent) Do not pass '--strict' to checkpatch"
     echo "	-q	(quiet) Pass '--quiet' to checkpatch"
     echo "	-h	Display this help"
+    echo "	Options passed after a ' -- ' delimiter are directly passed to"
+    echo "	checkpatch.pl (e.g. '$0 -- --fix-inplace')"
     exit "$1"
 }
 
@@ -96,7 +98,7 @@ check_commit() {
     echo "========================================================="
     # Recompute list of source files each time in case commit changes it
     update_sources
-    (git show --format=email "$sha" -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores") || ret=1
+    (git show --format=email "$sha" -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}") || ret=1
 }
 
 all_code=0
@@ -129,18 +131,19 @@ while getopts "haiq" opt; do
 done
 shift $((OPTIND-1))
 [[ "${1:-}" = "--" ]] && shift
+cli_options=( "$@" )
 
 # If -a option provided, simply run checkpatch on all *.c *.h code and exit
 if [ $all_code -eq 1 ]; then
     update_sources
     echo -e "${HL_START}Checking files:$HL_END $(echo "${sources[@]}" | tr '\n' ' ')"
     ret=0
-    "$checkpatch" "${options[@]}" --ignore "$ignores" -f "${sources[@]}" || ret=1
+    "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}" -f "${sources[@]}" || ret=1
     if [ $indulgent -eq 1 ]; then
         echo -e "${HL_START}Second run, to report 'checks' that should normally be 'warnings'...$HL_END"
         # Re-run to cover types downgraded to checks by checkpatch when running
         # on files, to be on par with what we do for commits.
-        "$checkpatch" "${options[@]}" --strict --types "$types" -f "${sources[@]}" || ret=1
+        "$checkpatch" "${options[@]}" --strict --types "$types" "${cli_options[@]}" -f "${sources[@]}" || ret=1
     fi
     echo -e "${HL_START}All done$HL_END"
     exit $ret
@@ -193,7 +196,7 @@ if [ -z "$GITHUB_REF" ] && ! (git diff --exit-code && git diff --cached --exit-c
     echo -e "${HL_START}Running on changes from local HEAD$HL_END"
     echo "========================================================="
     update_sources
-    (git diff HEAD -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores") || ret=1
+    (git diff HEAD -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}") || ret=1
 fi
 
 echo -e "${HL_START}All done$HL_END"
