@@ -15,6 +15,7 @@ options=(
 ignore_list=(
     # Errors
     COMPLEX_MACRO
+    GIT_COMMIT_ID
     MULTISTATEMENT_MACRO_USE_DO_WHILE
     # Warnings
     CONSTANT_CONVERSION
