@@ -26,10 +26,11 @@ CC="${triplet}-gcc" CXX="${triplet}-g++" \
     -DCMAKE_CROSSCOMPILING="True" \
     -DCMAKE_INSTALL_PREFIX="/usr/local"
 
-ninja clang llc
+ninja clang llc llvm-objcopy
 
 ${triplet}-strip bin/clang
 ${triplet}-strip bin/llc
+${triplet}-strip bin/llvm-objcopy
 
 mkdir -p /out/linux/arm64/bin
-cp bin/clang bin/llc /out/linux/arm64/bin
+cp bin/clang bin/llc bin/llvm-objcopy /out/linux/arm64/bin
