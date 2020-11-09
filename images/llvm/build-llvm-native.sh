@@ -19,10 +19,11 @@ cmake .. -G "Ninja" \
   -DCMAKE_BUILD_TYPE="Release" \
   -DLLVM_BUILD_RUNTIME="OFF"
 
-ninja clang llc
+ninja clang llc llvm-objcopy
 
 strip bin/clang
 strip bin/llc
+strip bin/llvm-objcopy
 
 mkdir -p /out/linux/amd64/bin
-cp bin/clang bin/llc /out/linux/amd64/bin
+cp bin/clang bin/llc bin/llvm-objcopy /out/linux/amd64/bin
