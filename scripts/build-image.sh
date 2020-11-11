@@ -65,7 +65,7 @@ check_image_tag() {
     crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   else
     # unlike with other utility scripts we don't want to self-re-exec inside the container, as native `docker buildx` is preferred
-    docker run --env DOCKER_HUB_PUBLIC_ACCESS_ONLY=true --env QUAY_PUBLIC_ACCESS_ONLY=true --rm --volume "${root_dir}:/src" --workdir /src "${MAKER_IMAGE}" crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
+    docker run --env DOCKER_HUB_PUBLIC_ACCESS_ONLY=true --env QUAY_PUBLIC_ACCESS_ONLY=true --env ANY_REGISTRY_PUBLIC_ACCESS_ONLY=true --rm --volume "${root_dir}:/src" --workdir /src "${MAKER_IMAGE}" crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   fi
 }
 
