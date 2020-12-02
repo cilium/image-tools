@@ -8,7 +8,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-rev="2f278887268d60fdaed3c138d779827d9c0007b4"
+rev="93caf17f747c8e478b30e2782ba196f355d790b4"
 
 # git clone https://github.com/cilium/iproute2 /src/iproute2
 # cd /src/iproute2
