@@ -62,5 +62,4 @@ ENV DOCKER_CONFIG=/etc/docker
 # relative path here (see also https://github.com/docker/buildx/issues/308)
 ENV BUILDX_CONFIG=.buildx
 ENV MAKER_CONTAINER=true
-COPY /empty /tmp/empty
 COPY --from=builder /out /
