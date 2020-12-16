@@ -12,8 +12,6 @@ lint:
 	scripts/lint.sh
 
 .buildx_builder:
-	# see https://github.com/docker/buildx/issues/308
-	mkdir -p .buildx
 	docker buildx create --platform linux/amd64,linux/arm64 --buildkitd-flags '--debug' > $@
 
 update-alpine-base-image:
