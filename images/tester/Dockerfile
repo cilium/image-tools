@@ -32,5 +32,4 @@ RUN /test/bin/cst
 FROM scratch
 LABEL maintainer="maintainer@cilium.io"
 ARG TARGETPLATFORM
-COPY /empty /tmp/empty
 COPY --from=go-builder /out/${TARGETPLATFORM}/bin /test/bin

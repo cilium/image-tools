@@ -54,5 +54,4 @@ RUN /tmp/configure.sh
 
 FROM scratch
 ENV TESTER_CONTAINER=true
-COPY /empty /tmp/empty
 COPY --from=builder /out /
