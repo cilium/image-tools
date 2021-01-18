@@ -25,8 +25,11 @@ docker_bridge_addr="172.17.0.1"
 port="6443"
 
 for kube_version in "${!node_images[@]}" ; do
+
 mkdir -p "/out/etc/kind/${kube_version}"
-cat > "/out/etc/kind/${kube_version}/standard-github-actions-cluster.yaml" << EOF
+cd "/out/etc/kind/${kube_version}"
+
+cat > standard-github-actions-cluster.yaml << EOF
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
@@ -42,4 +45,17 @@ nodes:
 - role: control-plane
   image: "${node_images[${kube_version}]}"
 EOF
+
+cp standard-github-actions-cluster.yaml alt-cidr1-github-actions-cluster.yaml
+cat >> alt-cidr1-github-actions-cluster.yaml << EOF
+  podSubnet: "10.201.0.0/16"
+  serviceSubnet: "10.101.0.0/16"
+EOF
+
+cp standard-github-actions-cluster.yaml alt-cidr2-github-actions-cluster.yaml
+cat >> alt-cidr2-github-actions-cluster.yaml << EOF
+  podSubnet: "10.202.0.0/16"
+  serviceSubnet: "10.102.0.0/16"
+EOF
+
 done
