@@ -12,11 +12,12 @@ if [ -z "${GITHUB_ACTIONS+x}" ] ; then
   exit 1
 fi
 
-if [ "$#" -ne 1 ] ; then
-  echo "$0 supports exactly 1 argument"
+if [ "$#" -ne 2 ] ; then
+  echo "$0 supports exactly 2 argument"
 fi
 
 kube_version="${1}"
+config_flavour="${2}"
 
 test_script="
 set -o errexit
@@ -24,7 +25,7 @@ set -o pipefail
 set -o nounset
 
 kind create cluster \
-  --config /etc/kind/${kube_version}/standard-github-actions-cluster.yaml \
+  --config /etc/kind/${kube_version}/${config_flavour}-github-actions-cluster.yaml \
   --kubeconfig /github/workspace/kubeconfig
 
 kubectl get nodes --kubeconfig /github/workspace/kubeconfig --context kind-kind --output wide
