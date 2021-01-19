@@ -22,7 +22,10 @@ node_images["1.14"]="kindest/node:v1.14.10@sha256:ce4355398a704fca68006f8a29f37a
 node_images["1.13"]="kindest/node:v1.13.12@sha256:1c1a48c2bfcbae4d5f4fa4310b5ed10756facad0b7a2ca93c7a4b5bae5db29f5"
 
 docker_bridge_addr="172.17.0.1"
-port="6443"
+standard_port="6443"
+alt_cidr1_port="6444"
+alt_cidr2_port="6445"
+
 
 for kube_version in "${!node_images[@]}" ; do
 
@@ -32,28 +35,249 @@ cd "/out/etc/kind/${kube_version}"
 cat > standard-github-actions-cluster.yaml << EOF
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
 networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
   # In order for the API to be accessible from any container, Docker bridge IP is used.
   # This is specific to GitHub Actions environment, elsewhere a different address will
   # need to be used.
   apiServerAddress: "${docker_bridge_addr}"
   # Port allocation doesn't work with the Docker bridge IP, so a static port is used.
-  apiServerPort: ${port}
+  apiServerPort: ${standard_port}
   # This is required as Cilium will be used
   disableDefaultCNI: true
+EOF
+
+cat > alt-cidr1-github-actions-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
 nodes:
 - role: control-plane
   image: "${node_images[${kube_version}]}"
-EOF
-
-cp standard-github-actions-cluster.yaml alt-cidr1-github-actions-cluster.yaml
-cat >> alt-cidr1-github-actions-cluster.yaml << EOF
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # In order for the API to be accessible from any container, Docker bridge IP is used.
+  # This is specific to GitHub Actions environment, elsewhere a different address will
+  # need to be used.
+  apiServerAddress: "${docker_bridge_addr}"
+  # Port allocation doesn't work with the Docker bridge IP, so a static port is used.
+  apiServerPort: ${alt_cidr1_port}
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
   podSubnet: "10.201.0.0/16"
   serviceSubnet: "10.101.0.0/16"
 EOF
 
-cp standard-github-actions-cluster.yaml alt-cidr2-github-actions-cluster.yaml
-cat >> alt-cidr2-github-actions-cluster.yaml << EOF
+cat > alt-cidr2-github-actions-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # In order for the API to be accessible from any container, Docker bridge IP is used.
+  # This is specific to GitHub Actions environment, elsewhere a different address will
+  # need to be used.
+  apiServerAddress: "${docker_bridge_addr}"
+  # Port allocation doesn't work with the Docker bridge IP, so a static port is used.
+  apiServerPort: ${alt_cidr2_port}
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+  podSubnet: "10.202.0.0/16"
+  serviceSubnet: "10.102.0.0/16"
+EOF
+
+cat > standard-docker-desktop-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+EOF
+
+cat > alt-cidr1-docker-desktop-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+  podSubnet: "10.201.0.0/16"
+  serviceSubnet: "10.101.0.0/16"
+EOF
+
+cat > alt-cidr2-docker-desktop-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+  podSubnet: "10.202.0.0/16"
+  serviceSubnet: "10.102.0.0/16"
+EOF
+
+cat > standard-2-nodes-github-actions-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+  kubeadmConfigPatches:
+      # Make sure that there is no taint for master node to enable running
+      # 3rd node for conformance testing.
+      # NOTE: in single-node configuarations this is applied automatically
+      - |
+        apiVersion: kubeadm.k8s.io/v1beta2
+        kind: InitConfiguration
+        nodeRegistration:
+          taints: []
+- role: worker
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # In order for the API to be accessible from any container, Docker bridge IP is used.
+  # This is specific to GitHub Actions environment, elsewhere a different address will
+  # need to be used.
+  apiServerAddress: "${docker_bridge_addr}"
+  # Port allocation doesn't work with the Docker bridge IP, so a static port is used.
+  apiServerPort: ${standard_port}
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+EOF
+
+cat > alt-cidr1-2-nodes-github-actions-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+  kubeadmConfigPatches:
+    # Make sure that there is no taint for master node to enable running
+    # 3rd node for conformance testing.
+    # NOTE: in single-node configuarations this is applied automatically
+    - |
+      apiVersion: kubeadm.k8s.io/v1beta2
+      kind: InitConfiguration
+      nodeRegistration:
+        taints: []
+- role: worker
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # In order for the API to be accessible from any container, Docker bridge IP is used.
+  # This is specific to GitHub Actions environment, elsewhere a different address will
+  # need to be used.
+  apiServerAddress: "${docker_bridge_addr}"
+  # Port allocation doesn't work with the Docker bridge IP, so a static port is used.
+  apiServerPort: ${alt_cidr1_port}
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+  podSubnet: "10.201.0.0/16"
+  serviceSubnet: "10.101.0.0/16"
+EOF
+
+cat > alt-cidr2-2-nodes-github-actions-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+  kubeadmConfigPatches:
+    # Make sure that there is no taint for master node to enable running
+    # 3rd node for conformance testing.
+    # NOTE: in single-node configuarations this is applied automatically
+    - |
+      apiVersion: kubeadm.k8s.io/v1beta2
+      kind: InitConfiguration
+      nodeRegistration:
+        taints: []
+- role: worker
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # In order for the API to be accessible from any container, Docker bridge IP is used.
+  # This is specific to GitHub Actions environment, elsewhere a different address will
+  # need to be used.
+  apiServerAddress: "${docker_bridge_addr}"
+  # Port allocation doesn't work with the Docker bridge IP, so a static port is used.
+  apiServerPort: ${alt_cidr2_port}
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+  podSubnet: "10.202.0.0/16"
+  serviceSubnet: "10.102.0.0/16"
+EOF
+
+cat > standard-2-nodes-docker-desktop-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+  kubeadmConfigPatches:
+    # Make sure that there is no taint for master node to enable running
+    # 3rd node for conformance testing.
+    # NOTE: in single-node configuarations this is applied automatically
+    - |
+      apiVersion: kubeadm.k8s.io/v1beta2
+      kind: InitConfiguration
+      nodeRegistration:
+        taints: []
+- role: worker
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+EOF
+
+cat > alt-cidr1-2-nodes-docker-desktop-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+  kubeadmConfigPatches:
+    # Make sure that there is no taint for master node to enable running
+    # 3rd node for conformance testing.
+    # NOTE: in single-node configuarations this is applied automatically
+    - |
+      apiVersion: kubeadm.k8s.io/v1beta2
+      kind: InitConfiguration
+      nodeRegistration:
+        taints: []
+- role: worker
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
+  podSubnet: "10.201.0.0/16"
+  serviceSubnet: "10.101.0.0/16"
+EOF
+
+cat > alt-cidr2-docker-desktop-cluster.yaml << EOF
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+nodes:
+- role: control-plane
+  image: "${node_images[${kube_version}]}"
+  kubeadmConfigPatches:
+    # Make sure that there is no taint for master node to enable running
+    # 3rd node for conformance testing.
+    # NOTE: in single-node configuarations this is applied automatically
+    - |
+      apiVersion: kubeadm.k8s.io/v1beta2
+      kind: InitConfiguration
+      nodeRegistration:
+        taints: []
+- role: worker
+  image: "${node_images[${kube_version}]}"
+networking: # docs: https://kind.sigs.k8s.io/docs/user/configuration/#networking
+  # This is required as Cilium will be used
+  disableDefaultCNI: true
   podSubnet: "10.202.0.0/16"
   serviceSubnet: "10.102.0.0/16"
 EOF
