@@ -1,0 +1,12 @@
+diff --git a/script/checkpatch.pl b/script/checkpatch.pl
+index 3cacc12..21244d4 100755
+--- a/checkpatch.pl
++++ b/checkpatch.pl
+@@ -494,6 +494,7 @@ our $allocFunctions = qr{(?x:
+ our $signature_tags = qr{(?xi:
+ 	Signed-off-by:|
+ 	Co-developed-by:|
++	Co-authored-by:|
+ 	Acked-by:|
+ 	Tested-by:|
+ 	Reviewed-by:|

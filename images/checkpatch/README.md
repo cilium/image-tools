@@ -41,7 +41,8 @@ When building the Docker image, several patches are applied to the script.
   was [submitted for upstream inclusion](https://lore.kernel.org/patchwork/patch/1265784/),
   but rejected by the maintainer.
 
-* `fixes/use-CODEOWNERS-instead-of-MAINTAINERS.diff`: Cilium has a `CODEOWNERS`
-  file instead of the `MAINTAINERS` used by the Linux kernel. Replace a few
-  occurrences in `checkpatch.pl`, where relevant, to check and point to the
-  correct owner file when new source code files are added.
+* `fixes/recognize-co-authored-by.diff`: Cilium developers sometimes use the
+  `Co-authored-by:` tag in commit logs, to indicate that several authors
+  contributed to the patch. Checkpatch understands this is some kind of tag,
+  but not one it knows of, and it complains with a warning. This patch teaches
+  it about the tag.
