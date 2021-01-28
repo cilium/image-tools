@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2017-2020 Authors of Cilium
+# Copyright 2017-2021 Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
 set -o xtrace
@@ -19,7 +19,7 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
-image="${1:-docker.io/library/golang:1.15.6}"
+image="${1:-docker.io/library/golang:1.15.7}"
 
 image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 
