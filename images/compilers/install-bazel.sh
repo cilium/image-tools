@@ -9,19 +9,13 @@ set -o pipefail
 set -o nounset
 
 bazel_versions=(
-  "2.0.0"
-  "2.2.0"
-  "3.1.0"
-  "3.2.0"
-  "3.3.1"
-  "3.4.1"
-  "3.5.1"
-  "3.6.0"
   "3.7.0"
+  "3.7.1"
+  "3.7.2"
 )
 
 # install bazel wrapper script in the path, it automatically recognises `.bazelversion` and `USE_BAZEL_VERSIONS`, if neither are set it picks latest
-curl --fail --show-error --silent --location https://raw.github.com/bazelbuild/bazel/59d7864b3a39008e6b4d1447abcdc59cd9906e88/scripts/packages/bazel.sh --output /usr/local/bin/bazel
+curl --fail --show-error --silent --location https://raw.github.com/bazelbuild/bazel/3.7.0/scripts/packages/bazel.sh --output /usr/local/bin/bazel
 chmod +x /usr/local/bin/bazel
 
 for bazel_version in "${bazel_versions[@]}" ; do
