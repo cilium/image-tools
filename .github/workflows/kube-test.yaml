@@ -25,7 +25,7 @@ jobs:
     needs: build-kube-test-image
     strategy:
       matrix:
-        kube_version: [1.17, 1.18, 1.19]
+        kube_version: [1.18, 1.19, 1.20]
     name: Test newly built kube-test image
     runs-on: ubuntu-20.04
     steps:
@@ -42,7 +42,7 @@ jobs:
     needs: build-kube-test-image
     strategy:
       matrix:
-        kube_version: [1.17, 1.18, 1.19]
+        kube_version: [1.18, 1.19, 1.20]
     name: Test newly built kube-test image
     runs-on: ubuntu-20.04
     steps:
