@@ -47,16 +47,16 @@ jobs:
         with:
           entrypoint: make
           args: compilers-image PUSH=true
-      - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
-        name: Run make bpftool-image
-        env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
-        with:
-          entrypoint: make
-          args: bpftool-image PUSH=true
+      # - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
+      #   name: Run make bpftool-image
+      #   env:
+      #     DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      #     DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      #     #QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+      #     #QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+      #   with:
+      #     entrypoint: make
+      #     args: bpftool-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:3e2ea4f151593908c362307a1de22e68610d955c
         name: Run make iproute2-image
         env:
