@@ -59,7 +59,7 @@ else
 fi
 
 if [ -z "${WITHOUT_SUFFIX+x}" ] ; then
-  if ! git merge-base --is-ancestor "$(git rev-parse HEAD)" origin/master ; then
+  if ! git merge-base --is-ancestor "$(git rev-parse HEAD)" origin/v1.8 ; then
     image_tag="${image_tag}-dev"
   fi
 

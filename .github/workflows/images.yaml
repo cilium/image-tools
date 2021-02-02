@@ -1,7 +1,7 @@
 name: Images
 on:
   push:
-    branches: [master]
+    branches: [master, v1.8]
 
 jobs:
   build-and-push:
