@@ -95,6 +95,20 @@ update_sources() {
     fi
 }
 
+check_commit_subject_width() {
+    subject=$(git show -s --pretty=format:%s "$1")
+    width=${#subject}
+    if [ "$width" -gt 75 ]; then
+        echo -e "\e[;31mERROR:\e[;34mCUSTOM:${HL_END} Please avoid long commit subjects (max: 75, found: $width)"
+        ret=1
+    fi
+}
+
+custom_checks() {
+    # If the list of custom tests grows, consider moving it to another file.
+    check_commit_subject_width "$1"
+}
+
 check_commit() {
     echo "========================================================="
     echo "[$i/$nb_commits] Running on $sha"
@@ -103,6 +117,8 @@ check_commit() {
     # Recompute list of source files each time in case commit changes it
     update_sources
     (git show --format=email "$sha" -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}") || ret=1
+    # Apply custom checks on all commits, whether or not they touch bpf/
+    custom_checks "$sha"
 }
 
 all_code=0

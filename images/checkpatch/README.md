@@ -46,3 +46,11 @@ When building the Docker image, several patches are applied to the script.
   contributed to the patch. Checkpatch understands this is some kind of tag,
   but not one it knows of, and it complains with a warning. This patch teaches
   it about the tag.
+
+## Custom Checks
+
+In addition to running `checkpatch.pl`, the bash script runs a few checks of
+its own on all commits (whether or not they touch the code under `bpf`).
+
+* Ensure that the width of the subject for the commit message is lower or equal
+  to 75 characters.
