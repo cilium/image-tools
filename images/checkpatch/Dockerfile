@@ -2,17 +2,17 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2020 Authors of Cilium
 
-ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.11@sha256:9a839e63dad54c3a6d1834e29692c8492d93f90c59c978c1ed79109ea4fb9a54
+ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.13.2@sha256:bef0a0cd630e965918669fb69250e91400d9e560a95b3e74b8e78d9d7ff5628e
 
 FROM ${ALPINE_BASE_IMAGE} as builder
 LABEL maintainer="maintainer@cilium.io"
 
 COPY . /checkpatch
 
+RUN apk add --no-cache bash curl git jq patch perl
+
 RUN for i in /checkpatch/fixes/*.diff; do \
     patch -p1 /checkpatch/checkpatch.pl < "$i"; \
     done
-
-RUN apk add --no-cache bash curl git jq perl
 
 ENTRYPOINT ["/checkpatch/checkpatch.sh"]
