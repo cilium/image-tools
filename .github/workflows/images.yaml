@@ -22,100 +22,100 @@ jobs:
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make maker-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: maker-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make tester-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: tester-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make kube-test-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: kube-test-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make compilers-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: compilers-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make bpftool-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: bpftool-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make iproute2-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: iproute2-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make llvm-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: llvm-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make startup-script-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: startup-script-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make ca-certificates-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: ca-certificates-image PUSH=true
       - uses: docker://docker.io/cilium/image-maker:8fb8f8325d966505552183f756eae4e3cb60d195
         name: Run make checkpatch-image
         env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME }}
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSOWRD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
           args: checkpatch-image PUSH=true
