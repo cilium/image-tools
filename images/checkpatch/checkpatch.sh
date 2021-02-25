@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: Apache-2.0
-# Copyright 2020 Authors of Cilium
+# Copyright 2020-2021 Authors of Cilium
 
 # Default options for checkpatch
 options=(
@@ -177,7 +177,7 @@ if [ -n "$GITHUB_REF" ]; then
     check_cmd curl
     pr=${GITHUB_REF#"refs/pull/"}
     prnum=${pr%"/merge"}
-    pr_url="https://api.github.com/repos/cilium/cilium/pulls/${prnum}"
+    pr_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}"
 
     # Skip for backports (if not on main branch)
     base_ref=$(curl -s "${pr_url}" | jq -r '.base.ref')
