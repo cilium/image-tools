@@ -16,7 +16,8 @@ export CGO_ENABLED=0
 
 mkdir -p /out/usr/local/bin
 
-go build -ldflags '-s -w' -o /out/usr/local/bin/docker-credential-env github.com/errordeveloper/docker-credential-env
-go build -ldflags '-s -w' -o /out/usr/local/bin/imagine github.com/errordeveloper/imagine
-go build -ldflags '-s -w' -o /out/usr/local/bin/kg github.com/errordeveloper/kue/cmd/kg
-go build -ldflags '-s -w' -o /out/usr/local/bin/docker-buildx github.com/docker/buildx/cmd/buildx
+# TODO: use `go install ...@<version>` instead
+GO111MODULE=off go build -ldflags '-s -w' -o /out/usr/local/bin/docker-credential-env github.com/errordeveloper/docker-credential-env
+GO111MODULE=off go build -ldflags '-s -w' -o /out/usr/local/bin/imagine github.com/errordeveloper/imagine
+GO111MODULE=off go build -ldflags '-s -w' -o /out/usr/local/bin/kg github.com/errordeveloper/kue/cmd/kg
+GO111MODULE=off go build -ldflags '-s -w' -o /out/usr/local/bin/docker-buildx github.com/docker/buildx/cmd/buildx
