@@ -10,7 +10,7 @@ commandTests:
   args: ["--version"]
   expectedOutput:
   - 'LLVM\ \(http://llvm\.org/\):'
-  - 'LLVM\ version\ 10\.0\.0'
+  - 'LLVM\ version\ 12\.0\.0'
   - 'Optimized\ build\.'
   - 'Registered\ Targets:'
   - '(bpf|bpfeb|bpfel)[\ ]+-\ BPF\ \((host|big|little)\ endian\)'
@@ -24,7 +24,7 @@ commandTests:
   command: "clang"
   args: ["--version"]
   expectedOutput:
-  - 'clang\ version\ 10\.0\.0\ \(https://github.com/llvm/llvm-project.git\ .*\)'
+  - 'clang\ version\ 12\.0\.0\ \(https://github.com/llvm/llvm-project.git\ .*\)'
   - 'InstalledDir:\ /usr/local/bin'
 
 - name: "clang can compile a simple BPF program"
