@@ -2,7 +2,7 @@ diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
 index 3cacc122c528..67f350c580ea 100755
 --- a/checkpatch.pl
 +++ b/checkpatch.pl
-@@ -3983,7 +3983,10 @@ sub process {
+@@ -4308,7 +4308,10 @@ sub process {
  		}
  
  # no C99 // comments
