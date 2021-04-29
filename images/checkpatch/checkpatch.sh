@@ -64,6 +64,9 @@ checkpatch="$script_dir/checkpatch.pl"
 HL_START="\e[1;34m"
 HL_END="\e[0m"
 
+GH_ERROR_PREFIX="::error::"
+GH_WARN_PREFIX="::warn::"
+
 usage() {
     echo "Usage: $0 [options] [-- checkpatch.pl options]"
     echo "	Run checkpatch on BPF code. By default, run checkpatch on:"
@@ -100,7 +103,7 @@ check_commit_subject_width() {
     subject=$(git show -s --pretty=format:%s "$1")
     width="${#2}"
     if [ "$width" -gt 75 ]; then
-        echo -e "\e[;31mERROR:\e[;34mCUSTOM:${HL_END} Please avoid long commit subjects (max: 75, found: $width)"
+        echo -e "${gh_action:+$GH_ERROR_PREFIX}\e[;31mERROR:\e[34mCUSTOM:${HL_END} Please avoid long commit subjects (max: 75, found: $width)"
         ret=1
     fi
 }
@@ -110,27 +113,46 @@ custom_checks() {
     check_commit_subject_width "$@"
 }
 
+prepend_gh_action_commands() {
+    gh_action="$1"
+    if [ -n "$gh_action" ]; then
+        sed -e "s/^\x1b\[31mERROR:/$GH_ERROR_PREFIX&/" -e "s/^\x1b\[\(33mWARNING\|34mCHECK\):/$GH_WARN_PREFIX&/"
+    else
+        cat
+    fi
+}
+
 check_commit() {
     local i nb_commits sha subject gh_action
     i="$1"
     nb_commits="$2"
     sha="$3"
     subject="$4"
+    gh_action="$5"
 
-    echo "========================================================="
-    echo "[$i/$nb_commits] Running on $sha"
-    echo -e "$HL_START$subject$HL_END"
-    echo "========================================================="
+    if [ -n "$gh_action" ]; then
+        echo "::group::{[$i/$nb_commits] $subject}"
+        echo "Running on $sha"
+    else
+        echo "========================================================="
+        echo "[$i/$nb_commits] Running on $sha"
+        echo -e "$HL_START$subject$HL_END"
+        echo "========================================================="
+    fi
     # Recompute list of source files each time in case commit changes it
     update_sources
     (
         # Show diff for patches touching bpf/, show log otherwise
         git show --format=email "$sha" -- "${sources[@]}" |
             ifne -n git log --format=email "$sha"~.."$sha" |
-            "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}"
+            "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}" |
+            prepend_gh_action_commands "$gh_action"
     ) || ret=1
     # Apply custom checks on all commits, whether or not they touch bpf/
-    custom_checks "$sha" "$subject"
+    custom_checks "$sha" "$subject" "$gh_action"
+    if [ -n "$gh_action" ]; then
+        echo "::endgroup::"
+    fi
 }
 
 all_code=0
@@ -232,7 +254,7 @@ ret=0
 for ((i=0; i<nb_commits; i++)); do
     sha=$(echo "$list_commits" | jq -r ".[$i].sha")
     subject=$(echo "$list_commits" | jq -r ".[$i].subject")
-    check_commit "$i" "$nb_commits" "$sha" "$subject"
+    check_commit "$i" "$nb_commits" "$sha" "$subject" "$GITHUB_REF"
 done
 
 # If not a GitHub action and repo is dirty, run on diff from HEAD
