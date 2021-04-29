@@ -17,6 +17,7 @@ ignore_list=(
     COMPLEX_MACRO
     GIT_COMMIT_ID
     MULTISTATEMENT_MACRO_USE_DO_WHILE
+    NOT_UNIFIED_DIFF
     # Warnings
     COMMIT_LOG_LONG_LINE
     CONSTANT_CONVERSION
@@ -122,7 +123,12 @@ check_commit() {
     echo "========================================================="
     # Recompute list of source files each time in case commit changes it
     update_sources
-    (git show --format=email "$sha" -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}") || ret=1
+    (
+        # Show diff for patches touching bpf/, show log otherwise
+        git show --format=email "$sha" -- "${sources[@]}" |
+            ifne -n git log --format=email "$sha"~.."$sha" |
+            "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}"
+    ) || ret=1
     # Apply custom checks on all commits, whether or not they touch bpf/
     custom_checks "$sha" "$subject"
 }
@@ -175,7 +181,7 @@ if [ $all_code -eq 1 ]; then
     exit $ret
 fi
 
-check_cmd git jq
+check_cmd git ifne jq
 
 if [ -n "$GITHUB_REF" ]; then
     # Running as GitHub action

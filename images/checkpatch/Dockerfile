@@ -9,7 +9,7 @@ LABEL maintainer="maintainer@cilium.io"
 
 COPY . /checkpatch
 
-RUN apk add --no-cache bash curl git jq patch perl
+RUN apk add --no-cache bash curl git jq moreutils patch perl
 
 RUN for i in /checkpatch/fixes/*.diff; do \
     patch -p1 /checkpatch/checkpatch.pl < "$i"; \
