@@ -97,7 +97,7 @@ update_sources() {
 
 check_commit_subject_width() {
     subject=$(git show -s --pretty=format:%s "$1")
-    width=${#subject}
+    width="${#2}"
     if [ "$width" -gt 75 ]; then
         echo -e "\e[;31mERROR:\e[;34mCUSTOM:${HL_END} Please avoid long commit subjects (max: 75, found: $width)"
         ret=1
@@ -106,10 +106,16 @@ check_commit_subject_width() {
 
 custom_checks() {
     # If the list of custom tests grows, consider moving it to another file.
-    check_commit_subject_width "$1"
+    check_commit_subject_width "$@"
 }
 
 check_commit() {
+    local i nb_commits sha subject gh_action
+    i="$1"
+    nb_commits="$2"
+    sha="$3"
+    subject="$4"
+
     echo "========================================================="
     echo "[$i/$nb_commits] Running on $sha"
     echo -e "$HL_START$subject$HL_END"
@@ -118,7 +124,7 @@ check_commit() {
     update_sources
     (git show --format=email "$sha" -- "${sources[@]}" | "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}") || ret=1
     # Apply custom checks on all commits, whether or not they touch bpf/
-    custom_checks "$sha"
+    custom_checks "$sha" "$subject"
 }
 
 all_code=0
@@ -218,9 +224,9 @@ echo
 ret=0
 # Run checkpatch for BPF changes on all selected commits
 for ((i=0; i<nb_commits; i++)); do
-    subject=$(echo "$list_commits" | jq -r ".[$i].subject")
     sha=$(echo "$list_commits" | jq -r ".[$i].sha")
-    check_commit "$i" "$nb_commits"
+    subject=$(echo "$list_commits" | jq -r ".[$i].subject")
+    check_commit "$i" "$nb_commits" "$sha" "$subject"
 done
 
 # If not a GitHub action and repo is dirty, run on diff from HEAD
