@@ -58,3 +58,6 @@ startup-script-image: .buildx_builder
 
 checkpatch-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh cilium-checkpatch images/checkpatch linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+
+test-verifier-image: .buildx_builder
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh test-verifier images/test-verifier linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)

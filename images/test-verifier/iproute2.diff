@@ -1,0 +1,22 @@
+diff --git a/lib/bpf.c b/lib/bpf.c
+index 512c4e3b..0d9134de 100644
+--- a/lib/bpf.c
++++ b/lib/bpf.c
+@@ -1325,7 +1325,7 @@ bpf_dump_error(struct bpf_elf_ctx *ctx, const char *format, ...)
+ 
+ static int bpf_log_realloc(struct bpf_elf_ctx *ctx)
+ {
+-	const size_t log_max = UINT_MAX >> 8;
++	const size_t log_max = UINT_MAX >> 2;
+ 	size_t log_size = ctx->log_size;
+ 	char *ptr;
+ 
+@@ -1636,7 +1636,7 @@ retry:
+ 		 * log for the user, so enlarge it and re-fail.
+ 		 */
+ 		if (fd < 0 && (errno == ENOSPC || !ctx->log_size)) {
+-			if (tries++ < 10 && !bpf_log_realloc(ctx))
++			if (tries++ < 15 && !bpf_log_realloc(ctx))
+ 				goto retry;
+ 
+ 			fprintf(stderr, "Log buffer too small to dump verifier log %zu bytes (%d tries)!\n",

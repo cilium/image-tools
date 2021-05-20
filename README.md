@@ -63,6 +63,10 @@ This image packages the [checkpatch.pl](images/checkpatch/checkpatch.pl) script 
 
 While the script itself is directly copied from [the upstream version in the kernel repository](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/checkpatch.pl), a number of patches are applied before the script is run. These patch mostly address a number of false positives for Cilium's code base.
 
+### [`images/test-verifier`](images/test-verifier/Dockerfile)
+
+This image packages all the tools necessary to compile and load Cilium's BPF datapath, including Clang, bpftool, tc, ip, and gcc.
+
 ### [`images/tester`](images/tester/Dockerfile)
 
 This image contains a [simple Go program](images/tester/cst/main.go), which is a minimal version of [`container-structure-test`](https://github.com/GoogleContainerTools/container-structure-test).
