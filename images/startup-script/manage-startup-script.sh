@@ -41,7 +41,7 @@ set -o pipefail
 #         hostPID: true
 #         containers:
 #           - name: startup-script
-#             image: docker.io/cilium/startup-script:<tag>
+#             image: quay.io/cilium/startup-script:<tag>
 #             imagePullPolicy: Always
 #             securityContext:
 #               privileged: true
