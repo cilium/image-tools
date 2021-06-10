@@ -57,7 +57,7 @@ set -o pipefail
 
 CHECKPOINT_PATH="${CHECKPOINT_PATH:-/tmp/startup-script.kubernetes.io_$(md5sum <<<"${STARTUP_SCRIPT}" | cut -c-32)}"
 CHECK_INTERVAL_SECONDS="30"
-EXEC=(nsenter -t 1 -m -u -i -n -p -C --)
+EXEC=(nsenter -t 1 -m -u -i -n -p --)
 
 do_startup_script() {
   local err=0;
