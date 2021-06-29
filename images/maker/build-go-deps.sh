@@ -16,7 +16,7 @@ export CGO_ENABLED=0
 
 mkdir -p /out/usr/local/bin
 
-go mod download
+go mod download all
 go build -ldflags '-s -w' -o /out/usr/local/bin/docker-credential-env github.com/errordeveloper/docker-credential-env
 go build -ldflags '-s -w' -o /out/usr/local/bin/imagine github.com/errordeveloper/imagine
 go build -ldflags '-s -w' -o /out/usr/local/bin/kg github.com/errordeveloper/kue/cmd/kg
