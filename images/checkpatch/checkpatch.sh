@@ -225,7 +225,7 @@ if [ -n "$GITHUB_REF" ]; then
     esac
 
     commits_url="${pr_url}/commits"
-    list_commits=$(curl -s "$commits_url" | jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n.*"; ""; "m"))}]')
+    list_commits=$(curl -s "$commits_url" | jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n\n.*"; ""; "m"))}]')
     pr_info="from PR #$prnum"
 else
     # Running locally
