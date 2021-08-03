@@ -143,8 +143,18 @@ check_commit() {
     update_sources
     (
         # Show diff for patches touching bpf/, show log otherwise
+        # If we show log, fake some content, because checkpatch.pl checks the
+        # length of the commit object only once it's out of the headers.
         git show --format=email "$sha" -- "${sources[@]}" |
-            ifne -n git log --format=email "$sha"~.."$sha" |
+            ifne -n cat \
+                <(git log --format=email "$sha"~.."$sha") \
+                <(echo 'diff --git a/dev/null b/dev/null') \
+                <(echo 'index 000000000000..000000000001 100644') \
+                <(echo '--- a/dev/null') \
+                <(echo '+++ b/dev/null') \
+                <(echo '@@ -1,1 +1,1 @@') \
+                <(echo '-') \
+                <(echo '+.') |
             "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}" |
             prepend_gh_action_commands "$gh_action"
     ) || ret=1
