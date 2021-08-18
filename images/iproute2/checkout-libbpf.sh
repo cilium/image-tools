@@ -8,7 +8,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-rev="e979be1529ce34209a0db171785645512e56c871"
+rev="435a6def05b1dd7d1e8e19946315122f7e1e776a"
 
 # git clone https://github.com/libbpf/libbpf /src/libbpf
 # cd /src/libbpf
