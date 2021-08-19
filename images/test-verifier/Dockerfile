@@ -1,6 +1,6 @@
 ARG CILIUM_LLVM_IMAGE=quay.io/cilium/cilium-llvm:0147a23fdada32bd51b4f313c645bcb5fbe188d6@sha256:24fd3ad32471d0e45844c856c38f1b2d4ac8bd0a2d4edf64cffaaa3fd0b21202
 ARG CILIUM_BPFTOOL_IMAGE=quay.io/cilium/cilium-bpftool:b5ba881d2a7ec68d88ecd72efd60ac551c720701@sha256:458282e59657b8f779d52ae2be2cdbeecfe68c3d807ff87c97c8d5c6f97820a9
-ARG GOLANG_IMAGE=docker.io/library/golang:1.16.5@sha256:360bc82ac2b24e9ab6e5867eebac780920b92175bb2e9e1952dce15571699baa
+ARG GOLANG_IMAGE=docker.io/library/golang:1.16.7@sha256:87cbbe43ece5024f0745be543c81ae6bf7b88291a8bc2b4429a43b7236254eca
 
 FROM ${CILIUM_LLVM_IMAGE} as llvm-dist
 FROM ${CILIUM_BPFTOOL_IMAGE} as bpftool-dist
