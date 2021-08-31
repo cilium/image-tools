@@ -8,7 +8,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-rev="6b545dcf3b8a48c02f82e68d4a3df4a62c836c9d" # libbpf-static-data
+rev="dc78ae96629945399fe1d1959b404a6c55b554cf" # libbpf-static-data
 
 # git clone https://github.com/cilium/iproute2 /src/iproute2
 # cd /src/iproute2
