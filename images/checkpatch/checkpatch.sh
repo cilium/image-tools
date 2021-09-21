@@ -65,7 +65,7 @@ HL_START="\e[1;34m"
 HL_END="\e[0m"
 
 GH_ERROR_PREFIX="::error::"
-GH_WARN_PREFIX="::warn::"
+GH_WARN_PREFIX="::warning::"
 
 usage() {
     echo "Usage: $0 [options] [-- checkpatch.pl options]"
