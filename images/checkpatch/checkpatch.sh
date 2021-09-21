@@ -157,6 +157,10 @@ check_commit() {
                 <(echo '+.') |
             "$checkpatch" "${options[@]}" --ignore "$ignores" "${cli_options[@]}" |
             prepend_gh_action_commands "$gh_action"
+        # prepend_gh_action_commands() does not preserve the return code from
+        # checkpatch. Make sure the subshell returns with the status from the
+        # second-to-last command of the pipeline.
+        test "${PIPESTATUS[${#PIPESTATUS[@]}-2]}" -eq 0
     ) || ret=1
     # Apply custom checks on all commits, whether or not they touch bpf/
     custom_checks "$sha" "$subject" "$gh_action"
