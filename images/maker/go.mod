@@ -6,7 +6,7 @@ require (
 	github.com/docker/buildx v0.5.1 // indirect
 	github.com/errordeveloper/docker-credential-env v0.1.5 // indirect
 	github.com/errordeveloper/imagine v0.0.0-20201215192748-b3494e82bc78 // indirect
-	github.com/errordeveloper/kue v0.3.1 // indirect
+	github.com/errordeveloper/kuegen v0.4.0 // indirect
 )
 
 // based on https://github.com/docker/buildx/blob/v0.5.1/go.mod#L61-L68
