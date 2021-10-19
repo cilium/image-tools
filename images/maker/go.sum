@@ -390,6 +390,7 @@ github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5/go.mod h1:a
 github.com/errordeveloper/buildx v0.4.2-0.20200708110315-40b41ac6e472 h1:GShtYZQ8k5YW1CCO9eiisHfURXwhkvZ1a+yL/vjTjF4=
 github.com/errordeveloper/buildx v0.4.2-0.20200708110315-40b41ac6e472/go.mod h1:7/AV8xPgMnrUcq6rAn1JggGTCQHozzYFLoW68Tr1zAg=
 github.com/errordeveloper/docker-credential-env v0.1.4/go.mod h1:L6mhAX9jWe/z9AXnR4uYc+DWlo0ByfW5Z3M76eBY0G4=
+github.com/errordeveloper/docker-credential-env v0.1.5/go.mod h1:L6mhAX9jWe/z9AXnR4uYc+DWlo0ByfW5Z3M76eBY0G4=
 github.com/errordeveloper/imagine v0.0.0-20200721105117-936fd11a086d/go.mod h1:wyWWef016M4m5D7Es1MVwvFwqS6xc2E2g4mI669SsmI=
 github.com/errordeveloper/imagine v0.0.0-20200811092946-97d806f9167f h1:f+2hyEJ9ovr+wt7CEyidgnGrreYlW5qIRHGhBEUWbSg=
 github.com/errordeveloper/imagine v0.0.0-20200811092946-97d806f9167f/go.mod h1:wyWWef016M4m5D7Es1MVwvFwqS6xc2E2g4mI669SsmI=
@@ -408,6 +409,8 @@ github.com/errordeveloper/kue v0.3.0/go.mod h1:fq1IBSbKXyGxnamsVBDqoScY/zWtqHB7X
 github.com/errordeveloper/kue v0.3.1-0.20201014144342-209ddfde99c5/go.mod h1:YiFpLj4AHH1Eoya5t1Og1CxyG8O4mukspz8NFRZAjEo=
 github.com/errordeveloper/kue v0.3.1 h1:mqWbyslFwRgfvKVtxouqU1Sir0PMZis3jDpxpTgMBHM=
 github.com/errordeveloper/kue v0.3.1/go.mod h1:YiFpLj4AHH1Eoya5t1Og1CxyG8O4mukspz8NFRZAjEo=
+github.com/errordeveloper/kuegen v0.4.0 h1:TfA4vq5NMugUMJaJFWFfuENGvTplZwADO1yAB37vkvU=
+github.com/errordeveloper/kuegen v0.4.0/go.mod h1:P9wCHGI07bjjeHAmLXujmg2+k+ideEZIP39QJnmrrfw=
 github.com/evanphx/json-patch v4.2.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
 github.com/evanphx/json-patch v4.5.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
 github.com/evanphx/json-patch v4.9.0+incompatible/go.mod h1:50XU6AFN0ol/bzJsmQLiYLvXMP4fmwYFNcr97nuDLSk=
