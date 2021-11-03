@@ -40,16 +40,6 @@ jobs:
           entrypoint: make
           args: tester-image PUSH=true
       - uses: docker://quay.io/cilium/image-maker:e8f1fa622dfad4250723d55bc6a3dd6d1f0f13cd
-        name: Run make kube-test-image
-        env:
-          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
-          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
-          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD_IMAGE_TOOLS }}
-          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
-        with:
-          entrypoint: make
-          args: kube-test-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:e8f1fa622dfad4250723d55bc6a3dd6d1f0f13cd
         name: Run make compilers-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}

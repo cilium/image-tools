@@ -23,9 +23,6 @@ update-golang-image:
 maker-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
-kube-test-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh kube-test images/kube-test linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
-
 update-maker-image:
 	scripts/update-maker-image.sh $(firstword $(REGISTRIES))
 
