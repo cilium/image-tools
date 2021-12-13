@@ -269,7 +269,7 @@ ret=0
 for ((i=0; i<nb_commits; i++)); do
     sha=$(echo "$list_commits" | jq -r ".[$i].sha")
     subject=$(echo "$list_commits" | jq -r ".[$i].subject")
-    check_commit "$i" "$nb_commits" "$sha" "$subject" "$GITHUB_REF"
+    check_commit "$((i+1))" "$nb_commits" "$sha" "$subject" "$GITHUB_REF"
 done
 
 # If not a GitHub action and repo is dirty, run on diff from HEAD
