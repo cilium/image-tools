@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ARG UBUNTU_IMAGE=docker.io/library/ubuntu:20.04@sha256:8bce67040cd0ae39e0beb55bcb976a824d9966d2ac8d2e4bf6119b45505cee64
-ARG TESTER_IMAGE=quay.io/cilium/image-tester:6316b0f5606a69078bed1dd9f9c2b5685fede3b0@sha256:f180855b1fb965e05dd02f57019e070569c4d7f2ef0f7bdaaa30bf3393a2ce7a
+ARG TESTER_IMAGE=quay.io/cilium/image-tester:2f8033eaf1c3e64b991e0ed44a570052778c55c7@sha256:f50a01c725e0183766b7e0c8fdff8b492d551bd5314daaa496106f2fde98a285
 
 FROM ${UBUNTU_IMAGE} as builder
 

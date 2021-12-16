@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ARG GOLANG_IMAGE=docker.io/library/golang:1.17.5@sha256:eb61213fe612b6af346cab13c2b81f1b8113f9ccf23a5ca6b54fede8ffd63bc7
-ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.11@sha256:9a839e63dad54c3a6d1834e29692c8492d93f90c59c978c1ed79109ea4fb9a54
+ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.15@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300
 
 FROM --platform=linux/amd64 ${GOLANG_IMAGE} as go-builder
 
