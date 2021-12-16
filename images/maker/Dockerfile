@@ -6,7 +6,7 @@
 ARG DOCKER_IMAGE=docker.io/library/docker:19.03.8-dind@sha256:841b5eb000551dc3c30a46386ab4bfed5839ec9592c88e961236b25194ce88b9
 ARG CRANE_IMAGE=gcr.io/go-containerregistry/crane:latest@sha256:88335131ccc1f0687226245f68b0b328864026bc6504e97f4e1c130b5c766420
 ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.11@sha256:9a839e63dad54c3a6d1834e29692c8492d93f90c59c978c1ed79109ea4fb9a54
-ARG GOLANG_IMAGE=docker.io/library/golang:1.17.3@sha256:dac1fd50dc298852005ed2d84baa4f15ca86b1042fce6d8da3f98d6074294bf4
+ARG GOLANG_IMAGE=docker.io/library/golang:1.17.5@sha256:eb61213fe612b6af346cab13c2b81f1b8113f9ccf23a5ca6b54fede8ffd63bc7
 
 FROM ${DOCKER_IMAGE} as docker-dist
 FROM ${CRANE_IMAGE} as crane-dist
