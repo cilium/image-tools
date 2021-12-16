@@ -20,6 +20,9 @@ update-alpine-base-image:
 update-golang-image:
 	scripts/update-golang-image.sh
 
+update-ubuntu-image:
+	scripts/update-ubuntu-image.sh
+
 maker-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
