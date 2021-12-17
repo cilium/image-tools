@@ -42,9 +42,11 @@ export DEBIAN_FRONTEND=noninteractive
 
 cat > /etc/apt/sources.list << EOF
 deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal main restricted universe multiverse
+deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-updates main restricted universe multiverse
 deb [arch=amd64] http://security.ubuntu.com/ubuntu focal-security main restricted universe multiverse
 deb [arch=amd64] http://archive.ubuntu.com/ubuntu focal-backports main restricted universe multiverse
 deb [arch=arm64] http://ports.ubuntu.com/ focal main restricted universe multiverse
+deb [arch=arm64] http://ports.ubuntu.com/ focal-updates main restricted universe multiverse
 deb [arch=arm64] http://ports.ubuntu.com/ focal-security main restricted universe multiverse
 deb [arch=arm64] http://ports.ubuntu.com/ focal-backports main restricted universe multiverse
 EOF
