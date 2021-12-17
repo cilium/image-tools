@@ -83,7 +83,7 @@ func main() {
 		close(channel)
 	}()
 
-	if err := test.ProcessResults(os.Stdout, false, channel); err != nil {
+	if err := test.ProcessResults(os.Stdout, unversioned.Text, channel); err != nil {
 		os.Exit(1)
 	}
 }
