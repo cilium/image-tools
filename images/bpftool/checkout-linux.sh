@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright 2017-2020 Authors of Cilium
+# Copyright 2017-2022 Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
 set -o xtrace
@@ -8,7 +8,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-rev="b9989b59123b3ced5387a5360c05a7bb2fb92d94"
+rev="5e22dd18626726028a93ff1350a8a71a00fd843d"
 
 # git clone git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git /src/linux
 # cd /src/linux
