@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://quay.io/cilium/image-maker:7de7f1c855ce063bdbe57fdfb28599a3ad5ec8f1
+      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
         name: Run make lint
         with:
           entrypoint: make
