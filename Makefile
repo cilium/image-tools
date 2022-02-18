@@ -63,4 +63,4 @@ test-verifier-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh test-verifier images/test-verifier linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 iperf3-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iperf3 images/iperf3 linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iperf3 images/iperf linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
