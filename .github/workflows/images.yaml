@@ -119,3 +119,13 @@ jobs:
         with:
           entrypoint: make
           args: test-verifier-image PUSH=true
+      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+        name: Run make iperf3 
+        env:
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
+        with:
+          entrypoint: make
+          args: iperf3-image PUSH=true
