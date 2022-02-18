@@ -33,6 +33,8 @@ RUN apk add --initdb --no-cache --root /out \
     git \
     make \
     shellcheck \
+    jq \
+    yq \
     && true
 
 COPY --from=docker-dist /usr/local/bin /out/usr/local/bin
