@@ -6,7 +6,7 @@ REGISTRIES ?= quay.io/cilium
 PUSH ?= false
 EXPORT ?= false
 
-all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image iperf3-image
+all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image network-perf-image
 
 lint:
 	scripts/lint.sh
@@ -62,5 +62,5 @@ checkpatch-image: .buildx_builder
 test-verifier-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh test-verifier images/test-verifier linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
-iperf3-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iperf3 images/iperf linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+network-perf-image: .buildx_builder
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh network-perf images/network-perf linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
