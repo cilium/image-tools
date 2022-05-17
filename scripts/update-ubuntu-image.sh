@@ -19,7 +19,7 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
-image="${1:-docker.io/library/ubuntu:20.04}"
+image="${1:-docker.io/library/ubuntu:22.04}"
 
 image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 
