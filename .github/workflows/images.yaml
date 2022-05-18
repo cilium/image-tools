@@ -9,17 +9,17 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Register binfmt from multi-platform builds
         with:
           entrypoint: docker
           args: run --privileged linuxkit/binfmt:5d33e7346e79f9c13a73c6952669e47a53b063d4
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make lint
         with:
-          entrypoint: make
-          args: lint
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+          entrypoint: sh
+          args: -c "git config --global --add safe.directory /github/workspace && make lint"
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make maker-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -27,9 +27,9 @@ jobs:
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD_IMAGE_TOOLS }}
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
-          entrypoint: make
-          args: maker-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+          entrypoint: sh
+          args: -c "git config --global --add safe.directory /github/workspace && make maker-image PUSH=true"
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make tester-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -39,7 +39,7 @@ jobs:
         with:
           entrypoint: make
           args: tester-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make compilers-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -49,7 +49,7 @@ jobs:
         with:
           entrypoint: make
           args: compilers-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make bpftool-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -59,7 +59,7 @@ jobs:
         with:
           entrypoint: make
           args: bpftool-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make iproute2-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -69,7 +69,7 @@ jobs:
         with:
           entrypoint: make
           args: iproute2-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make llvm-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -79,7 +79,7 @@ jobs:
         with:
           entrypoint: make
           args: llvm-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make startup-script-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -89,7 +89,7 @@ jobs:
         with:
           entrypoint: make
           args: startup-script-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make ca-certificates-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -99,7 +99,7 @@ jobs:
         with:
           entrypoint: make
           args: ca-certificates-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make checkpatch-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -109,7 +109,7 @@ jobs:
         with:
           entrypoint: make
           args: checkpatch-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make test-verifier-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -119,7 +119,7 @@ jobs:
         with:
           entrypoint: make
           args: test-verifier-image PUSH=true
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make network-perf-image 
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
