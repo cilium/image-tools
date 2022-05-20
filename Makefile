@@ -24,7 +24,7 @@ update-ubuntu-image:
 	scripts/update-ubuntu-image.sh
 
 maker-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 update-maker-image:
 	scripts/update-maker-image.sh $(firstword $(REGISTRIES))
