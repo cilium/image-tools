@@ -8,7 +8,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-rev="89eda98428ce10f8df110d60aa934aa5c5170686"
+rev="93270357daa949e4bed375b40d0a100ce04f3399"
 
 # git clone git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git /src/linux
 # cd /src/linux
