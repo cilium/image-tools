@@ -1,10 +1,10 @@
 # Code owners groups assigned to this repository and a brief description of their areas:
-# @cilium/bpf                BPF Data Path
 # @cilium/build              Building and packaging
 # @cilium/ci-structure       Continuous integration, testing
 # @cilium/contributing       Developer documentation & tools
 # @cilium/github-sec         GitHub security (handling of secrets, consequences of pull_request_target, etc.)
 # @cilium/loader             All related to LLVM, bpftool, Cilium loader, templating, etc.
+# @cilium/sig-datapath       BPF Data Path
 
 # The following filepaths should be sorted so that more specific paths occur
 # after the less specific paths, otherwise the ownership for the specific paths
@@ -13,7 +13,7 @@
 /.github/workflows/ @cilium/github-sec @cilium/ci-structure @cilium/build
 /CODEOWNERS @cilium/contributing
 /images/bpftool @cilium/loader
-/images/checkpatch @cilium/bpf
+/images/checkpatch @cilium/sig-datapath
 /images/llvm @cilium/loader
 /images/iproute2 @cilium/loader
 /images/test-verifier @cilium/loader
