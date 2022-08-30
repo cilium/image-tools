@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@v1
-      - uses: docker://quay.io/cilium/image-maker:9e2e7ad1a524cf714d491945e90fe650125cd60a
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make lint
         with:
-          entrypoint: make
-          args: lint
+          entrypoint: sh
+          args: -c "git config --global --add safe.directory /github/workspace && make lint"
