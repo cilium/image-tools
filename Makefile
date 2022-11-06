@@ -63,4 +63,4 @@ test-verifier-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh test-verifier images/test-verifier linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 network-perf-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh network-perf images/network-perf linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh network-perf images/network-perf linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
