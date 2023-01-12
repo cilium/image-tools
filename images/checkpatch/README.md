@@ -47,6 +47,9 @@ When building the Docker image, several patches are applied to the script.
   but not one it knows of, and it complains with a warning. This patch teaches
   it about the tag.
 
+* `fixes/ignore-_Static_assert.diff`: Allow Cilium and Tetragon developers to use `_Static_assert`,
+  even though it is camel-cased.
+
 ## Custom Checks
 
 In addition to running `checkpatch.pl`, the bash script runs a few checks of

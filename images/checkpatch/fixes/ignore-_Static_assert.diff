@@ -1,0 +1,13 @@
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index df8b23d..b8fc887 100755
+--- a/checkpatch.pl
++++ b/checkpatch.pl
+@@ -5558,6 +5558,8 @@ sub process {
+ 			    $var !~ /^(?:[A-Z]+_){1,5}[A-Z]{1,3}[a-z]/ &&
+ #Ignore Page<foo> variants
+ 			    $var !~ /^(?:Clear|Set|TestClear|TestSet|)Page[A-Z]/ &&
++# Ignore _Static_assert
++			    $var !~ /^_Static_assert/ &&
+ #Ignore SI style variants like nS, mV and dB
+ #(ie: max_uV, regulator_min_uA_show, RANGE_mA_VALUE)
+ 			    $var !~ /^(?:[a-z0-9_]*|[A-Z0-9_]*)?_?[a-z][A-Z](?:_[a-z0-9_]+|_[A-Z0-9_]+)?$/ &&
