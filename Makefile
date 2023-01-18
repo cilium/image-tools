@@ -64,3 +64,6 @@ test-verifier-image: .buildx_builder
 
 network-perf-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh network-perf images/network-perf linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
+
+iptables-image: .buildx_builder
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iptables images/iptables linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
