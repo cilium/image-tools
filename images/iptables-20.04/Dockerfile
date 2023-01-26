@@ -19,8 +19,7 @@ ARG SNAPSHOT_DATE
 RUN apt-get update && \
     apt-get install -y --no-install-recommends debian-archive-keyring apt-src ca-certificates && \
     echo 'deb [signed-by=/usr/share/keyrings/debian-archive-buster-automatic.gpg] http://deb.debian.org/debian bullseye main' > /etc/apt/sources.list.d/debian-bullseye.list && \
-    apt-get update && \
-    echo "deb-src [check-valid-until=no signed-by=/usr/share/keyrings/debian-archive-bullseye-automatic.gpg] https://snapshot.debian.org/archive/debian/${SNAPSHOT_DATE}/ bookworm main" > /etc/apt/sources.list.d/iptables-snapshot.list && \
+    echo "deb-src [check-valid-until=no signed-by=/usr/share/keyrings/debian-archive-buster-automatic.gpg] https://snapshot.debian.org/archive/debian/${SNAPSHOT_DATE}/ bookworm main" > /etc/apt/sources.list.d/iptables-snapshot.list && \
     apt-get update && \
     apt-src -b install iptables=${IPTABLES_VERSION} && \
     apt-get clean && \
