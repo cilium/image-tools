@@ -67,3 +67,6 @@ network-perf-image: .buildx_builder
 
 iptables-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iptables images/iptables linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
+
+iptables-20.04-image: .buildx_builder
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iptables-20.04 images/iptables-20.04 linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
