@@ -9,7 +9,7 @@ require (
 	github.com/GoogleContainerTools/container-diff v0.14.1-0.20190219205308-3f6b025c016c // indirect
 	github.com/Microsoft/go-winio v0.5.2 // indirect
 	github.com/Microsoft/hcsshim v0.9.0 // indirect
-	github.com/containerd/containerd v1.5.16 // indirect
+	github.com/containerd/containerd v1.5.18 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.4.1 // indirect
 	github.com/docker/cli v0.0.0-20191017083524-a8ff7f821017 // indirect
 	github.com/docker/distribution v2.7.1+incompatible // indirect
