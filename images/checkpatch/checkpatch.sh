@@ -1,6 +1,6 @@
 #!/bin/bash
 # SPDX-License-Identifier: Apache-2.0
-# Copyright 2020-2021 Authors of Cilium
+# Copyright Authors of Cilium
 
 # Default options for checkpatch
 options=(
@@ -34,6 +34,7 @@ ignore_list=(
     TRAILING_STATEMENTS
     VOLATILE
     # Checks
+    BIT_MACRO
     LONG_LINE_COMMENT
     # Ignore tolerance that comes by default
     C99_COMMENT_TOLERANCE
