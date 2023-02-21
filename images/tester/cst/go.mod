@@ -12,7 +12,7 @@ require (
 	github.com/containerd/containerd v1.5.18 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.4.1 // indirect
 	github.com/docker/cli v0.0.0-20191017083524-a8ff7f821017 // indirect
-	github.com/docker/distribution v2.7.1+incompatible // indirect
+	github.com/docker/distribution v2.8.0+incompatible // indirect
 	github.com/docker/docker v20.10.8+incompatible // indirect
 	github.com/docker/docker-credential-helpers v0.6.3 // indirect
 	github.com/docker/go-connections v0.4.0 // indirect
