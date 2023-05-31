@@ -19,7 +19,7 @@ root_dir="$(git rev-parse --show-toplevel)"
 
 cd "${root_dir}"
 
-image="${1:-docker.io/library/alpine:3.16.0}"
+image="${1:-docker.io/library/alpine:3.18.0}"
 
 image_digest="$("${script_dir}/get-image-digest.sh" "${image}")"
 
