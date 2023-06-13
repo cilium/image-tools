@@ -7,6 +7,7 @@ ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.18.0@sha256:02bb6f428431fbc2809
 FROM ${ALPINE_BASE_IMAGE} as builder
 LABEL maintainer="maintainer@cilium.io"
 
+COPY gitconfig /.gitconfig
 COPY . /checkpatch
 
 RUN apk add --no-cache bash curl git jq moreutils patch perl
