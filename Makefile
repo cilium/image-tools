@@ -6,7 +6,7 @@ REGISTRIES ?= quay.io/cilium
 PUSH ?= false
 EXPORT ?= false
 
-all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image network-perf-image
+all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image llvm-image network-perf-image
 
 lint:
 	scripts/lint.sh
@@ -43,9 +43,6 @@ update-compilers-image:
 
 bpftool-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh cilium-bpftool images/bpftool linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
-
-iproute2-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh cilium-iproute2 images/iproute2 linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 llvm-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh cilium-llvm images/llvm linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)

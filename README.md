@@ -35,14 +35,6 @@ This image builds `bpftool` binary for `amd64` and `arm64` using a cross-compile
 
 This image uses a recent version of `bpftool` from `bpf-next` Linux kernel tree.
 
-### [`images/iproute2`](images/iproute2/Dockerfile)
-
-This image builds `ip` and `tc` binaries for `amd64` and `arm64` using a cross-compiler. The resulting image has only two files -
-`/bin/ip` and `/bin/tc`, it is a proper multi-platform image. The binaries are dynamically linked to Ubuntu 20.04 glibc and other
-dependencies.
-
-This image uses [a fork of `iproute2`](https://github.com/cilium/iproute2), it has features that Cilium relies on.
-
 ### [`images/llvm`](images/llvm/Dockerfile)
 
 This image builds `llc` and `clang` binaries for `amd64` and `arm64` using a cross-compiler. The resulting image has only two
