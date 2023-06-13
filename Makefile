@@ -24,7 +24,7 @@ update-ubuntu-image:
 	scripts/update-ubuntu-image.sh
 
 maker-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 update-maker-image:
 	scripts/update-maker-image.sh $(firstword $(REGISTRIES))
@@ -36,7 +36,7 @@ update-tester-image:
 	scripts/update-tester-image.sh $(firstword $(REGISTRIES))
 
 compilers-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh image-compilers images/compilers linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh image-compilers images/compilers linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 update-compilers-image:
 	scripts/update-compilers-image.sh $(firstword $(REGISTRIES))
@@ -57,7 +57,7 @@ checkpatch-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh cilium-checkpatch images/checkpatch linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 test-verifier-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh test-verifier images/test-verifier linux/amd64 "$$(cat .buildx_builder)" $(REGISTRIES)
+	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh test-verifier images/test-verifier linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
 
 network-perf-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh network-perf images/network-perf linux/amd64,linux/arm64 "$$(cat .buildx_builder)" $(REGISTRIES)
