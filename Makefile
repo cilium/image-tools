@@ -6,7 +6,7 @@ REGISTRIES ?= quay.io/cilium
 PUSH ?= false
 EXPORT ?= false
 
-all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image network-perf-image
+all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image iproute2-image llvm-image network-perf-image ca-certificates-image startup-script-image checkpatch-image test-verifier-image iptables-image iptables-20.04-image
 
 lint:
 	scripts/lint.sh
