@@ -15,4 +15,3 @@
 /images/bpftool @cilium/loader
 /images/checkpatch @cilium/sig-datapath
 /images/llvm @cilium/loader
-/images/test-verifier @cilium/loader
