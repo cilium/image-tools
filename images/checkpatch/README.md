@@ -5,15 +5,15 @@ checkpatch as a Docker image.
 
 ## Checkpatch.pl Script
 
-The `checkpatch.pl` script in this repository comes from the Linux repository.
-The latest version should be available at
+The `checkpatch.pl` script and the `spelling.txt` file from the Linux
+repository are no longer included in this directory, but is required to run the
+checks.
+
+The latest version of the script should be available at
 <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/checkpatch.pl>.
 
 The latest version for the accompanying spelling file can be downloaded from
 <https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/spelling.txt>.
-
-The script `checkpatch.pl` is distributed under the terms of the GNU General
-Public License (GPL) version 2 (see file [COPYING](COPYING)).
 
 ## Bash Script and Other Additions
 
@@ -49,6 +49,10 @@ When building the Docker image, several patches are applied to the script.
 
 * `fixes/ignore-_Static_assert.diff`: Allow Cilium and Tetragon developers to use `_Static_assert`,
   even though it is camel-cased.
+
+The patches should apply cleanly to the version of ``checkpatch.pl`` used for
+Cilium's CI. Refer to the Dockerfile in this directory to find the version in
+use.
 
 ## Custom Checks
 
