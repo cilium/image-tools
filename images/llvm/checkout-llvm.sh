@@ -19,7 +19,6 @@ cd /src/llvm
 git cherry-pick 29bc5dd19407c4d7cad1c059dea26ee216ddc7ca
 git cherry-pick 13f6c81c5d9a7a34a684363bcaad8eb7c65356fd
 git cherry-pick ea72b0319d7b0f0c2fcf41d121afa5d031b319d5
-git cherry-pick 886f9ff53155075bd5f1e994f17b85d1e1b7470c
 cd -
 
 # curl --fail --show-error --silent --location "https://github.com/llvm/llvm-project/archive/${rev}.tar.gz" --output /tmp/llvm.tgz
