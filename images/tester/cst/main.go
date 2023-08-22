@@ -21,7 +21,7 @@ const (
 	configFile = "spec.yaml"
 )
 
-/* container-structure-test can be used inside a contaner, however multiple flags have to be set and
+/* container-structure-test can be used inside a container, however multiple flags have to be set and
    metadata file has to be provided also, namely:
 
    /usr/local/bin/container-structure-test --force --driver host --metadata /tmp/metadata.json --config /test/spec.yaml
