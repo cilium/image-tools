@@ -19,7 +19,7 @@ set -o pipefail
 
 # This image enables calling a simle scripts inlined in a pod spec as
 # an environment variable `STARTUP_SCRIPT`. It will normally only call
-# once. It can be use as a contaner, not an init container (although
+# once. It can be use as a container, not an init container (although
 # that maybe change). If pod gets restarted with the new version of
 # `STARTUP_SCRIPT`, the scrips will re-run, otherwise it won't (see
 # `CHECKPOINT_PATH` below).
