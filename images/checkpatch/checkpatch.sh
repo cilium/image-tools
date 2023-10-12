@@ -36,6 +36,7 @@ ignore_list=(
     # Checks
     BIT_MACRO
     LONG_LINE_COMMENT
+    MACRO_ARG_REUSE
     # Ignore tolerance that comes by default
     C99_COMMENT_TOLERANCE
 )
