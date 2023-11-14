@@ -61,7 +61,8 @@ for registry in "${registries[@]}" ; do
 done
 
 check_image_tag() {
-  if [ -n "${MAKER_CONTAINER+x}" ] ; then
+  if [ -n "${MAKER_CONTAINER+x}" ] || [ "${image_name}" == "image-maker" ] ; then
+    which crane || (echo "WARNING: crane expected but not found, unable to check if image tag exists" ; return 1)
     crane digest "${1}" || (echo "error: crane returned $?" ; return 1)
   else
     # unlike with other utility scripts we don't want to self-re-exec inside the container, as native `docker buildx` is preferred
