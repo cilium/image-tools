@@ -132,15 +132,10 @@ check_commit() {
     subject="$4"
     gh_action="$5"
 
-    if [ -n "$gh_action" ]; then
-        echo "::group::{[$i/$nb_commits] $subject}"
-        echo "Running on $sha"
-    else
-        echo "========================================================="
-        echo "[$i/$nb_commits] Running on $sha"
-        echo -e "$HL_START$subject$HL_END"
-        echo "========================================================="
-    fi
+    echo "========================================================="
+    echo "[$i/$nb_commits] Running on $sha"
+    echo -e "$HL_START$subject$HL_END"
+    echo "========================================================="
     # Recompute list of source files each time in case commit changes it
     update_sources
     (
@@ -166,9 +161,6 @@ check_commit() {
     ) || ret=1
     # Apply custom checks on all commits, whether or not they touch bpf/
     custom_checks "$sha" "$subject" "$gh_action"
-    if [ -n "$gh_action" ]; then
-        echo "::endgroup::"
-    fi
 }
 
 all_code=0
