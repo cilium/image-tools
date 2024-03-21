@@ -1,13 +1,24 @@
 name: Images
 on:
+  pull_request: {}
   push:
     branches: [master]
 
 jobs:
   build-and-push:
-    name: Build and push all images
+    name: ${{ github.event_name == 'push' && 'Build and push' || 'Build' }} all images
     runs-on: ubuntu-22.04
     steps:
+      - name: Set up job variables
+        id: vars
+        run: |
+          if [ ${{ github.event.issue.pull_request || github.event.pull_request }} ]; then
+            PUSH=false
+          else
+            PUSH=true
+          fi
+          echo "push=${PUSH}" >> $GITHUB_OUTPUT
+
       - uses: actions/checkout@v1
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Register binfmt from multi-platform builds
@@ -28,7 +39,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: sh
-          args: -c "git config --global --add safe.directory /github/workspace && make maker-image PUSH=true"
+          args: -c "git config --global --add safe.directory /github/workspace && make maker-image PUSH=${{ steps.vars.outputs.push }}"
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make tester-image
         env:
@@ -38,7 +49,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: tester-image PUSH=true
+          args: tester-image PUSH=${{ steps.vars.outputs.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make compilers-image
         env:
@@ -48,7 +59,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: compilers-image PUSH=true
+          args: compilers-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make bpftool-image
         env:
@@ -58,7 +69,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: bpftool-image PUSH=true
+          args: bpftool-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make llvm-image
         env:
@@ -68,7 +79,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: llvm-image PUSH=true
+          args: llvm-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make startup-script-image
         env:
@@ -78,7 +89,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: startup-script-image PUSH=true
+          args: startup-script-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make ca-certificates-image
         env:
@@ -88,7 +99,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: ca-certificates-image PUSH=true
+          args: ca-certificates-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make checkpatch-image
         env:
@@ -98,7 +109,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: checkpatch-image PUSH=true
+          args: checkpatch-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make network-perf-image 
         env:
@@ -108,7 +119,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: network-perf-image PUSH=true
+          args: network-perf-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make iptables-image
         env:
@@ -118,7 +129,7 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: iptables-image PUSH=true
+          args: iptables-image PUSH=${{ steps.vars.output.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make iptables-20.04-image
         env:
@@ -128,4 +139,4 @@ jobs:
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
           entrypoint: make
-          args: iptables-20.04-image PUSH=true
+          args: iptables-20.04-image PUSH=${{ steps.vars.output.push }}
