@@ -12,7 +12,8 @@ RUN /tmp/install-deps.sh
 FROM ${TESTER_IMAGE} as test
 COPY --from=builder / /
 COPY test /test
-RUN /test/bin/cst
+ARG TARGETARCH
+RUN /test/bin/cst -C /test/${TARGETARCH}
 
 FROM scratch
 LABEL maintainer="maintainer@cilium.io"

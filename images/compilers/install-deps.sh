@@ -11,21 +11,16 @@ set -o nounset
 packages=(
   automake
   binutils
-  binutils-aarch64-linux-gnu
   bison
   build-essential
   ca-certificates
   cmake
-  crossbuild-essential-arm64
   curl
   flex
   g++
-  g++-aarch64-linux-gnu
   gcc-9
-  gcc-9-aarch64-linux-gnu
   git
   libelf-dev
-  libelf-dev:arm64
   libmnl-dev
   libtool
   make
@@ -35,6 +30,14 @@ packages=(
   python3
   python3-pip
   unzip
+)
+
+packages_amd64=(
+  binutils-aarch64-linux-gnu
+  crossbuild-essential-arm64
+  g++-aarch64-linux-gnu
+  gcc-9-aarch64-linux-gnu
+  libelf-dev:arm64
 )
 
 export DEBIAN_FRONTEND=noninteractive
@@ -50,14 +53,21 @@ deb [arch=arm64] http://ports.ubuntu.com/ jammy-security main restricted univers
 deb [arch=arm64] http://ports.ubuntu.com/ jammy-backports main restricted universe multiverse
 EOF
 
-dpkg --add-architecture arm64
+if [ "$(uname -m)" == "x86_64" ] ; then
+  dpkg --add-architecture arm64
+fi
 
 apt-get update
 
 ln -fs /usr/share/zoneinfo/UTC /etc/localtime
 
 apt-get install -y --no-install-recommends "${packages[@]}"
+if [ "$(uname -m)" == "x86_64" ] ; then
+  apt-get install -y --no-install-recommends "${packages_amd64[@]}"
+fi
 
 update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 2
-update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-9 3
+if [ "$(uname -m)" == "x86_64" ] ; then
+  update-alternatives --install /usr/bin/aarch64-linux-gnu-gcc aarch64-linux-gnu-gcc /usr/bin/aarch64-linux-gnu-gcc-9 3
+fi

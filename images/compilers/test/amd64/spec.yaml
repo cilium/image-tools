@@ -10,7 +10,7 @@ commandTests:
   args: ["-v"]
   expectedError:
   - 'Target:\ x86_64-linux-gnu'
-  - 'gcc\ version\ 9\.4\.0'
+  - 'gcc\ version\ 9\.5\.0'
 - name: "aarch64-linux-gnu-gcc command is in path"
   command: "which"
   args: ["aarch64-linux-gnu-gcc"]
@@ -20,4 +20,4 @@ commandTests:
   args: ["-v"]
   expectedError:
   - 'Target:\ aarch64-linux-gnu'
-  - 'gcc\ version\ 9\.4\.0'
+  - 'gcc\ version\ 9\.5\.0'
