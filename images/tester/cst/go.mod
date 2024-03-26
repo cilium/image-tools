@@ -2,7 +2,7 @@ module github.com/cilium/image-tools/images/tester/cst
 
 go 1.22
 
-require github.com/GoogleContainerTools/container-structure-test v1.11.0
+require github.com/GoogleContainerTools/container-structure-test v1.17.0
 
 require (
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
@@ -24,7 +24,8 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/google/go-containerregistry v0.19.0 // indirect
-	github.com/klauspost/compress v1.17.6 // indirect
+	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/klauspost/compress v1.17.7 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/moby/patternmatcher v0.6.0 // indirect
