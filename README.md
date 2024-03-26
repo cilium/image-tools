@@ -104,12 +104,4 @@ However, that's only required for full integration, and you can build images loc
 account or any other registry.
 
 When changes to these images are merged into master, builds should run and push new images to each of the registries.
-Once new images are out, a PR will be required to update all dependent images, please use the following commands to
-make updates and commit the resulting changes:
-
-> NOTE: You can only use the `update-*-image` make targets when you are _not building locally_. For example, if you have built a new `compilers`
-> locally, or perhaps even pushed it your Docker Hub account, and you want to consume this new version to build new `llvm` image - you need to update
-> `images/llvm/Dockerfile` manually, as the `scripts/update-*-images.sh` is not capable of handling this.
-
-- `make update-maker-image`
-- `make update-compilers-image`
+Once new images are out, renovatebot will open a PR to update all dependent images.
