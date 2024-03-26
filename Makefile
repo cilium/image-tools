@@ -7,7 +7,7 @@ PUSH ?= false
 EXPORT ?= false
 PLATFORMS ?= linux/amd64,linux/arm64
 
-all-images: lint maker-image update-maker-image tester-image update-tester-image compilers-image update-compilers-image bpftool-image llvm-image network-perf-image
+all-images: lint maker-image tester-image compilers-image bpftool-image llvm-image network-perf-image
 
 lint:
 	scripts/lint.sh
@@ -15,32 +15,14 @@ lint:
 .buildx_builder:
 	docker buildx create --platform $(PLATFORMS) --buildkitd-flags '--debug' > $@
 
-update-alpine-base-image:
-	scripts/update-alpine-base-image.sh
-
-update-golang-image:
-	scripts/update-golang-image.sh
-
-update-ubuntu-image:
-	scripts/update-ubuntu-image.sh
-
 maker-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh image-maker images/maker $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
-
-update-maker-image:
-	scripts/update-maker-image.sh $(firstword $(REGISTRIES))
 
 tester-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh image-tester images/tester $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
 
-update-tester-image:
-	scripts/update-tester-image.sh $(firstword $(REGISTRIES))
-
 compilers-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh image-compilers images/compilers $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
-
-update-compilers-image:
-	scripts/update-compilers-image.sh $(firstword $(REGISTRIES))
 
 bpftool-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) TEST=true scripts/build-image.sh cilium-bpftool images/bpftool $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
