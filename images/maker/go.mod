@@ -14,7 +14,7 @@ require (
 replace (
 	// protobuf: corresponds to containerd (through buildkit)
 	github.com/golang/protobuf => github.com/golang/protobuf v1.3.5
-	github.com/jaguilar/vt100 => github.com/tonistiigi/vt100 v0.0.0-20190402012908-ad4c4a574305
+	github.com/jaguilar/vt100 => github.com/tonistiigi/vt100 v0.0.0-20230623042737-f9a4f7ef6531
 
 	// genproto: corresponds to containerd (through buildkit)
 	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20200224152610-e50cd9704f63
