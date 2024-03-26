@@ -13,7 +13,7 @@ require (
 
 replace (
 	// protobuf: corresponds to containerd (through buildkit)
-	github.com/golang/protobuf => github.com/golang/protobuf v1.3.5
+	github.com/golang/protobuf => github.com/golang/protobuf v1.5.4
 	github.com/jaguilar/vt100 => github.com/tonistiigi/vt100 v0.0.0-20190402012908-ad4c4a574305
 
 	// genproto: corresponds to containerd (through buildkit)
