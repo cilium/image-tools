@@ -17,5 +17,5 @@ replace (
 	github.com/jaguilar/vt100 => github.com/tonistiigi/vt100 v0.0.0-20190402012908-ad4c4a574305
 
 	// genproto: corresponds to containerd (through buildkit)
-	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20200224152610-e50cd9704f63
+	google.golang.org/genproto => google.golang.org/genproto v0.0.0-20240325203815-454cdb8f5daa
 )
