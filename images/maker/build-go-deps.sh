@@ -11,11 +11,10 @@ set -o nounset
 cd /src
 
 unset GOPATH
-
 export CGO_ENABLED=0
+export GOBIN=/out/usr/local/bin
+mkdir -p $GOBIN
 
-mkdir -p /out/usr/local/bin
-
-go mod download all
-go build -ldflags '-s -w' -o /out/usr/local/bin/docker-credential-env github.com/errordeveloper/docker-credential-env
-go build -ldflags '-s -w' -o /out/usr/local/bin/docker-buildx github.com/docker/buildx/cmd/buildx
+go install -ldflags '-s -w' github.com/errordeveloper/docker-credential-env@v0.1.5
+go install -ldflags '-s -w' github.com/docker/buildx/cmd/buildx@v0.13.1
+mv $GOBIN/buildx $GOBIN/docker-buildx
