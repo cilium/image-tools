@@ -16,7 +16,7 @@ RUN apk add --no-cache bash curl git jq moreutils patch perl
 RUN \
     curl -sSL --output /checkpatch/checkpatch.pl \
         "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/checkpatch.pl?h=${CHECKPATCH_VERSION}" && \
-    chmod u+x /checkpatch/checkpatch.pl && \
+    chmod a+x /checkpatch/checkpatch.pl && \
     curl -sSL --output /checkpatch/spelling.txt \
         "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/scripts/spelling.txt?h=${CHECKPATCH_VERSION}"
 
