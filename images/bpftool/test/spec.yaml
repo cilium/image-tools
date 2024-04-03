@@ -15,4 +15,4 @@ commandTests:
   command: "bpftool"
   args: ["version"]
   expectedOutput:
-  - 'bpftool\ v7\.0\.0'
+  - 'bpftool\ v7\.4\.0'
