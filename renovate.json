@@ -2,5 +2,22 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "ubuntu"
+      ],
+      "allowedVersions": "22.04"
+    },
+    {
+      "matchPaths": [
+        "images/iptables-20.04/Dockerfile"
+      ],
+      "matchPackageNames": [
+        "ubuntu"
+      ],
+      "allowedVersions": "20.04"
+    }
   ]
 }
