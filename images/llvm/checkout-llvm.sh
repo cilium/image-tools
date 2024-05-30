@@ -8,7 +8,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-rev="llvmorg-17.0.6"
+rev="llvmorg-18.1.6"
 
 git config --global user.email "maintainer@cilium.io"
 git config --global user.name  "Cilium Maintainers"
