@@ -7,7 +7,7 @@ PUSH ?= false
 EXPORT ?= false
 PLATFORMS ?= linux/amd64,linux/arm64
 
-all-images: lint maker-image tester-image compilers-image bpftool-image llvm-image network-perf-image
+all-images: lint maker-image tester-image compilers-image bpftool-image llvm-image network-perf-image ca-certificates-image startup-script-image checkpatch-image iptables-image iptables-20.04-image
 
 lint:
 	scripts/lint.sh
