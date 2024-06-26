@@ -3,7 +3,7 @@
 # Copyright 2020 Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
-ARG DOCKER_IMAGE=docker.io/library/docker:26.0.0-dind@sha256:016c45d9e31461802186e8e9aaa394f35e173a8ce913ea7195a672cdc97102f2
+ARG DOCKER_IMAGE=docker.io/library/docker:26.0.0-dind@sha256:7ff986c816ccc8af25c9f560ca0cba45de2ca2ea2d7099c63099f5539e0d0359
 ARG CRANE_IMAGE=gcr.io/go-containerregistry/crane:latest@sha256:30621571a135ddef3f371b3efd000cd76c13f81cb9d5513d105e024dcb30a352
 ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.19.1@sha256:c5b1261d6d3e43071626931fc004f70149baeba2c8ec672bd4f27761f8e1ad6b
 ARG GOLANG_IMAGE=docker.io/library/golang:1.22.1@sha256:0b55ab82ac2a54a6f8f85ec8b943b9e470c39e32c109b766bbc1b801f3fa8d3b
