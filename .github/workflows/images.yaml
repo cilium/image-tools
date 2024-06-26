@@ -7,7 +7,7 @@ on:
 jobs:
   build-and-push:
     name: ${{ github.event_name == 'push' && 'Build and push' || 'Build' }} all images
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest-32-cores-128gb
     steps:
       - name: Set up job variables
         id: vars
