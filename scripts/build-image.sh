@@ -37,6 +37,11 @@ do_build="${FORCE:-false}"
 do_push="${PUSH:-false}"
 output="type=image,push=${do_push}"
 
+if [ "${do_push}" == "false" ]; then
+  export DOCKER_HUB_PUBLIC_ACCESS_ONLY=true
+  export QUAY_PUBLIC_ACCESS_ONLY=true
+fi
+
 do_export="${EXPORT:-false}"
 
 if [ "${with_root_context}" = "false" ] ; then
