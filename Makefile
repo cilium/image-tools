@@ -7,7 +7,8 @@ PUSH ?= false
 EXPORT ?= false
 PLATFORMS ?= linux/amd64,linux/arm64
 
-all-images: lint maker-image tester-image compilers-image bpftool-image llvm-image network-perf-image ca-certificates-image startup-script-image checkpatch-image iptables-image iptables-20.04-image
+all-images: lint maker-image tester-image compilers-image bpftool-image llvm-image network-perf-image ca-certificates-image startup-script-image checkpatch-image iptables-image
+
 
 lint:
 	scripts/lint.sh
@@ -44,6 +45,3 @@ network-perf-image: .buildx_builder
 
 iptables-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iptables images/iptables $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
-
-iptables-20.04-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iptables-20.04 images/iptables-20.04 $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
