@@ -62,14 +62,12 @@ Here is how testing is accomplished in the `llvm` image:
 
 ### Making changes
 
-All images get automatic tags based on checked-in contents of image subdirectory. At any point in git history of a subdirectory
-there exists a unique [git tree object hash](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects), that is what's used for
-image tags.
+All images get automatic tags based on the latest commit of the image directory. Tags used to be based on unique [git tree object hash](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects), but due to setting up renovate to automatically update images, and the inability to order sha1 values by time, the new tagging system uses a combination of the timestamp and the short sha1 of the latest commit for the image directory, using the [git log command with the image directory as a path parameter](https://git-scm.com/book/en/v2/Git-Basics-Viewing-the-Commit-History).
 
 As the result of this, following stands:
 
 - image build definitions can be obtained with `git show <tag>`
-- image build is defined by contents of a directory
+- image build is defined by the last commit that modified the image directory
 - when changes are committed to image directory, new tag is generated
     - if there is a new tag, image is rebuilt and pushed with that new tag
 
