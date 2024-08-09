@@ -32,7 +32,7 @@ root_dir="$(git rev-parse --show-toplevel)"
 cd "${root_dir}"
 
 if [ "$#" -eq 1 ] ; then
-  # if one argument was given, assume it's a directory and obtain a tree hash
+  # if one argument was given, assume it's a directory and retrieve its last commit to generate a tag
   image_dir="${1}"
   if ! [ -d "${image_dir}" ] ; then
     echo "${image_dir} is not a directory (path is relative to git root)"
