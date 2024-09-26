@@ -8,7 +8,7 @@ on:
 jobs:
   lint:
     name: Run static checks
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
