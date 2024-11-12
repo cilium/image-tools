@@ -83,6 +83,16 @@ jobs:
           entrypoint: make
           args: llvm-image PUSH=${{ steps.vars.outputs.push }}
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
+        name: Run make clang-format-image
+        env:
+          DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME_CI }}
+          QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD_IMAGE_TOOLS }}
+          QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
+        with:
+          entrypoint: make
+          args: clang-format-image PUSH=${{ steps.vars.outputs.push }}
+      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make startup-script-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
