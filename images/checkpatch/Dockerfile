@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright 2020 Authors of Cilium
 
-ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.20.4@sha256:780405de0f7cf99f985dd5a4f04dfc5aae71509d89505c1ba48a88d95a0ceb7f
+ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.20.5@sha256:31687a2fdd021f85955bf2d0c2682e9c0949827560e1db546358ea094f740f12
 
 FROM ${ALPINE_BASE_IMAGE} as builder
 LABEL maintainer="maintainer@cilium.io"
