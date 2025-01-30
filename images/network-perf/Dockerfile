@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi@sha256:2e863fb65e595839633113300a0c6709e9af81523a30001290068265c121a927
+FROM registry.access.redhat.com/ubi8/ubi@sha256:881aaf5fa0d1f85925a1b9668a1fc7f850a11ca30fd3e37ea194db4edff892a5
 COPY appstream.repo /etc/yum.repos.d/centos8-appstream.repo
 RUN dnf install -y --nodocs make --enablerepo=centos9 --allowerasing
 RUN dnf install -y --nodocs gcc --enablerepo=centos9 --allowerasing
