@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi@sha256:2e863fb65e595839633113300a0c6709e9af81523a30001290068265c121a927
+FROM registry.access.redhat.com/ubi8/ubi@sha256:0c1757c4526cfd7fdfedc54fadf4940e7f453201de65c0fefd454f3dde117273
 RUN dnf install -y --nodocs gcc make
 RUN curl -L -o iperf.tar.gz https://github.com/esnet/iperf/archive/refs/tags/3.19.tar.gz
 RUN curl -L -o netperf.tar.gz https://github.com/HewlettPackard/netperf/archive/80bf19d563eebd1eca23f4092f96819296020fa5.tar.gz
