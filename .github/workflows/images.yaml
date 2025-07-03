@@ -38,17 +38,15 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
-      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
+      - uses: docker://quay.io/cilium/image-maker:1751527462-bb24228@sha256:b17984cf427f921c65409816b8890bbf893ea44a42c226a3a56aca90f3205939
         name: Register binfmt from multi-platform builds
+        env:
+          DOCKER_HUB_PUBLIC_ACCESS_ONLY: true
+          QUAY_PUBLIC_ACCESS_ONLY: true
         with:
           entrypoint: docker
           args: run --privileged linuxkit/binfmt:a17941b47f5cb262638cfb49ffc59ac5ac2bf334
-      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
-        name: Run make lint
-        with:
-          entrypoint: sh
-          args: -c "git config --global --add safe.directory /github/workspace && make lint"
-      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
+      - uses: docker://quay.io/cilium/image-maker:1751527462-bb24228@sha256:b17984cf427f921c65409816b8890bbf893ea44a42c226a3a56aca90f3205939
         name: Run make ${{ matrix.image }}-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
@@ -56,5 +54,5 @@ jobs:
           QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD_IMAGE_TOOLS }}
           QUAY_USERNAME: ${{ secrets.QUAY_USERNAME_IMAGE_TOOLS }}
         with:
-          entrypoint: make
-          args: "${{ matrix.image }}-image PUSH=${{ steps.vars.outputs.push }}"
+          entrypoint: sh
+          args: -c "git config --global --add safe.directory /github/workspace && make ${{ matrix.image }}-image PUSH=${{ steps.vars.outputs.push }}"
