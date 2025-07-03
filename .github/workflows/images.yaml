@@ -41,7 +41,7 @@ jobs:
           fetch-depth: 0
       - name: Set up QEMU
         uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392  # v3.6.0
-      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
+      - uses: docker://quay.io/cilium/image-maker:1755027480-74de989@sha256:be90a4b1ccb7553e54f8eb8224a82a5f886cdbd6057dafc9d36205615f46d696
         name: Run make ${{ matrix.image }}-image
         env:
           DOCKER_HUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD_CI }}
