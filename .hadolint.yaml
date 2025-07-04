@@ -8,6 +8,5 @@ ignored:
 # in most cases, packages are installed via scripts and those don't get checked
 # (albeit, ubuntu repos tend to keep old versions around)
 - DL3008
-# this one just needs to be set, but since `FROM ${BASE_IMAGE}` cannot be parse,
-# there isn't a way to leverage this feature anyway
-allowedRegistries: []
+# similar as the two above, disable package version pinning for dnf
+- DL3041
