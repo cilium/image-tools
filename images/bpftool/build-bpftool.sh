@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Copyright 2017-2025 Authors of Cilium
+# Copyright Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
 set -o xtrace
