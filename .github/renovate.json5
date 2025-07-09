@@ -90,20 +90,18 @@
         "master",
       ]
     },
+    // Group base images updates
     {
-      // Images that directly use docker.io/library/golang for building.
-      "groupName": "golang-images",
-      "matchFiles": [
-        "Dockerfile",
-      ]
-    },
-    {
+      "matchDatasources": ["docker"],
       "matchPackageNames": [
-        "docker.io/library/alpine"
+        "docker.io/library/alpine",
+        "docker.io/library/docker",
+        "docker.io/library/golang",
+        "docker.io/library/ubuntu",
+        "gcr.io/go-containerregistry/crane",
+        "registry.access.redhat.com/ubi8/ubi"
       ],
-      "matchPaths": [
-        "Dockerfile"
-      ],
+      "schedule": ["on the first day of the month"]
     },
   ],
   "regexManagers": [
