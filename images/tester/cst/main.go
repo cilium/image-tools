@@ -6,12 +6,10 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"runtime"
 
 	"github.com/GoogleContainerTools/container-structure-test/cmd/container-structure-test/app/cmd/test"
-
 	"github.com/GoogleContainerTools/container-structure-test/pkg/color"
 	"github.com/GoogleContainerTools/container-structure-test/pkg/drivers"
 	"github.com/GoogleContainerTools/container-structure-test/pkg/types/unversioned"
@@ -90,7 +88,7 @@ func main() {
 
 func fakeMetadata() (string, error) {
 	content := []byte(`{ "config": {} }`)
-	file, err := ioutil.TempFile("", "metadata")
+	file, err := os.CreateTemp("", "metadata")
 	if err != nil {
 		return "", err
 	}
