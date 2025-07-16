@@ -18,7 +18,7 @@ jobs:
 
   build-and-push:
     name: ${{ github.event_name == 'push' && 'Build and push' || 'Build' }} ${{ matrix.image }} image
-    runs-on: ubuntu-latest-32-cores-128gb
+    runs-on: oracle-vm-32cpu-128gb-x86-64
     needs: generate-images-matrix
     strategy:
       fail-fast: false
