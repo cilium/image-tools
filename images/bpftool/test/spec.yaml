@@ -16,3 +16,8 @@ commandTests:
   args: ["version"]
   expectedOutput:
   - 'bpftool\ v7\.4\.0'
+- name: "bpftool is statically linked"
+  command: "ldd"
+  args: ["/usr/local/bin/bpftool"]
+  expectedError: ["not a dynamic executable"]
+  exitCode: 1
