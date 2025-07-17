@@ -38,11 +38,8 @@ jobs:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
-      - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
-        name: Register binfmt from multi-platform builds
-        with:
-          entrypoint: docker
-          args: run --privileged linuxkit/binfmt:a17941b47f5cb262638cfb49ffc59ac5ac2bf334
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@29109295f81e9208d7d86ff1c6c12d2833863392  # v3.6.0
       - uses: docker://quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de
         name: Run make ${{ matrix.image }}-image
         env:
