@@ -10,6 +10,11 @@ resource, which could be unreliable at times, however it can be mirrored easily,
 Some of the image do depend on GitHub releases or other HTTP blob storage providers, but there is no easy way around that, as the only alternative
 would be to build all of the dependencies from source, which is not feasible.
 
+All images are (multi-platform)[https://docs.docker.com/build/building/multi-platform/] images supporting the following platforms:
+* `linux/amd64`
+* `linux/arm64`
+* `linux/s390x`
+
 ## Images
 
 ### [`images/maker`](images/maker/Dockerfile)
@@ -26,20 +31,13 @@ which prevents having to use `docker login` which stores a plain text token in `
 
 This image consists of compilers and libraries needed to build other images for `amd64` and `arm64`.
 
-It also includes multiple Bazel version to enable building different version of Istio and Envoy.
-
 ### [`images/bpftool`](images/bpftool/Dockerfile)
 
-This image builds `bpftool` binary for `amd64` and `arm64` using a cross-compiler. The resulting image has only one file -
-`/bin/bpftool`, it is a proper multi-platform image. The binary is dynamically linked to Ubuntu 20.04 glibc and other dependencies.
-
-This image uses a recent version of `bpftool` from `bpf-next` Linux kernel tree.
+This image consists of a statically built `bpftool` binary from [`libbpf/bpftool`](https://github.com/libbpf/bpftool).
 
 ### [`images/llvm`](images/llvm/Dockerfile)
 
-This image builds `llc` and `clang` binaries for `amd64` and `arm64` using a cross-compiler. The resulting image has only two
-files - `/bin/llc` and `/bin/clang`, it is a proper multi-platform image. The binaries are dynamically linked to Ubuntu 20.04 glibc
-and other dependencies.
+This image consists of the `llc`, `clang`, `llvm-objcopy` and `llvm-strip` binaries built from [`llvm/llvm-project`](https://github.com/llvm/llvm-project). Binaries are dynamically linked against Ubuntu 24.04 glibc and other dependencies.
 
 This image is a custom BPF-only distribution of LLVM.
 
