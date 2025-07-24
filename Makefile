@@ -5,7 +5,7 @@ REGISTRIES ?= quay.io/cilium
 
 PUSH ?= false
 EXPORT ?= false
-PLATFORMS ?= linux/amd64,linux/arm64
+PLATFORMS ?= linux/amd64,linux/arm64,linux/s390x
 
 all-images: lint maker-image tester-image compilers-image bpftool-image llvm-image network-perf-image ca-certificates-image startup-script-image checkpatch-image iptables-image
 
