@@ -1,32 +1,91 @@
 schemaVersion: "2.0.0"
 
 commandTests:
-- name: "llc command is in path"
-  command: "which"
-  args: ["llc"]
-  expectedOutput: ["/usr/local/bin/llc"]
-- name: "llc --version"
-  command: "llc"
-  args: ["--version"]
-  expectedOutput:
-  - 'LLVM\ \(http://llvm\.org/\):'
-  - 'LLVM\ version\ 19\.1\.7'
-  - 'Optimized\ build\.'
-  - 'Registered\ Targets:'
-  - '(bpf|bpfeb|bpfel)[\ ]+-\ BPF\ \((host|big|little)\ endian\)'
-  excludedOutput:
-  - '(aarch64|arm|misp|ppc|risc|sparc|thumb|wasm|x86).*\[\ ]+-\ .*'
-- name: "clang command is in path"
-  command: "which"
-  args: ["clang"]
-  expectedOutput: ["/usr/local/bin/clang"]
-- name: "clang --version"
-  command: "clang"
-  args: ["--version"]
-  expectedOutput:
-  - 'clang\ version\ 19\.1\.7\ \(https://github.com/llvm/llvm-project.git\ .*\)'
-  - 'InstalledDir:\ /usr/local/bin'
+  # clang tests
+  - name: "clang command is in path"
+    command: "which"
+    args: ["clang"]
+    expectedOutput: ["/usr/local/bin/clang"]
 
-- name: "clang can compile a simple BPF program"
-  command: "clang"
-  args: [ "-O2", "-target", "bpf", "-c", "test.c", "-o", "/tmp/test.o" ]
+  - name: "clang is statically linked"
+    command: "ldd"
+    args: ["/usr/local/bin/clang"]
+    expectedError: ["not a dynamic executable"]
+    exitCode: 1
+
+  - name: "clang --version"
+    command: "clang"
+    args: ["--version"]
+    expectedOutput:
+      - 'clang\ version\ 19\.1\.7\ \(https://github.com/llvm/llvm-project.git\ .*\)'
+      - 'InstalledDir:\ /usr/local/bin'
+
+  - name: "clang can compile a simple BPF program"
+    command: "clang"
+    args: [ "-O2", "-target", "bpf", "-c", "test.c", "-o", "/tmp/test.o" ]
+
+  # llc tests
+  - name: "llc command is in path"
+    command: "which"
+    args: ["llc"]
+    expectedOutput: ["/usr/local/bin/llc"]
+
+  - name: "llc is statically linked"
+    command: "ldd"
+    args: ["/usr/local/bin/llc"]
+    expectedError: ["not a dynamic executable"]
+    exitCode: 1
+
+  - name: "llc --version"
+    command: "llc"
+    args: ["--version"]
+    expectedOutput:
+      - 'LLVM\ \(http://llvm\.org/\):'
+      - 'LLVM\ version\ 19\.1\.7'
+      - 'Optimized\ build\.'
+      - 'Registered\ Targets:'
+      - '(bpf|bpfeb|bpfel)[\ ]+-\ BPF\ \((host|big|little)\ endian\)'
+    excludedOutput:
+      - '(aarch64|arm|misp|ppc|risc|sparc|thumb|wasm|x86).*\[\ ]+-\ .*'
+
+  # llvm-objcopy tests
+  - name: "llvm-objcopy command is in path"
+    command: "which"
+    args: ["llvm-objcopy"]
+    expectedOutput: ["/usr/local/bin/llvm-objcopy"]
+
+  - name: "llvm-objcopy is statically linked"
+    command: "ldd"
+    args: ["/usr/local/bin/llvm-objcopy"]
+    expectedError: ["not a dynamic executable"]
+    exitCode: 1
+
+  - name: "llvm-objcopy --version"
+    command: "llvm-objcopy"
+    args: ["--version"]
+    expectedOutput:
+      - 'llvm-objcopy,\ compatible\ with\ GNU\ objcopy'
+      - 'LLVM\ \(http://llvm\.org/\):'
+      - 'LLVM\ version\ 19\.1\.7'
+      - 'Optimized\ build\.'
+
+  # llvm-strip tests
+  - name: "llvm-strip command is in path"
+    command: "which"
+    args: ["llvm-strip"]
+    expectedOutput: ["/usr/local/bin/llvm-strip"]
+
+  - name: "llvm-strip is statically linked"
+    command: "ldd"
+    args: ["/usr/local/bin/llvm-strip"]
+    expectedError: ["not a dynamic executable"]
+    exitCode: 1
+
+  - name: "llvm-strip --version"
+    command: "llvm-strip"
+    args: ["--version"]
+    expectedOutput:
+      - 'llvm-strip,\ compatible\ with\ GNU\ strip'
+      - 'LLVM\ \(http://llvm\.org/\):'
+      - 'LLVM\ version\ 19\.1\.7'
+      - 'Optimized\ build\.'
