@@ -24,6 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         image: ${{ fromJSON(needs.generate-images-matrix.outputs.matrix).images }}
+    timeout-minutes: 720
     steps:
       - name: Set up job variables
         id: vars
