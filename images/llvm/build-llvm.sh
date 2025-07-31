@@ -8,9 +8,6 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-mkdir -p /src/llvm/llvm/build
-cd /src/llvm/llvm/build
-
 cmake .. -G "Ninja" \
     -DLLVM_TARGETS_TO_BUILD="BPF" \
     -DLLVM_ENABLE_PROJECTS="clang" \
