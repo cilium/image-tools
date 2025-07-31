@@ -9,9 +9,12 @@ ARG BASE_IMAGE=scratch
 FROM ${TESTER_IMAGE} AS tester
 FROM ${COMPILERS_IMAGE} AS builder
 
-COPY checkout-llvm.sh /tmp/checkout-llvm.sh
-RUN /tmp/checkout-llvm.sh
+ARG LLVM_VERSION="llvmorg-19.1.7"
+ADD https://github.com/llvm/llvm-project/archive/${LLVM_VERSION}.tar.gz /tmp/llvm.tar.gz
+WORKDIR /src/llvm
+RUN tar -xf /tmp/llvm.tar.gz --strip-components=1 --directory /src/llvm
 
+WORKDIR /src/llvm/llvm/build
 COPY build-llvm.sh /tmp/build-llvm.sh
 RUN /tmp/build-llvm.sh
 
