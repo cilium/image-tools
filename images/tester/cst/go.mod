@@ -2,7 +2,7 @@ module github.com/cilium/image-tools/images/tester/cst
 
 go 1.23.0
 
-toolchain go1.24.5
+toolchain go1.24.6
 
 require github.com/GoogleContainerTools/container-structure-test v1.19.3
 
