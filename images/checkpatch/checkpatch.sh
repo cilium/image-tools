@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright Authors of Cilium
 
+set -eu -o pipefail
+
 # Default options for checkpatch
 options=(
     --no-tree
@@ -219,21 +221,13 @@ if [ -n "$GITHUB_REF" ]; then
     check_cmd curl
     pr=${GITHUB_REF#"refs/pull/"}
     prnum=${pr%"/merge"}
-    pr_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}"
-
-    # Skip for backports (if not on main branch)
-    base_ref=$(curl -s "${pr_url}" | jq -r '.base.ref')
-    case "$base_ref" in
-    master|main|trunk)
-        ;;
-    *)
-        echo "PR is not based on 'master' branch, likely a backport PR. Skip verification."
-        exit 0
-        ;;
-    esac
-
-    commits_url="${pr_url}/commits"
-    list_commits=$(curl -s "$commits_url" | jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n\n.*"; ""; "m"))}]')
+    commits_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}/commits?per_page=100"
+    list_commits=$(curl --fail --show-error --silent \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        "$commits_url" | \
+        jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n\n.*"; ""; "m"))}]')
     pr_info="from PR #$prnum"
 else
     # Running locally
