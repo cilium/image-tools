@@ -2,6 +2,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # Copyright Authors of Cilium
 
+set -eu -o pipefail
+
 # Default options for checkpatch
 options=(
     --no-tree
