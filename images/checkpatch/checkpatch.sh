@@ -224,6 +224,7 @@ if [ -n "$GITHUB_REF" ]; then
     commits_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}/commits"
     list_commits=$(curl --fail --show-error --silent \
         -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer ${GITHUB_TOKEN}" \
         -H "X-GitHub-Api-Version: 2022-11-28" \
         "$commits_url" | \
         jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n\n.*"; ""; "m"))}]')
