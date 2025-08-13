@@ -221,7 +221,7 @@ if [ -n "$GITHUB_REF" ]; then
     check_cmd curl
     pr=${GITHUB_REF#"refs/pull/"}
     prnum=${pr%"/merge"}
-    commits_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}/commits"
+    commits_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}/commits?per_page=100"
     list_commits=$(curl --fail --show-error --silent \
         -H "Accept: application/vnd.github+json" \
         -H "Authorization: Bearer ${GITHUB_TOKEN}" \
