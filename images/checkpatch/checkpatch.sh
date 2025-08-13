@@ -222,7 +222,11 @@ if [ -n "$GITHUB_REF" ]; then
     pr=${GITHUB_REF#"refs/pull/"}
     prnum=${pr%"/merge"}
     commits_url="https://api.github.com/repos/${GITHUB_REPOSITORY}/pulls/${prnum}/commits"
-    list_commits=$(curl -s "$commits_url" | jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n\n.*"; ""; "m"))}]')
+    list_commits=$(curl --fail --show-error --silent \
+        -H "Accept: application/vnd.github+json" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        "$commits_url" | \
+        jq '[.[]|{sha: .sha, subject: (.commit.message | sub("\n\n.*"; ""; "m"))}]')
     pr_info="from PR #$prnum"
 else
     # Running locally
