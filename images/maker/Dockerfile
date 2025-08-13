@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1.17@sha256:38387523653efa0039f8e1c89bb74a30504e76ee9f565e25c9a09841f9427b05
-
 # Copyright Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
@@ -14,7 +12,9 @@ FROM ${CRANE_IMAGE} AS crane-dist
 FROM ${GOLANG_IMAGE} AS go-builder
 
 # hadolint ignore=SC2215
-RUN --mount=type=bind,readwrite,target=/src --mount=target=/root/.cache,type=cache --mount=target=/go/pkg/mod,type=cache \
+RUN --mount=type=bind,readwrite,target=/src \
+    --mount=type=cache,target=/root/.cache \
+    --mount=type=cache,target=/go/pkg/mod \
     /src/build-go-deps.sh
 
 FROM ${ALPINE_BASE_IMAGE} AS builder
@@ -49,7 +49,7 @@ RUN case "${TARGETARCH}" in \
     'arm64') export ARCH='arm64' ;; \
     esac && \
     curl --fail --show-error --silent --location \
-    https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-${ARCH} \
+    "https://github.com/hadolint/hadolint/releases/download/v${HADOLINT_VERSION}/hadolint-Linux-${ARCH}" \
     --output /out/usr/local/bin/hadolint \
     && chmod +x /out/usr/local/bin/hadolint
 

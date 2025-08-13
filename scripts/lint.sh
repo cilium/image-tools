@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Copyright Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
@@ -7,7 +7,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-MAKER_IMAGE="${MAKER_IMAGE:-quay.io/cilium/image-maker:e55375ca5ccaea76dc15a0666d4f57ccd9ab89de}"
+MAKER_IMAGE="${MAKER_IMAGE:-quay.io/cilium/image-maker:1755027480-74de989@sha256:be90a4b1ccb7553e54f8eb8224a82a5f886cdbd6057dafc9d36205615f46d696}"
 
 root_dir="$(git rev-parse --show-toplevel)"
 
