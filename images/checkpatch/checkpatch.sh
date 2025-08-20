@@ -215,7 +215,7 @@ fi
 
 check_cmd git ifne jq
 
-if [ -n "$GITHUB_REF" ]; then
+if [ -n "${GITHUB_REF-}" ]; then
     # Running as GitHub action
     # We'll run checkpatch on each commit from the PR
     check_cmd curl
@@ -256,11 +256,11 @@ ret=0
 for ((i=0; i<nb_commits; i++)); do
     sha=$(echo "$list_commits" | jq -r ".[$i].sha")
     subject=$(echo "$list_commits" | jq -r ".[$i].subject")
-    check_commit "$((i+1))" "$nb_commits" "$sha" "$subject" "$GITHUB_REF"
+    check_commit "$((i+1))" "$nb_commits" "$sha" "$subject" "${GITHUB_REF-}"
 done
 
 # If not a GitHub action and repo is dirty, run on diff from HEAD
-if [ -z "$GITHUB_REF" ] && ! (git diff --exit-code && git diff --cached --exit-code) >/dev/null; then
+if [ -z "${GITHUB_REF-}" ] && ! (git diff --exit-code && git diff --cached --exit-code) >/dev/null; then
     echo "========================================================="
     echo -e "${HL_START}Running on changes from local HEAD$HL_END"
     echo "========================================================="
