@@ -129,7 +129,7 @@
         "images/**/Dockerfile"
       ],
       "matchStrings": [
-        '# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+ARG .*_VERSION="(?<currentValue>.*)"'
+        '# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+ARG .*_VERSION="(?<currentValue>.*)"',
         "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+ARG .*_VERSION=(?<currentValue>.*)"
       ]
     },
