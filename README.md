@@ -10,7 +10,7 @@ resource, which could be unreliable at times, however it can be mirrored easily,
 Some of the image do depend on GitHub releases or other HTTP blob storage providers, but there is no easy way around that, as the only alternative
 would be to build all of the dependencies from source, which is not feasible.
 
-All images are (multi-platform)[https://docs.docker.com/build/building/multi-platform/] images supporting the following platforms:
+All images are [multi-platform](https://docs.docker.com/build/building/multi-platform/) images supporting the following platforms:
 * `linux/amd64`
 * `linux/arm64`
 
