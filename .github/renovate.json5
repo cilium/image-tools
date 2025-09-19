@@ -106,7 +106,7 @@
   ],
   "regexManagers": [
     {
-      "fileMatch": [
+      "managerFilePatterns": [
         "^\\.github/workflows/[^/]+\\.yaml$"
       ],
       // This regex manages version strings in GitHub actions workflow files,
@@ -117,7 +117,7 @@
       ]
     },
     {
-      "fileMatch": [
+      "managerFilePatterns": [
         "^go\\.mod$"
       ],
       "matchStrings": [
@@ -125,7 +125,7 @@
       ]
     },
     {
-      "fileMatch": [
+      "managerFilePatterns": [
         "images/**/Dockerfile"
       ],
       "matchStrings": [
