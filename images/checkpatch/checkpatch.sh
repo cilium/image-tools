@@ -104,6 +104,12 @@ update_sources() {
 }
 
 check_commit_subject_width() {
+    # Skip check for renovate commits
+    author_email=$(git show -s --pretty=format:%ae "$1")
+    if [[ "$author_email" == *"cilium-renovate"* ]]; then
+        return 0
+    fi
+
     subject=$(git show -s --pretty=format:%s "$1")
     width="${#2}"
     if [ "$width" -gt 75 ]; then
