@@ -8,7 +8,7 @@
 ARG IPTABLES_VERSION=1.8.8-1
 ARG SNAPSHOT_DATE=20230116T212610Z
 
-FROM docker.io/library/ubuntu:24.04@sha256:353675e2a41babd526e2b837d7ec780c2a05bca0164f7ea5dbbd433d21d166fc
+FROM docker.io/library/ubuntu:24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
 
 RUN mkdir /iptables
 WORKDIR /iptables
