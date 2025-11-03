@@ -7,7 +7,7 @@ ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.22.1@sha256:4bcff63911fcb4448bd
 FROM ${ALPINE_BASE_IMAGE} as builder
 LABEL maintainer="maintainer@cilium.io"
 
-ENV CHECKPATCH_VERSION v5.12
+ARG CHECKPATCH_VERSION="v5.12"
 
 COPY . /checkpatch
 
