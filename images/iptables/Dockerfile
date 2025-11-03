@@ -5,8 +5,8 @@
 # The source code comes from Debian Bookworm snapshots
 # To upgrade to a new iptables version, change also the snapshot date.
 
-ARG IPTABLES_VERSION=1.8.8-1
-ARG SNAPSHOT_DATE=20230116T212610Z
+ARG IPTABLES_VERSION="1.8.8-1"
+ARG SNAPSHOT_DATE="20230116T212610Z"
 
 FROM docker.io/library/ubuntu:24.04@sha256:66460d557b25769b102175144d538d88219c077c678a49af4afca6fbfc1b5252
 
@@ -20,6 +20,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends debian-archive-keyring apt-src ca-certificates && \
     echo "deb-src [check-valid-until=no signed-by=/usr/share/keyrings/debian-archive-bullseye-automatic.gpg] https://snapshot.debian.org/archive/debian/${SNAPSHOT_DATE}/ bookworm main" > /etc/apt/sources.list.d/iptables-snapshot.list && \
     apt-get update && \
-    apt-src -b install iptables=${IPTABLES_VERSION} && \
+    apt-src -b install iptables="${IPTABLES_VERSION}" && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
