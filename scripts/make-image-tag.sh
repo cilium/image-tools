@@ -40,7 +40,17 @@ if [ "$#" -eq 1 ] ; then
   fi
   timestamp="$(git log -1 --pretty=format:"%ct" "${image_dir}")"
   short_commit="$(git log -1 --pretty=format:"%h" "${image_dir}")"
-  image_tag="${timestamp}-${short_commit}"
+
+  # If the image has a version script, use it as version prefix
+  version_prefix=""
+  if [ -f "${image_dir}/version.sh" ] ; then
+    version_prefix="$("./${image_dir}/version.sh")"
+    if [ -n "${version_prefix}" ] ; then
+      version_prefix="${version_prefix}-"
+    fi
+  fi
+
+  image_tag="${version_prefix}${timestamp}-${short_commit}"
 else
   # if no arguments are given, attempt detecting if version tag is present,
   # otherwise use the a short commit hash
