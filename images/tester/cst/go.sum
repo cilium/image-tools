@@ -2,8 +2,8 @@ github.com/AdaLogics/go-fuzz-headers v0.0.0-20240806141605-e8a1dd7889d6 h1:He8af
 github.com/AdaLogics/go-fuzz-headers v0.0.0-20240806141605-e8a1dd7889d6/go.mod h1:8o94RPi1/7XTJvwPpRSzSUedZrtlirdB3r9Z20bi2f8=
 github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 h1:L/gRVlceqvL25UVaW/CKtUDjefjrs0SPonmDGUVOYP0=
 github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161/go.mod h1:xomTg63KZ2rFqZQzSB4Vz2SUXa1BpHTVz9L5PTmPC4E=
-github.com/GoogleContainerTools/container-structure-test v1.21.1 h1:a47dOXmsLRR/nlre/wgbs/955ZzmWgyidB2DOxO8yWk=
-github.com/GoogleContainerTools/container-structure-test v1.21.1/go.mod h1:w5z7D64oqetKtZp7iMXUe1gj+i38ypPAHW7FXETg4QA=
+github.com/GoogleContainerTools/container-structure-test v1.22.0 h1:hbM/12QOt0gnWzXDLo6HevLRdXWbjrkDPzHfsOOtAto=
+github.com/GoogleContainerTools/container-structure-test v1.22.0/go.mod h1:w5z7D64oqetKtZp7iMXUe1gj+i38ypPAHW7FXETg4QA=
 github.com/Microsoft/go-winio v0.6.2 h1:F2VQgta7ecxGYO8k3ZZz3RS8fVIXVxONVUPlNERoyfY=
 github.com/Microsoft/go-winio v0.6.2/go.mod h1:yd8OoFMLzJbo9gZq8j5qaps8bJ9aShtEA8Ipt1oGCvU=
 github.com/cenkalti/backoff/v4 v4.3.0 h1:MyRJ/UdXutAwSAT+s3wNd7MfTIcy71VQueUuFK343L8=
