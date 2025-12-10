@@ -11,9 +11,11 @@
     ".github/workflows/**",
     "images/**/go.mod",
     "images/**/go.sum",
-    "images/**/Dockerfile"
+    "images/**/Dockerfile",
+    "images/**/test/spec.yaml"
   ],
-  postUpdateOptions: [
+  "ignorePaths": [], // Override from config:base as it otherwise ignores **/test/**
+  "postUpdateOptions": [
     "gomodTidy"
   ],
   "pinDigests": true,
@@ -126,11 +128,18 @@
     },
     {
       "managerFilePatterns": [
-        "images/**/Dockerfile"
+        "images/*/Dockerfile"
       ],
       "matchStrings": [
         '# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+ARG .*_VERSION="(?<currentValue>.*)"',
-        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+ARG .*_VERSION=(?<currentValue>.*)"
+      ]
+    },
+    {
+      "managerFilePatterns": [
+        "images/*/test/spec.yaml"
+      ],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+- 'bpftool (?<currentValue>.*)'",
       ]
     },
   ]
