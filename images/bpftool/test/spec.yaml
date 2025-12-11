@@ -16,7 +16,7 @@ commandTests:
   args: ["version"]
   expectedOutput:
   # renovate: datasource=github-releases depName=libbpf/bpftool
-  - 'bpftool v7.4.0'
+  - 'bpftool v7.5.0'
 - name: "bpftool is statically linked"
   command: "ldd"
   args: ["/usr/local/bin/bpftool"]
