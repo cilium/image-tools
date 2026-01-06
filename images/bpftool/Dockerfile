@@ -10,7 +10,7 @@ FROM ${TESTER_IMAGE} AS tester
 FROM ${COMPILERS_IMAGE} AS builder
 
 # renovate: datasource=github-releases depName=libbpf/bpftool
-ARG BPFTOOL_VERSION="v7.5.0"
+ARG BPFTOOL_VERSION="v7.6.0"
 WORKDIR /bpftool
 RUN git clone --recurse-submodules --branch "${BPFTOOL_VERSION}" https://github.com/libbpf/bpftool.git /bpftool
 
