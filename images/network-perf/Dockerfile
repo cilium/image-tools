@@ -8,7 +8,7 @@ RUN dnf install -y --nodocs gcc make
 
 # Install and configure iperf
 # renovate: datasource=github-releases depName=esnet/iperf
-ARG IPERF_VERSION="3.19"
+ARG IPERF_VERSION="3.19.1"
 WORKDIR /iperf
 RUN curl -L -o iperf.tar.gz https://github.com/esnet/iperf/archive/refs/tags/${IPERF_VERSION}.tar.gz && \
     tar xzf iperf.tar.gz --strip-components=1 -C /iperf && \
