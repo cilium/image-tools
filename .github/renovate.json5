@@ -111,6 +111,16 @@
         'on the first day of the month',
       ],
     },
+    // Handle LLVM tags with llvmorg- prefix
+    {
+      matchDatasources: [
+        'github-releases',
+      ],
+      matchPackageNames: [
+        'llvm/llvm-project',
+      ],
+      extractVersion: '^llvmorg-(?<version>.+)$',
+    },
   ],
   customManagers: [
     {
@@ -149,7 +159,7 @@
         'images/*/test/spec.yaml',
       ],
       matchStrings: [
-        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+- 'bpftool (?<currentValue>.*)'",
+        "# renovate: datasource=(?<datasource>.*?) depName=(?<depName>.*?)\\s+- '(bpftool|clang version|LLVM version) (?<currentValue>.*)'",
       ],
     },
   ],
