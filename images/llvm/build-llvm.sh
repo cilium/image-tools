@@ -18,12 +18,13 @@ cmake .. -G "Ninja" \
     -DLLVM_BUILD_RUNTIME="OFF" \
     -DCMAKE_INSTALL_PREFIX="/usr/local"
 
-ninja clang llc llvm-objcopy llvm-strip
+ninja clang clang-format llc llvm-objcopy llvm-strip
 
 strip bin/clang
+strip bin/clang-format
 strip bin/llc
 strip bin/llvm-objcopy
 strip bin/llvm-strip
 
 mkdir -p /out/bin
-cp bin/clang bin/llc bin/llvm-objcopy bin/llvm-strip /out/bin
+cp bin/clang bin/clang-format bin/llc bin/llvm-objcopy bin/llvm-strip /out/bin
