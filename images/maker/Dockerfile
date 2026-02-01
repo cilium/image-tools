@@ -1,7 +1,7 @@
 # Copyright Authors of Cilium
 # SPDX-License-Identifier: Apache-2.0
 
-ARG DOCKER_IMAGE=docker.io/library/docker:29.1.3-dind@sha256:173f284a4299164772a90f52b373e73e087583c0963f1334c9995f190ef6f3f5
+ARG DOCKER_IMAGE=docker.io/library/docker:29.2.0-dind@sha256:a284d31e4db9a9916fd9be44380263eaeafedf0e3048a859f978922b5a0c16fc
 ARG CRANE_IMAGE=gcr.io/go-containerregistry/crane:latest@sha256:004539de370c46a99e976c1ca9570716b6096dc6ad4987c57f8c4f1a4763a819
 ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.23.2@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62
 ARG GOLANG_IMAGE=docker.io/library/golang:1.25.5@sha256:6cc2338c038bc20f96ab32848da2b5c0641bb9bb5363f2c33e9b7c8838f9a208
