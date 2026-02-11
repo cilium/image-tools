@@ -91,7 +91,7 @@ jobs:
 
       - name: ${{ steps.vars.outputs.push == 'true' && 'Build and push' || 'Build' }} image
         if: steps.vars.outputs.build == 'true'
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83  # v6.18.0
+        uses: docker/build-push-action@ee4ca427a2f43b6a16632044ca514c076267da23  # v6.19.0
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile
@@ -102,7 +102,7 @@ jobs:
 
       - name: Test image
         if: steps.vars.outputs.build == 'true' && steps.vars.outputs.test == 'true'
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83  # v6.18.0
+        uses: docker/build-push-action@ee4ca427a2f43b6a16632044ca514c076267da23  # v6.19.0
         with:
           context: images/${{ matrix.image }}
           file: images/${{ matrix.image }}/Dockerfile
