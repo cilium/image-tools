@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 ARG DOCKER_IMAGE=docker.io/library/docker:29.2.0-dind@sha256:a284d31e4db9a9916fd9be44380263eaeafedf0e3048a859f978922b5a0c16fc
-ARG CRANE_IMAGE=gcr.io/go-containerregistry/crane:latest@sha256:004539de370c46a99e976c1ca9570716b6096dc6ad4987c57f8c4f1a4763a819
+ARG CRANE_IMAGE=gcr.io/go-containerregistry/crane:latest@sha256:195e4150a679f71b9b544cc9c44030e9966e51251b1ad17a0c85f320887a5538
 ARG ALPINE_BASE_IMAGE=docker.io/library/alpine:3.23.3@sha256:25109184c71bdad752c8312a8623239686a9a2071e8825f20acb8f2198c3f659
 ARG GOLANG_IMAGE=docker.io/library/golang:1.26.0@sha256:9edf71320ef8a791c4c33ec79f90496d641f306a91fb112d3d060d5c1cee4e20
 
