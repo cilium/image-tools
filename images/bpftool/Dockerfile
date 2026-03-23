@@ -10,14 +10,13 @@ FROM ${TESTER_IMAGE} AS tester
 FROM ${COMPILERS_IMAGE} AS builder
 
 # renovate: datasource=github-releases depName=libbpf/bpftool
-ARG BPFTOOL_VERSION="v7.6.0"
+ARG BPFTOOL_VERSION="v7.7.0"
 WORKDIR /bpftool
 RUN git clone --recurse-submodules --branch "${BPFTOOL_VERSION}" https://github.com/libbpf/bpftool.git /bpftool
 
 RUN \
-    # From Ubuntu 24.04 builder image, libzstd must be added at the end of LIBS and LIBS_BOOTSTRAP to compile statically
-    # See https://github.com/libbpf/bpftool/issues/152
-    sed -i "s/\(LIBS = \$(LIBBPF) -lelf -lz\)/\1 -lzstd/; s/\(LIBS_BOOTSTRAP = \$(LIBBPF_BOOTSTRAP) -lelf -lz\)/\1 -lzstd/" /bpftool/src/Makefile \
+    apt-get update \
+    && apt-get install -y --no-install-recommends libssl-dev \
     && make -C src EXTRA_CFLAGS=--static BPFTOOL_VERSION="${BPFTOOL_VERSION#v}" -j "$(nproc)" \
     && strip /bpftool/src/bpftool \
     && mkdir -p /out/bin \
