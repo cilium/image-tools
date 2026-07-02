@@ -17,7 +17,8 @@ commandTests:
     command: "clang"
     args: ["--version"]
     expectedOutput:
-      - 'clang\ version\ 19\.1\.7'
+      # renovate: datasource=github-releases depName=llvm/llvm-project
+      - 'clang version 19.1.7'
       - 'InstalledDir:\ /usr/local/bin'
 
   - name: "clang can compile a simple BPF program"
@@ -41,7 +42,8 @@ commandTests:
     args: ["--version"]
     expectedOutput:
       - 'LLVM\ \(http://llvm\.org/\):'
-      - 'LLVM\ version\ 19\.1\.7'
+      # renovate: datasource=github-releases depName=llvm/llvm-project
+      - 'LLVM version 19.1.7'
       - 'Optimized\ build\.'
       - 'Registered\ Targets:'
       - '(bpf|bpfeb|bpfel)[\ ]+-\ BPF\ \((host|big|little)\ endian\)'
@@ -66,7 +68,8 @@ commandTests:
     expectedOutput:
       - 'llvm-objcopy,\ compatible\ with\ GNU\ objcopy'
       - 'LLVM\ \(http://llvm\.org/\):'
-      - 'LLVM\ version\ 19\.1\.7'
+      # renovate: datasource=github-releases depName=llvm/llvm-project
+      - 'LLVM version 19.1.7'
       - 'Optimized\ build\.'
 
   # llvm-strip tests
@@ -87,5 +90,6 @@ commandTests:
     expectedOutput:
       - 'llvm-strip,\ compatible\ with\ GNU\ strip'
       - 'LLVM\ \(http://llvm\.org/\):'
-      - 'LLVM\ version\ 19\.1\.7'
+      # renovate: datasource=github-releases depName=llvm/llvm-project
+      - 'LLVM version 19.1.7'
       - 'Optimized\ build\.'
