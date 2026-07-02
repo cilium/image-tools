@@ -99,5 +99,5 @@ library in `compilers` image that will be used for compiling something else, you
 However, that's only required for full integration, and you can build images locally if you prefer, you can also push them to your own Docker Hub
 account or any other registry.
 
-When changes to these images are merged into master, builds should run and push new images to each of the registries.
+When changes to these images are merged into the main branch, builds should run and push new images to each of the registries.
 Once new images are out, renovatebot will open a PR to update all dependent images.
