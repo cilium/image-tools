@@ -4,6 +4,14 @@ on:
   push:
     branches: [main]
 
+# Cancel superseded runs for the same PR, never cancel push-to-main builds.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
 jobs:
   generate-images-matrix:
     runs-on: ubuntu-24.04
