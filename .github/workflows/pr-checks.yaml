@@ -18,7 +18,7 @@ jobs:
     name: Run static checks
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: docker://quay.io/cilium/image-maker:1755027480-74de989@sha256:be90a4b1ccb7553e54f8eb8224a82a5f886cdbd6057dafc9d36205615f46d696
         name: Run make lint
         with:
