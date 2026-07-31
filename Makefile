@@ -39,6 +39,3 @@ checkpatch-image: .buildx_builder
 
 network-perf-image: .buildx_builder
 	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh network-perf images/network-perf $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)
-
-iptables-image: .buildx_builder
-	PUSH=$(PUSH) EXPORT=$(EXPORT) scripts/build-image.sh iptables images/iptables $(PLATFORMS) "$$(cat .buildx_builder)" $(REGISTRIES)

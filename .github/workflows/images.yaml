@@ -68,7 +68,6 @@ jobs:
             bpftool) IMAGE_NAME="cilium-bpftool" ;;
             checkpatch) IMAGE_NAME="cilium-checkpatch" ;;
             compilers) IMAGE_NAME="image-compilers" ;;
-            iptables) IMAGE_NAME="iptables" ;;
             llvm) IMAGE_NAME="cilium-llvm" ;;
             maker) IMAGE_NAME="image-maker" ;;
             network-perf) IMAGE_NAME="network-perf" ;;
