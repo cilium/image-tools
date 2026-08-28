@@ -29,7 +29,7 @@ ignore_list=(
     FILE_PATH_CHANGES
     FROM_SIGN_OFF_MISMATCH
     JIFFIES_COMPARISON
-    LEADING_SPACE
+    LINE_CONTINUATIONS
     MACRO_WITH_FLOW_CONTROL
     PRINTK_WITHOUT_KERN_LEVEL
     TRAILING_SEMICOLON
@@ -37,7 +37,6 @@ ignore_list=(
     VOLATILE
     # Checks
     BIT_MACRO
-    LONG_LINE_COMMENT
     # Ignore tolerance that comes by default
     C99_COMMENT_TOLERANCE
 )
