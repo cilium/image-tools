@@ -9,7 +9,7 @@ ARG BASE_IMAGE=scratch
 FROM ${TESTER_IMAGE} AS tester
 FROM ${COMPILERS_IMAGE} AS builder
 
-ARG LLVM_VERSION="llvmorg-19.1.7"
+ARG LLVM_VERSION="llvmorg-21.1.8"
 ADD https://github.com/llvm/llvm-project/archive/${LLVM_VERSION}.tar.gz /tmp/llvm.tar.gz
 WORKDIR /src/llvm
 RUN tar -xf /tmp/llvm.tar.gz --strip-components=1 --directory /src/llvm
