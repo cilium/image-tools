@@ -10,7 +10,7 @@ FROM ${TESTER_IMAGE} AS tester
 FROM ${COMPILERS_IMAGE} AS builder
 
 # renovate: datasource=github-releases depName=llvm/llvm-project
-ARG LLVM_VERSION="21.1.8"
+ARG LLVM_VERSION="22.1.8"
 ADD https://github.com/llvm/llvm-project/archive/llvmorg-${LLVM_VERSION}.tar.gz /tmp/llvm.tar.gz
 WORKDIR /src/llvm
 RUN tar -xf /tmp/llvm.tar.gz --strip-components=1 --directory /src/llvm
