@@ -18,7 +18,7 @@ commandTests:
     args: ["--version"]
     expectedOutput:
       # renovate: datasource=github-releases depName=llvm/llvm-project
-      - 'clang version 21.1.8'
+      - 'clang version 23.1.1'
       - 'InstalledDir:\ /usr/local/bin'
 
   - name: "clang can compile a simple BPF program"
@@ -43,7 +43,7 @@ commandTests:
     expectedOutput:
       - 'LLVM\ \(http://llvm\.org/\):'
       # renovate: datasource=github-releases depName=llvm/llvm-project
-      - 'LLVM version 21.1.8'
+      - 'LLVM version 23.1.1'
       - 'Optimized\ build\.'
       - 'Registered\ Targets:'
       - '(bpf|bpfeb|bpfel)[\ ]+-\ BPF\ \((host|big|little)\ endian\)'
@@ -69,7 +69,7 @@ commandTests:
       - 'llvm-objcopy,\ compatible\ with\ GNU\ objcopy'
       - 'LLVM\ \(http://llvm\.org/\):'
       # renovate: datasource=github-releases depName=llvm/llvm-project
-      - 'LLVM version 21.1.8'
+      - 'LLVM version 23.1.1'
       - 'Optimized\ build\.'
 
   # llvm-strip tests
@@ -91,5 +91,5 @@ commandTests:
       - 'llvm-strip,\ compatible\ with\ GNU\ strip'
       - 'LLVM\ \(http://llvm\.org/\):'
       # renovate: datasource=github-releases depName=llvm/llvm-project
-      - 'LLVM version 21.1.8'
+      - 'LLVM version 23.1.1'
       - 'Optimized\ build\.'
