@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=registry.access.redhat.com/ubi8/ubi@sha256:8827ae684e58fbdb93c8893e48731bae36d5cdd302a6efebee8e01707145c85e
+ARG BASE_IMAGE=registry.access.redhat.com/ubi8/ubi@sha256:b9d42de318b28ca7025c0c912769a344db82a89f5e3cf84b90d8f75a7ea11310
 
 FROM ${BASE_IMAGE} AS builder
 
