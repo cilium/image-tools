@@ -1,0 +1,277 @@
+name: Build image
+
+on:
+  workflow_call:
+    inputs:
+      image:
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  image-metadata:
+    name: metadata
+    runs-on: ubuntu-26.04
+    outputs:
+      BUILD: ${{ steps.image-metadata.outputs.BUILD }}
+      PUSH: ${{ steps.image-metadata.outputs.PUSH }}
+      TEST: ${{ steps.image-metadata.outputs.TEST }}
+      IMAGE_NAME: ${{ steps.image-metadata.outputs.IMAGE_NAME }}
+      IMAGE_REF: ${{ steps.image-metadata.outputs.IMAGE_REF }}
+      IMAGE_TAG: ${{ steps.image-metadata.outputs.IMAGE_TAG }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Gather image metadata
+        id: image-metadata
+        env:
+          IMAGE: ${{ inputs.image }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euxo pipefail
+
+          if [[ "${EVENT_NAME}" == "push" ]]; then
+            echo "PUSH=true" >> $GITHUB_OUTPUT
+          else
+            echo "PUSH=false" >> $GITHUB_OUTPUT
+          fi
+
+          if [[ -d "images/${IMAGE}/test" ]]; then
+            echo "TEST=true" >> $GITHUB_OUTPUT
+          else
+            echo "TEST=false" >> $GITHUB_OUTPUT
+          fi
+
+          IMAGE_TAG=$(scripts/make-image-tag.sh "images/${IMAGE}")
+
+          # Map image directory name to image name
+          case "${IMAGE}" in
+            bpftool) IMAGE_NAME="cilium-bpftool" ;;
+            checkpatch) IMAGE_NAME="cilium-checkpatch" ;;
+            compilers) IMAGE_NAME="image-compilers" ;;
+            iptables) IMAGE_NAME="iptables" ;;
+            llvm) IMAGE_NAME="cilium-llvm" ;;
+            maker) IMAGE_NAME="image-maker" ;;
+            network-perf) IMAGE_NAME="network-perf" ;;
+            startup-script) IMAGE_NAME="startup-script" ;;
+            tester) IMAGE_NAME="image-tester" ;;
+            *) IMAGE_NAME="${IMAGE}" ;;
+          esac
+          IMAGE_REF="quay.io/cilium/${IMAGE_NAME}"
+
+          # Check if image exists in registry
+          if docker buildx imagetools inspect "${IMAGE_REF}:${IMAGE_TAG}" >/dev/null 2>&1; then
+            echo "Image ${IMAGE_REF}:${IMAGE_TAG} already exists in registry"
+            echo "BUILD=false" >> $GITHUB_OUTPUT
+          else
+            echo "Will build ${IMAGE_REF}:${IMAGE_TAG} as it's not present in registry"
+            echo "BUILD=true" >> $GITHUB_OUTPUT
+          fi
+
+          echo "IMAGE_NAME=${IMAGE_NAME}" >> $GITHUB_OUTPUT
+          echo "IMAGE_REF=${IMAGE_REF}" >> $GITHUB_OUTPUT
+          echo "IMAGE_TAG=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+          cat $GITHUB_OUTPUT
+
+  build-platform:
+    name: linux/${{ matrix.platform }} platform
+    runs-on: ${{ matrix.platform == 'arm64' && 'oracle-vm-16cpu-64gb-arm64' || 'oracle-vm-32cpu-128gb-x86-64' }}
+    needs: image-metadata
+    if: needs.image-metadata.outputs.BUILD == 'true'
+    permissions:
+      contents: read
+      # Required by the Quay OIDC token exchange.
+      id-token: write
+    # Pins the OIDC token subject to
+    # repo:cilium/image-tools:environment:release, which is the identity
+    # federated with the Quay robot account.
+    environment:
+      name: release
+      deployment: false
+    timeout-minutes: 720
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [amd64, arm64]
+    env:
+      IMAGE_REF: ${{ needs.image-metadata.outputs.IMAGE_REF }}
+      # renovate: datasource=github-releases depName=google/go-containerregistry
+      CRANE_VERSION: v0.22.1
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Test ${{ inputs.image }} linux/${{ matrix.platform }} image
+        if: needs.image-metadata.outputs.TEST == 'true'
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: images/${{ inputs.image }}
+          file: images/${{ inputs.image }}/Dockerfile
+          platforms: linux/${{ matrix.platform }}
+          provenance: false
+          push: false
+          target: test
+      # Build before minting: llvm takes hours and the robot token lasts one hour.
+      - name: Build ${{ inputs.image }} linux/${{ matrix.platform }} image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: images/${{ inputs.image }}
+          file: images/${{ inputs.image }}/Dockerfile
+          platforms: linux/${{ matrix.platform }}
+          provenance: false
+          push: false
+          labels: |
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            org.opencontainers.image.title=${{ needs.image-metadata.outputs.IMAGE_NAME }}
+            org.opencontainers.image.version=${{ needs.image-metadata.outputs.IMAGE_TAG }}
+          outputs: type=oci,dest=${{ runner.temp }}/oci,tar=false
+      # Quay's registry endpoint only accepts credentials or a JWT signed by
+      # Quay itself, so the GitHub OIDC token cannot be used as the registry
+      # password directly. Trade it for a short lived robot token first.
+      #
+      # Because the job references an environment, the subject of the token is
+      # repo:cilium@21054566/image-tools@261141237:environment:release, the
+      # immutable form that carries the owner and repository ids. That is the
+      # identity federated with the robot account on the Quay side, so renaming
+      # the environment breaks the login.
+      - name: Get a quay.io robot token via OIDC
+        id: registry-token
+        if: needs.image-metadata.outputs.PUSH == 'true'
+        env:
+          ROBOT: ${{ vars.QUAY_ROBOT_RELEASE }}
+        run: |
+          oidc_token="$(curl -sSf --retry 3 --retry-all-errors \
+            -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=quay.io" \
+            | jq -er '.value')"
+          echo "::add-mask::${oidc_token}"
+
+          # Pass the credentials on stdin so that the OIDC token is not visible
+          # in the process list of the runner.
+          robot_token="$(printf 'user = "%s:%s"\n' "${ROBOT}" "${oidc_token}" \
+            | curl -sSf --retry 3 --retry-all-errors -K - \
+              "https://quay.io/oauth2/federation/robot/token" \
+            | jq -er '.token')"
+          echo "::add-mask::${robot_token}"
+
+          echo "token=${robot_token}" >> "$GITHUB_OUTPUT"
+      - name: Login to quay.io
+        if: needs.image-metadata.outputs.PUSH == 'true'
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: quay.io
+          username: ${{ vars.QUAY_ROBOT_RELEASE }}
+          password: ${{ steps.registry-token.outputs.token }}
+      - name: Set up crane
+        if: needs.image-metadata.outputs.PUSH == 'true'
+        working-directory: ${{ runner.temp }}
+        run: |
+          set -euxo pipefail
+
+          ARCH=${{ matrix.platform == 'amd64' && 'x86_64' || 'arm64' }}
+          ARCHIVE="go-containerregistry_Linux_${ARCH}.tar.gz"
+          BASE_URL="https://github.com/google/go-containerregistry/releases/download/${CRANE_VERSION}"
+
+          curl --fail --location --silent --show-error \
+            --remote-name "${BASE_URL}/${ARCHIVE}" \
+            --remote-name "${BASE_URL}/checksums.txt"
+          grep " ${ARCHIVE}\$" checksums.txt | sha256sum --check -
+
+          # Install under the job temp directory rather than system-wide, as
+          # self-hosted runners may be reused across jobs.
+          mkdir -p crane-bin
+          tar --extract --gzip --file "${ARCHIVE}" --directory crane-bin crane
+          echo "${{ runner.temp }}/crane-bin" >> "$GITHUB_PATH"
+          crane-bin/crane version
+      - name: Push ${{ inputs.image }} linux/${{ matrix.platform }} image by digest
+        if: needs.image-metadata.outputs.PUSH == 'true'
+        run: |
+          set -euxo pipefail
+
+          DIGEST=$(jq -r '.manifests[0].digest' "${{ runner.temp }}/oci/index.json")
+          crane push "${{ runner.temp }}/oci" "${IMAGE_REF}@${DIGEST}"
+
+          mkdir -p "${{ runner.temp }}/digests"
+          touch "${{ runner.temp }}/digests/${DIGEST#sha256:}"
+      - name: Upload digest
+        if: needs.image-metadata.outputs.PUSH == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: digests-${{ inputs.image }}-${{ matrix.platform }}
+          path: ${{ runner.temp }}/digests/*
+          if-no-files-found: error
+          retention-days: 1
+
+  build-multi-platform:
+    name: multi-platform
+    runs-on: ubuntu-26.04
+    if: needs.image-metadata.outputs.BUILD == 'true' && needs.image-metadata.outputs.PUSH == 'true'
+    needs:
+      - image-metadata
+      - build-platform
+    permissions:
+      contents: read
+      # Required by the Quay OIDC token exchange.
+      id-token: write
+    # See build-platform for why the environment is required.
+    environment:
+      name: release
+      deployment: false
+    env:
+      IMAGE_REF: ${{ needs.image-metadata.outputs.IMAGE_REF }}
+      IMAGE_TAG: ${{ needs.image-metadata.outputs.IMAGE_TAG }}
+    steps:
+      - name: Download digests
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          path: ${{ runner.temp }}/digests
+          pattern: digests-${{ inputs.image }}-*
+          merge-multiple: true
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      # See build-platform for why the OIDC token is traded for a robot token.
+      - name: Get a quay.io robot token via OIDC
+        id: registry-token
+        env:
+          ROBOT: ${{ vars.QUAY_ROBOT_RELEASE }}
+        run: |
+          oidc_token="$(curl -sSf --retry 3 --retry-all-errors \
+            -H "Authorization: bearer ${ACTIONS_ID_TOKEN_REQUEST_TOKEN}" \
+            "${ACTIONS_ID_TOKEN_REQUEST_URL}&audience=quay.io" \
+            | jq -er '.value')"
+          echo "::add-mask::${oidc_token}"
+
+          # Pass the credentials on stdin so that the OIDC token is not visible
+          # in the process list of the runner.
+          robot_token="$(printf 'user = "%s:%s"\n' "${ROBOT}" "${oidc_token}" \
+            | curl -sSf --retry 3 --retry-all-errors -K - \
+              "https://quay.io/oauth2/federation/robot/token" \
+            | jq -er '.token')"
+          echo "::add-mask::${robot_token}"
+
+          echo "token=${robot_token}" >> "$GITHUB_OUTPUT"
+      - name: Login to quay.io
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: quay.io
+          username: ${{ vars.QUAY_ROBOT_RELEASE }}
+          password: ${{ steps.registry-token.outputs.token }}
+      - name: Create and push multi-platform image
+        working-directory: ${{ runner.temp }}/digests
+        run: |
+          set -euxo pipefail
+
+          docker buildx imagetools create \
+            --annotation "index:org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}" \
+            --tag "${IMAGE_REF}:${IMAGE_TAG}" \
+            $(printf "${IMAGE_REF}@sha256:%s " *)
+      - name: Inspect multi-platform image
+        run: docker buildx imagetools inspect "${IMAGE_REF}:${IMAGE_TAG}"
